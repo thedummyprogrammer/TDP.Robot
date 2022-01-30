@@ -1,0 +1,1045 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BtnSave.Location" type="System.Drawing.Point, System.Drawing">
+    <value>419, 300</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BtnSave.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.Name" xml:space="preserve">
+    <value>BtnSave</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnSave.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BtnCancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>500, 300</value>
+  </data>
+  <data name="BtnCancel.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;BtnCancel.Name" xml:space="preserve">
+    <value>BtnCancel</value>
+  </data>
+  <data name="&gt;&gt;BtnCancel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BtnCancel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BtnCancel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ChkDoNotLog.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ChkDoNotLog.Name" xml:space="preserve">
+    <value>ChkDoNotLog</value>
+  </data>
+  <data name="&gt;&gt;ChkDoNotLog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkDoNotLog.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;ChkDoNotLog.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ChkDisable.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;ChkDisable.Name" xml:space="preserve">
+    <value>ChkDisable</value>
+  </data>
+  <data name="&gt;&gt;ChkDisable.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkDisable.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;ChkDisable.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="TxtName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TxtName.Name" xml:space="preserve">
+    <value>TxtName</value>
+  </data>
+  <data name="&gt;&gt;TxtName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtName.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;TxtName.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="ErrProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="ChkOnAllDays.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnAllDays.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ChkOnAllDays.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnAllDays.Location" type="System.Drawing.Point, System.Drawing">
+    <value>354, 154</value>
+  </data>
+  <data name="ChkOnAllDays.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 17</value>
+  </data>
+  <data name="ChkOnAllDays.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="ChkOnAllDays.Text" xml:space="preserve">
+    <value>All days</value>
+  </data>
+  <data name="&gt;&gt;ChkOnAllDays.Name" xml:space="preserve">
+    <value>ChkOnAllDays</value>
+  </data>
+  <data name="&gt;&gt;ChkOnAllDays.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnAllDays.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnAllDays.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ChkOnSunday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnSunday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnSunday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnSunday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>265, 154</value>
+  </data>
+  <data name="ChkOnSunday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>62, 17</value>
+  </data>
+  <data name="ChkOnSunday.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="ChkOnSunday.Text" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSunday.Name" xml:space="preserve">
+    <value>ChkOnSunday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSunday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSunday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSunday.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="ChkOnSaturday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnSaturday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnSaturday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnSaturday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 154</value>
+  </data>
+  <data name="ChkOnSaturday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 17</value>
+  </data>
+  <data name="ChkOnSaturday.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="ChkOnSaturday.Text" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSaturday.Name" xml:space="preserve">
+    <value>ChkOnSaturday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSaturday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSaturday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnSaturday.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ChkOnFriday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnFriday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnFriday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnFriday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 154</value>
+  </data>
+  <data name="ChkOnFriday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 17</value>
+  </data>
+  <data name="ChkOnFriday.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="ChkOnFriday.Text" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnFriday.Name" xml:space="preserve">
+    <value>ChkOnFriday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnFriday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnFriday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnFriday.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="ChkOnThursday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnThursday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnThursday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnThursday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>354, 131</value>
+  </data>
+  <data name="ChkOnThursday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 17</value>
+  </data>
+  <data name="ChkOnThursday.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="ChkOnThursday.Text" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnThursday.Name" xml:space="preserve">
+    <value>ChkOnThursday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnThursday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnThursday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnThursday.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ChkOnWednesday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnWednesday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnWednesday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnWednesday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>265, 131</value>
+  </data>
+  <data name="ChkOnWednesday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 17</value>
+  </data>
+  <data name="ChkOnWednesday.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="ChkOnWednesday.Text" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnWednesday.Name" xml:space="preserve">
+    <value>ChkOnWednesday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnWednesday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnWednesday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnWednesday.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="ChkOnTuesday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnTuesday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnTuesday.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ChkOnTuesday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>192, 131</value>
+  </data>
+  <data name="ChkOnTuesday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 17</value>
+  </data>
+  <data name="ChkOnTuesday.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="ChkOnTuesday.Text" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnTuesday.Name" xml:space="preserve">
+    <value>ChkOnTuesday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnTuesday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnTuesday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnTuesday.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ChkOnMonday.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ChkOnMonday.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="ChkOnMonday.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 131</value>
+  </data>
+  <data name="ChkOnMonday.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 17</value>
+  </data>
+  <data name="ChkOnMonday.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="ChkOnMonday.Text" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnMonday.Name" xml:space="preserve">
+    <value>ChkOnMonday</value>
+  </data>
+  <data name="&gt;&gt;ChkOnMonday.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ChkOnMonday.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;ChkOnMonday.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="OptEverySeconds.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OptEverySeconds.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OptEverySeconds.Location" type="System.Drawing.Point, System.Drawing">
+    <value>52, 104</value>
+  </data>
+  <data name="OptEverySeconds.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 17</value>
+  </data>
+  <data name="OptEverySeconds.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="OptEverySeconds.Text" xml:space="preserve">
+    <value>Every</value>
+  </data>
+  <data name="&gt;&gt;OptEverySeconds.Name" xml:space="preserve">
+    <value>OptEverySeconds</value>
+  </data>
+  <data name="&gt;&gt;OptEverySeconds.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OptEverySeconds.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;OptEverySeconds.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="OptEveryDaysHoursSecs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OptEveryDaysHoursSecs.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OptEveryDaysHoursSecs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>52, 78</value>
+  </data>
+  <data name="OptEveryDaysHoursSecs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 17</value>
+  </data>
+  <data name="OptEveryDaysHoursSecs.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="OptEveryDaysHoursSecs.Text" xml:space="preserve">
+    <value>Every</value>
+  </data>
+  <data name="&gt;&gt;OptEveryDaysHoursSecs.Name" xml:space="preserve">
+    <value>OptEveryDaysHoursSecs</value>
+  </data>
+  <data name="&gt;&gt;OptEveryDaysHoursSecs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OptEveryDaysHoursSecs.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;OptEveryDaysHoursSecs.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 130</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>On days</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="OptOneTime.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OptOneTime.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="OptOneTime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>52, 55</value>
+  </data>
+  <data name="OptOneTime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 17</value>
+  </data>
+  <data name="OptOneTime.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="OptOneTime.Text" xml:space="preserve">
+    <value>One time</value>
+  </data>
+  <data name="&gt;&gt;OptOneTime.Name" xml:space="preserve">
+    <value>OptOneTime</value>
+  </data>
+  <data name="&gt;&gt;OptOneTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OptOneTime.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;OptOneTime.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>203, 108</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>seconds</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="TxtEveryNumSeconds.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtEveryNumSeconds.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 104</value>
+  </data>
+  <data name="TxtEveryNumSeconds.MaxLength" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TxtEveryNumSeconds.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
+  </data>
+  <data name="TxtEveryNumSeconds.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumSeconds.Name" xml:space="preserve">
+    <value>TxtEveryNumSeconds</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumSeconds.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumSeconds.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumSeconds.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>457, 82</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 13</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>minutes</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="TxtEveryNumMinutes.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtEveryNumMinutes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>376, 78</value>
+  </data>
+  <data name="TxtEveryNumMinutes.MaxLength" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TxtEveryNumMinutes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
+  </data>
+  <data name="TxtEveryNumMinutes.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumMinutes.Name" xml:space="preserve">
+    <value>TxtEveryNumMinutes</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumMinutes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumMinutes.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumMinutes.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>328, 82</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>hours</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="TxtEveryNumHours.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtEveryNumHours.Location" type="System.Drawing.Point, System.Drawing">
+    <value>247, 78</value>
+  </data>
+  <data name="TxtEveryNumHours.MaxLength" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TxtEveryNumHours.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
+  </data>
+  <data name="TxtEveryNumHours.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumHours.Name" xml:space="preserve">
+    <value>TxtEveryNumHours</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumHours.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumHours.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumHours.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>203, 82</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>days</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="TxtEveryNumDays.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TxtEveryNumDays.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 78</value>
+  </data>
+  <data name="TxtEveryNumDays.MaxLength" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="TxtEveryNumDays.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
+  </data>
+  <data name="TxtEveryNumDays.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumDays.Name" xml:space="preserve">
+    <value>TxtEveryNumDays</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumDays.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumDays.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;TxtEveryNumDays.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="DtAtTime.CustomFormat" xml:space="preserve">
+    <value>HH:mm</value>
+  </data>
+  <data name="DtAtTime.Location" type="System.Drawing.Point, System.Drawing">
+    <value>376, 29</value>
+  </data>
+  <data name="DtAtTime.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 20</value>
+  </data>
+  <data name="DtAtTime.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;DtAtTime.Name" xml:space="preserve">
+    <value>DtAtTime</value>
+  </data>
+  <data name="&gt;&gt;DtAtTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DtAtTime.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;DtAtTime.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="DtAtDate.CustomFormat" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DtAtDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>122, 29</value>
+  </data>
+  <data name="DtAtDate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>239, 20</value>
+  </data>
+  <data name="DtAtDate.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;DtAtDate.Name" xml:space="preserve">
+    <value>DtAtDate</value>
+  </data>
+  <data name="&gt;&gt;DtAtDate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DateTimePicker, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DtAtDate.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;DtAtDate.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>49, 29</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 23</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>At</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="GrpPeriodicity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 82</value>
+  </data>
+  <data name="GrpPeriodicity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>563, 212</value>
+  </data>
+  <data name="GrpPeriodicity.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="GrpPeriodicity.Text" xml:space="preserve">
+    <value>Periodicity</value>
+  </data>
+  <data name="&gt;&gt;GrpPeriodicity.Name" xml:space="preserve">
+    <value>GrpPeriodicity</value>
+  </data>
+  <data name="&gt;&gt;GrpPeriodicity.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GrpPeriodicity.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GrpPeriodicity.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>588, 339</value>
+  </data>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAICAAAAEAIACoEAAAFgAAACgAAAAgAAAAQAAAAAEAIAAAAAAAgBAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAADAAAACQAAAA8AAAARAAAAEQAAAAwAAAAHAAAAAgAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAACAAAAFAAAAC4KCgpmExMTkRwcHKsfHx+rERERgQMDA0wAAAAmAAAADgAA
+        AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAC0dHx+aUlRW5XyAg/+coqb/pqyw/6essf+coKT/dHh7/U9R
+        U9cRERFyAAAAHAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoNDQ1NVFZX3Z+kqf+wt7v/sLa7/7C2vP+zt73/tLi+/7S6
+        vv+zuL3/rrS5/4qPkv81NzerAAAAIgAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCgoKR2psbvC3vcL/uL/D/7a+w/+1vcL/tbzA/7S7
+        vv+0u77/tby//7S7vv+0ur7/sbe8/6KorP9AQUO+AAAAGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABZcXmDXu8HH/7zCyP+7wcX/u8DF/7a+
+        w/+2vsP/tb3C/7W9wf+1vcL/tL3B/7S7v/+0ur7/sbe7/5ugpP8wMDCUAAAACAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACJCQkeLa8wf+/xcz/v8XM/73D
+        y/++w8j/vsTJ/77Dyv+8wsj/u8HI/7rAxf+4v8T/tr7D/7K5vf+5v8T/trzB/3yBhfsNDQ06AAAAAAAA
+        AAAAAAAAAAAAAAAAAAMAAAAHAAAACAAAAAoAAAAPAAAADwAAABEAAAAOAAAAEQAAABlwcnTWw8jN/8PI
+        zf/Dyc3/wsjN/8XM0P/Eys//w8jN/8LHzP++xMz/vsTM/7i+w/90eHz/JSYn/6arr/+8wsj/t73B/z5A
+        QZsAAAACAAAAAQAAAAwAAAAnAAAAPAAAAEwAAABcAAAAXQAAAFsAAABZAAAAWAAAAFAAAABQCAgIdLC1
+        uP3FzdL/xc3S/8XN0v/FztP/xs/V/8XO1P/FzdL/w8nN/7/FzP+RlZn/MTM0/xUUFv94fH//vMLJ/77E
+        zP+/xMz/gYWG5wAAAAYAAAAEAAAALhwcHMgwMTLoMjM07jIzNPIzNDTyNTU28DY3OO44OTvsOjs86Ts8
+        Pek0NTfx1dzg/8fP1f/I0NX/ydHW/8nS1v/J0db/yNDV/8PL0P+Chon/TlBR/xUVFf87PD7/qa6y/8PI
+        zf/Cx8z/w8jN/8LIzv+pr7H/AAAAHQAAAAQAAABKOTo6/X+Ehf+Dhon/iYyQ/4uPkv+Lj5L/jZCT/46S
+        lv+Sl5v/kpeb/2psbv/V3+P/ydPX/8nT1//K1Nn/zNXb/8vU2v/J09f/m6Gl/7S6vv97foH/cnZ4/8HI
+        y//Eys7/w8jN/8PIzf/Eys7/xczQ/8XKzf8GBgYmAAAAAg8PD1BBQkL/fYGE/4GGif+DiIv/hoqN/4mO
+        kf+MkJP/kJWY/4+VmP+PlJj/a25w/9be5P/J09f/y9TZ/83V3P/O1t3/ztbd/83V3P/AyM3/XV9h/4iM
+        j//J0Nb/xs7T/8XM0P/Eys7/xMvP/8XN0v/Hz9P/ztHU/wAAACAAAAAAGh0dYG1vcP/Cx8n/wsjJ/8zT
+        1f/K0dL/vsPE/7W6vf+xtrj/sLS1/66ytf+Bhoj/1Nrg/8vU2v/O1t3/ztbd/9LY3//P1t3/ztbd/8rS
+        1/9BQkL/wcrO/8rT2P/J0tf/yNHW/8jS1v/J0NX/ydDV/83U2f+vtLf3AAAACQAAAAAfHx9Ig4iJ/+z5
+        /f/s+f3/7Pj8/+z5/f/r+P7/6fb9/+n2/P/l8ff/u8TH/6Gnq/+vtLj/z9fd/87W3f/P1t3/1Nng/9TZ
+        4P/S2N//wMbM/05QUP/N1dv/ztbd/87W3f/O1t3/zNTa/8nT1//J09f/1+Dm/3+DhLwAAAAAAAAAAA8P
+        DzFqbnD/5e/2/+Xu9v/l7vb/5e/2/+Xv9v/k7/X/4+30/9ji6P83ODj/OTo6/2hrbP/Z4OX/ztbd/87W
+        3f/U2eD/1Nng/9TZ4P+zuL3/Zmhq/9LY4P/P1t3/ztbd/87W3f/O1t3/zdXc/83W3P/j6u7/PD4+ZgAA
+        AAAAAAAACQkJHFdaW//g6/L/3+zy/9/r8f/f6vH/3urw/97p8P/e6e//2eLo/zk6Ov86Ojr/Nzc3/7u/
+        wv/T2+L/ztbd/9HX3v/U2eD/1Nng/6Oorf+BhIb/1Nng/9TZ4P/T2N//0dfe/9DX3v/Q197/3uXq/56g
+        otgAAAAIAAAAAAAAAAAAAAAJSUtM997o7//d5+7/3efu/97o7//c5u3/3efu/97o7//b5ez/jZSX/4uQ
+        lP9ydnj/Tk9Q/9rf4v/T2+L/ztbd/9PY3//U2eD/qayx/6Kmqv/U2eD/1Nng/9TZ4P/U2eD/1Nng/9rh
+        5/+zuLv6KS0tPgAAAAAAAAAAAAAAAAAAAAQ9Pj/g2eTq/9nk7P/X4+v/2OTr/9jk6//Y5Ov/2OTr/9rl
+        7P/d5+7/3efu/97o7//T3eP/iIyO/93g4v/d5en/0tjf/9PY3//U2eD/1Nng/9TZ4P/U2eD/1Nng/9TZ
+        4P/g5+z/q7Cz/DQ0N2EAAAAAAAAAAAAAAAAAAAAAAAAABCwtLcPS2+H/1+Dm/9fg5v/W3+X/1d/l/9bf
+        5f/X3+f/1+Po/8TO1f98gIP/YmZn/2Roaf+DiIv/TU9Q/6epqf/v9Pf/4unt/9ng5f/X3eP/1tzh/9fd
+        4//d4+j/3+To/4KEhf8lJSeJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEIiIipcXP1P/Q3OH/0dzh/9Dc
+        4P/Q3OD/0Nzi/9Hd4/+4v8T/QEBB/zo6Ov86Ojr/Ojo6/zo6Ov85OTn/ODg4/1NUVP+Xl5j/uby9/9LX
+        2v/Eys3/nKCi/4eLjf+SmJv/kZea/xsbGGcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIiIiKMu8TI/83W
+        3P/O193/z9re/9Dc3//Q3N//0N3h/11fYf86Ojr/Ojo6/0BBQf+DiIv/dHh6/zk6Ov86Ojr/Ojo6/2pt
+        cP/EzdP/t8HF/7nDxv/I0NX/z9nf/8nS1/+JjpD/Hh4eVQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIi
+        Im6ttLj/yNLX/8rT2P/N1dz/ztfd/87X3f/P2t//QUJC/zo6Ov86Ojr/hIiM/87Z3v/R3OL/U1VW/zo6
+        Ov86Ojr/dXh7/8/Z3v/P2N7/zdbc/83V2//J09j/xs7T/3+Ehv8fHx85AAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAHx8fUJ2ipv/GztT/x9HW/8rU2f/O1t3/ztbd/8/X3v9SU1T/Ojo6/zo6Ov+Ahon/ztbd/8vT
+        2v9DREX/Ojo6/zk5Of+Vm5//ytPY/8nS1//I0db/xtDV/8TM0P/Bx8z/eHx//wgICB4AAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAcICA/g4eJ/8TLzv/FzND/xs/U/8jQ1v/K09j/y9Ta/5edof85OTn/Ojo6/z9A
+        QP9+g4b/XmFj/zo6Ov86Ojr/SElJ/8DJzv/FzdL/xc3R/8TLz//Cx83/vsTM/7vAxv9vc3X/AAAAFQAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAcHByBnamz/vsTK/8HHzP/Dyc3/xMzQ/8XN0f/GztL/yM/U/4SI
+        i/88PDz/Ojo6/zo6Ov86Ojr/OTk5/0lLS/+qsbT/xMvP/8PJzf/Cx83/wcbM/77Ey/+8wsn/ub/E/1lc
+        Xf8AAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC0tNTfu9wcX/vsTK/8DFyv/Bxsv/wsjM/8PJ
+        zP/Dycz/xMrN/7O5vP+Chof/c3V3/3N2eP+OkpT/vcLG/8DFyv+/xMj/vMLI/7zCx/+7wcT/u8HE/7rA
+        xP+3vsL/Ojw9+AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFLC5C72Npr/9nbbD/anCx/2lv
+        sv9la7L/Y2q0/2NqtP9qcbz/cXe6/3N5vP93fbn/cHa5/2lvuf9iabT/Y2q1/2xyt/94fbb/dny5/3B1
+        uP9scrX/aW+y/2Fnqv8aGyLCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIlJzTeW2Gq/1ph
+        rP9aYaz/k5fB/4yQvv+Hi7v/oqXH/2Jorv+5u9T/dXq4/7m60/9yd7H/V12k/7i60/+EiL//c3i3/7u9
+        1P9gZqz/W2Kt/1tirf9ZYKz/VFqe/wsLDZcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACMk
+        LclaYKP/W2Gl/1thqv+vsdP/rrHP/9PV5v/W2Oj/iY25/+/v9/9laq3/xsng/9nb6P/Oz+H/7u/2/2hu
+        sf+Kjrz/+Pn7/2xxq/9bYq3/W2Kt/1lfqf9OU5H/CwsLgQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAEREWsllemv9bYZ7/W2Gg/5eaw//Bw9r/yMrg/4OHuv/Jy9//3t/t/1thp/98gLn/2tvr/8DC
+        2P+nq9D/aW6n/+Di7/+sr9L/19no/19lo/9bYaX/W2Gh/0pPgv8GBgZzAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAALCxCeVVmX/1lcm/9ZXZv/bXCn/4eJtv9zd6z/W2Ge/4mMuf+Kjbn/WV6d/1le
+        nv+Mj7v/lJe//2VppP+FiLb/jI+7/1hcnP+SlL3/goSz/1lcm/9ZW5v/QkV1/w4OEnoAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkJCWkzNk/6PUBe+j1AXvo5PVr6ODxZ+jg7WPk5PVv2Oj5c9jY6
+        V/YyNVD2MzZR9jAzTvYxNE/2MjVQ9jE0UfYyNFLzMjRS8jQ3VPI1OFfyMjVT8jM1UvImJz3xExMcUAAA
+        AAAAAAAAAAAAAAAAAAAAAAAA///AP///AA///gAH//wAA//4AAP/+AAB//AAAeAAAAAAAAAAAAAAAAAA
+        AAAAAAAAgAAAAIAAAAGAAAABgAAAAYAAAAOAAAAHgAAAD4AAAA+AAAAPwAAAD8AAAA/AAAAPwAAAD8AA
+        AA/AAAAfwAAAH+AAAB/gAAAf4AAAH+AAAB8=
+</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Date / Time event configuration</value>
+  </data>
+  <data name="&gt;&gt;ErrProvider.Name" xml:space="preserve">
+    <value>ErrProvider</value>
+  </data>
+  <data name="&gt;&gt;ErrProvider.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ErrorProvider, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>WndDateTimeEventConfig</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>TDP.Robot.Core.WndPluginConfigBase, TDP.Robot.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+</root>

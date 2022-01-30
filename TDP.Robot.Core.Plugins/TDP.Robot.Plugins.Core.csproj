@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B9273E87-FB27-41F6-BDA8-89C32E7FC75F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TDP.Robot.Plugins.Core</RootNamespace>
+    <AssemblyName>TDP.Robot.Plugins.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.95.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ClosedXML.0.95.4\lib\net46\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.12.3.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.12.3\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelNumberFormat, Version=1.1.0.0, Culture=neutral, PublicKeyToken=23c6f5d73be07eca, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelNumberFormat.1.1.0\lib\net20\ExcelNumberFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentFTP, Version=33.1.4.0, Culture=neutral, PublicKeyToken=f4af092b1d8df44f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentFTP.33.1.4\lib\net45\FluentFTP.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.2.10, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.3.2\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2020.0.1.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2020.0.1\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.5.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TDP.BaseServices">
+      <HintPath>..\Dependencies\TDP.BaseServices.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="CpuEvent\CpuEvent.cs" />
+    <Compile Include="CpuEvent\CpuEventConfig.cs" />
+    <Compile Include="CpuEvent\CpuEventPlugin.cs" />
+    <Compile Include="CpuEvent\WndCpuEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CpuEvent\WndCpuEventConfig.Designer.cs">
+      <DependentUpon>WndCpuEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DateTimeEvent\DateTimeEvent.cs" />
+    <Compile Include="DateTimeEvent\DateTimeEventConfig.cs" />
+    <Compile Include="DateTimeEvent\DateTimeEventPlugin.cs" />
+    <Compile Include="DateTimeEvent\WndDateTimeEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DateTimeEvent\WndDateTimeEventConfig.Designer.cs">
+      <DependentUpon>WndDateTimeEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiskSpaceEvent\DiskSpaceEventPlugin.cs" />
+    <Compile Include="DiskSpaceEvent\DiskThreshold.cs" />
+    <Compile Include="DiskSpaceEvent\DiskSpaceEvent.cs" />
+    <Compile Include="DiskSpaceEvent\DiskSpaceEventConfig.cs" />
+    <Compile Include="DiskSpaceEvent\WndDiskSpaceEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiskSpaceEvent\WndDiskSpaceEventConfig.Designer.cs">
+      <DependentUpon>WndDiskSpaceEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DiskSpaceEvent\WndDiskThreshold.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiskSpaceEvent\WndDiskThreshold.Designer.cs">
+      <DependentUpon>WndDiskThreshold.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelFileTask\ExcelFileColumnDefinition.cs" />
+    <Compile Include="ExcelFileTask\ExcelFileTaskPlugin.cs" />
+    <Compile Include="ExcelFileTask\ExcelFileTaskConfig.cs" />
+    <Compile Include="ExcelFileTask\ExcelFileTask.cs" />
+    <Compile Include="ExcelFileTask\WndExcelFileTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelFileTask\WndExcelFileTaskConfig.Designer.cs">
+      <DependentUpon>WndExcelFileTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExcelFileTask\WndColumn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ExcelFileTask\WndColumn.Designer.cs">
+      <DependentUpon>WndColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSystemEvent\FileSystemEvent.cs" />
+    <Compile Include="FileSystemEvent\FileSystemEventCommon.cs" />
+    <Compile Include="FileSystemEvent\FileSystemEventConfig.cs" />
+    <Compile Include="FileSystemEvent\FileSystemEventPlugin.cs" />
+    <Compile Include="FileSystemEvent\FolderToMonitor.cs" />
+    <Compile Include="FileSystemEvent\WndFileSystemEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileSystemEvent\WndFileSystemEventConfig.Designer.cs">
+      <DependentUpon>WndFileSystemEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSystemEvent\WndFolderToMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileSystemEvent\WndFolderToMonitor.Designer.cs">
+      <DependentUpon>WndFolderToMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSystemTask\FileSystemTask.cs" />
+    <Compile Include="FileSystemTask\FileSystemTaskConfig.cs" />
+    <Compile Include="FileSystemTask\FileSystemTaskCopyItem.cs" />
+    <Compile Include="FileSystemTask\FileSystemTaskDeleteItem.cs" />
+    <Compile Include="FileSystemTask\FileSystemTaskPlugin.cs" />
+    <Compile Include="FileSystemTask\WndDeleteItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileSystemTask\WndDeleteItem.Designer.cs">
+      <DependentUpon>WndDeleteItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSystemTask\WndCopyItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileSystemTask\WndCopyItem.Designer.cs">
+      <DependentUpon>WndCopyItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FileSystemTask\WndFileSystemTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FileSystemTask\WndFileSystemTaskConfig.Designer.cs">
+      <DependentUpon>WndFileSystemTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FtpSftpTask\FtpSftpClient.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpCopyItem.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpDeleteItem.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpFileInfo.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpTask.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpTaskCommon.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpTaskConfig.cs" />
+    <Compile Include="FtpSftpTask\FtpSftpTaskPlugin.cs" />
+    <Compile Include="FtpSftpTask\WndCopyItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FtpSftpTask\WndCopyItem.Designer.cs">
+      <DependentUpon>WndCopyItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FtpSftpTask\WndDeleteItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FtpSftpTask\WndDeleteItem.Designer.cs">
+      <DependentUpon>WndDeleteItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FtpSftpTask\WndFtpSftpTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FtpSftpTask\WndFtpSftpTaskConfig.Designer.cs">
+      <DependentUpon>WndFtpSftpTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MemoryEvent\MemoryEvent.cs" />
+    <Compile Include="MemoryEvent\MemoryEventConfig.cs" />
+    <Compile Include="MemoryEvent\MemoryEventPlugin.cs" />
+    <Compile Include="MemoryEvent\WndMemoryEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MemoryEvent\WndMemoryEventConfig.Designer.cs">
+      <DependentUpon>WndMemoryEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReadTextFileTask\ReadTextFileColumnDefinition.cs" />
+    <Compile Include="ReadTextFileTask\ReadTextFileTask.cs" />
+    <Compile Include="ReadTextFileTask\ReadTextFileTaskAutomaticColumnCreation.cs" />
+    <Compile Include="ReadTextFileTask\ReadTextFileTaskConfig.cs" />
+    <Compile Include="ReadTextFileTask\ReadTextFileTaskPlugin.cs" />
+    <Compile Include="ReadTextFileTask\WndAutoCreateColumns.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadTextFileTask\WndAutoCreateColumns.Designer.cs">
+      <DependentUpon>WndAutoCreateColumns.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReadTextFileTask\WndColumn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadTextFileTask\WndColumn.Designer.cs">
+      <DependentUpon>WndColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReadTextFileTask\WndReadTextFileTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReadTextFileTask\WndReadTextFileTaskConfig.Designer.cs">
+      <DependentUpon>WndReadTextFileTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RESTApiTask\RESTApiHeader.cs" />
+    <Compile Include="RESTApiTask\RESTApiTask.cs" />
+    <Compile Include="RESTApiTask\RESTApiTaskConfig.cs" />
+    <Compile Include="RESTApiTask\RESTApiTaskPlugin.cs" />
+    <Compile Include="RESTApiTask\WndHeader.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RESTApiTask\WndHeader.Designer.cs">
+      <DependentUpon>WndHeader.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RESTApiTask\WndRESTApiTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RESTApiTask\WndRESTApiTaskConfig.Designer.cs">
+      <DependentUpon>WndRESTApiTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RunProgramTask\RunProgramTask.cs" />
+    <Compile Include="RunProgramTask\RunProgramTaskConfig.cs" />
+    <Compile Include="RunProgramTask\RunProgramTaskPlugin.cs" />
+    <Compile Include="RunProgramTask\WndRunProgramTaskWindowConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RunProgramTask\WndRunProgramTaskWindowConfig.Designer.cs">
+      <DependentUpon>WndRunProgramTaskWindowConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SendEMailTask\SendEMailTask.cs" />
+    <Compile Include="SendEMailTask\SendEMailTaskConfig.cs" />
+    <Compile Include="SendEMailTask\SendEMailTaskPlugin.cs" />
+    <Compile Include="SendEMailTask\WndEMail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendEMailTask\WndEMail.Designer.cs">
+      <DependentUpon>WndEMail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SendEMailTask\WndPath.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendEMailTask\WndPath.Designer.cs">
+      <DependentUpon>WndPath.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SendEMailTask\WndSendEMailTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SendEMailTask\WndSendEMailTaskConfig.Designer.cs">
+      <DependentUpon>WndSendEMailTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerBackupTask\SqlServerBackupTask.cs" />
+    <Compile Include="SqlServerBackupTask\SqlServerBackupTaskCommon.cs" />
+    <Compile Include="SqlServerBackupTask\SqlServerBackupTaskConfig.cs" />
+    <Compile Include="SqlServerBackupTask\SqlServerBackupTaskPlugin.cs" />
+    <Compile Include="SqlServerBackupTask\WndSqlServerBackupConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlServerBackupTask\WndSqlServerBackupConfig.Designer.cs">
+      <DependentUpon>WndSqlServerBackupConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerBulkCopyTask\SqlServerBulkCopyTask.cs" />
+    <Compile Include="SqlServerBulkCopyTask\SqlServerBulkCopyTaskConfig.cs" />
+    <Compile Include="SqlServerBulkCopyTask\SqlServerBulkCopyTaskPlugin.cs" />
+    <Compile Include="SqlServerBulkCopyTask\WndSqlServerBulkCopyTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlServerBulkCopyTask\WndSqlServerBulkCopyTaskConfig.Designer.cs">
+      <DependentUpon>WndSqlServerBulkCopyTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerCommandTask\SqlServerParamDefinition.cs" />
+    <Compile Include="SqlServerCommandTask\SqlServerCommandTask.cs" />
+    <Compile Include="SqlServerCommandTask\SqlServerCommandTaskConfig.cs" />
+    <Compile Include="SqlServerCommandTask\SqlServerCommandTaskPlugin.cs" />
+    <Compile Include="SqlServerCommandTask\WndParameter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlServerCommandTask\WndParameter.Designer.cs">
+      <DependentUpon>WndParameter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlServerCommandTask\WndSqlServerCommandTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlServerCommandTask\WndSqlServerCommandTaskConfig.Designer.cs">
+      <DependentUpon>WndSqlServerCommandTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemEventsEvent\SystemEventsEvent.cs" />
+    <Compile Include="SystemEventsEvent\SystemEventsEventCommon.cs" />
+    <Compile Include="SystemEventsEvent\SystemEventsEventConfig.cs" />
+    <Compile Include="SystemEventsEvent\SystemEventsEventPlugin.cs" />
+    <Compile Include="SystemEventsEvent\WndHiddenForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemEventsEvent\WndHiddenForm.Designer.cs">
+      <DependentUpon>WndHiddenForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemEventsEvent\WndSystemEventsEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemEventsEvent\WndSystemEventsEventConfig.Designer.cs">
+      <DependentUpon>WndSystemEventsEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TDPRobotServiceStartEvent\TDPRobotServiceStartEvent.cs" />
+    <Compile Include="TDPRobotServiceStartEvent\TDPRobotServiceStartEventConfig.cs" />
+    <Compile Include="TDPRobotServiceStartEvent\TDPRobotServiceStartEventPlugin.cs" />
+    <Compile Include="TDPRobotServiceStartEvent\WndTDPRobotServiceStartEventConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TDPRobotServiceStartEvent\WndTDPRobotServiceStartEventConfig.Designer.cs">
+      <DependentUpon>WndTDPRobotServiceStartEventConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Unzip\UnzipTask.cs" />
+    <Compile Include="Unzip\UnzipTaskConfig.cs" />
+    <Compile Include="Unzip\UnzipTaskPlugin.cs" />
+    <Compile Include="Unzip\WndUnzipTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Unzip\WndUnzipTaskConfig.Designer.cs">
+      <DependentUpon>WndUnzipTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WriteTextFileTask\WndColumn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WriteTextFileTask\WndColumn.Designer.cs">
+      <DependentUpon>WndColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WriteTextFileTask\WndWriteTextFileTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WriteTextFileTask\WndWriteTextFileTaskConfig.Designer.cs">
+      <DependentUpon>WndWriteTextFileTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WriteTextFileTask\WriteTextFileColumnDefinition.cs" />
+    <Compile Include="WriteTextFileTask\WriteTextFileTask.cs" />
+    <Compile Include="WriteTextFileTask\WriteTextFileTaskConfig.cs" />
+    <Compile Include="WriteTextFileTask\WriteTextFileTaskPlugin.cs" />
+    <Compile Include="ZipTask\WndZipTaskConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ZipTask\WndZipTaskConfig.Designer.cs">
+      <DependentUpon>WndZipTaskConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZipTask\ZipTask.cs" />
+    <Compile Include="ZipTask\ZipTaskConfig.cs" />
+    <Compile Include="ZipTask\ZipTaskPlugin.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TDP.Robot.Core\TDP.Robot.Core.csproj">
+      <Project>{a9c0a0c5-940b-4137-b68b-a060cc10e646}</Project>
+      <Name>TDP.Robot.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CpuEvent\WndCpuEventConfig.resx">
+      <DependentUpon>WndCpuEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DateTimeEvent\WndDateTimeEventConfig.resx">
+      <DependentUpon>WndDateTimeEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiskSpaceEvent\WndDiskSpaceEventConfig.resx">
+      <DependentUpon>WndDiskSpaceEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DiskSpaceEvent\WndDiskThreshold.resx">
+      <DependentUpon>WndDiskThreshold.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcelFileTask\WndExcelFileTaskConfig.resx">
+      <DependentUpon>WndExcelFileTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExcelFileTask\WndColumn.resx">
+      <DependentUpon>WndColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSystemEvent\WndFileSystemEventConfig.resx">
+      <DependentUpon>WndFileSystemEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSystemEvent\WndFolderToMonitor.resx">
+      <DependentUpon>WndFolderToMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSystemTask\WndDeleteItem.resx">
+      <DependentUpon>WndDeleteItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSystemTask\WndCopyItem.resx">
+      <DependentUpon>WndCopyItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileSystemTask\WndFileSystemTaskConfig.resx">
+      <DependentUpon>WndFileSystemTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FtpSftpTask\WndCopyItem.resx">
+      <DependentUpon>WndCopyItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FtpSftpTask\WndDeleteItem.resx">
+      <DependentUpon>WndDeleteItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FtpSftpTask\WndFtpSftpTaskConfig.resx">
+      <DependentUpon>WndFtpSftpTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MemoryEvent\WndMemoryEventConfig.resx">
+      <DependentUpon>WndMemoryEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReadTextFileTask\WndAutoCreateColumns.resx">
+      <DependentUpon>WndAutoCreateColumns.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReadTextFileTask\WndColumn.resx">
+      <DependentUpon>WndColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReadTextFileTask\WndReadTextFileTaskConfig.resx">
+      <DependentUpon>WndReadTextFileTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RESTApiTask\WndHeader.resx">
+      <DependentUpon>WndHeader.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RESTApiTask\WndRESTApiTaskConfig.resx">
+      <DependentUpon>WndRESTApiTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RunProgramTask\WndRunProgramTaskWindowConfig.resx">
+      <DependentUpon>WndRunProgramTaskWindowConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendEMailTask\WndEMail.resx">
+      <DependentUpon>WndEMail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendEMailTask\WndPath.resx">
+      <DependentUpon>WndPath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SendEMailTask\WndSendEMailTaskConfig.resx">
+      <DependentUpon>WndSendEMailTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlServerBackupTask\WndSqlServerBackupConfig.resx">
+      <DependentUpon>WndSqlServerBackupConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlServerBulkCopyTask\WndSqlServerBulkCopyTaskConfig.resx">
+      <DependentUpon>WndSqlServerBulkCopyTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlServerCommandTask\WndParameter.resx">
+      <DependentUpon>WndParameter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlServerCommandTask\WndSqlServerCommandTaskConfig.resx">
+      <DependentUpon>WndSqlServerCommandTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemEventsEvent\WndHiddenForm.resx">
+      <DependentUpon>WndHiddenForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemEventsEvent\WndSystemEventsEventConfig.resx">
+      <DependentUpon>WndSystemEventsEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TDPRobotServiceStartEvent\WndTDPRobotServiceStartEventConfig.resx">
+      <DependentUpon>WndTDPRobotServiceStartEventConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Unzip\WndUnzipTaskConfig.resx">
+      <DependentUpon>WndUnzipTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WriteTextFileTask\WndColumn.resx">
+      <DependentUpon>WndColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WriteTextFileTask\WndWriteTextFileTaskConfig.resx">
+      <DependentUpon>WndWriteTextFileTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ZipTask\WndZipTaskConfig.resx">
+      <DependentUpon>WndZipTaskConfig.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icons\CpuEvent.ico" />
+    <Content Include="Icons\DateTime.ico" />
+    <None Include="Resources\Unzip.ico" />
+    <None Include="app.config" />
+    <None Include="Icons\DiskSpace.ico" />
+    <Content Include="Icons\Excel.ico" />
+    <Content Include="Icons\Folder.ico" />
+    <Content Include="Icons\FtpSftp.ico" />
+    <Content Include="Icons\LightningAdd.png" />
+    <Content Include="Icons\Mail.ico" />
+    <Content Include="Icons\MemoryEvent.ico" />
+    <Content Include="Icons\RESTApi.ico" />
+    <Content Include="Icons\RunProgram.ico" />
+    <Content Include="Icons\SqlServerBackup.ico" />
+    <Content Include="Icons\SqlServerBulkCopy.ico" />
+    <Content Include="Icons\SqlServerQuery.ico" />
+    <Content Include="Icons\SystemEvents.ico" />
+    <Content Include="Icons\TDPRobot.ico" />
+    <Content Include="Icons\TextFile.ico" />
+    <Content Include="Icons\TextFilePen.ico" />
+    <Content Include="Icons\UnZip.ico" />
+    <Content Include="Icons\Zip.ico" />
+    <Content Include="Resources\DateTime.ico" />
+    <Content Include="Resources\IcoExcel32x32.ico" />
+    <None Include="Resources\ieframe_20785.ico" />
+    <Content Include="Resources\Mail.ico" />
+    <None Include="packages.config" />
+    <None Include="Resources\DateTimeEventImg32x32.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)UpdateLib.bat vs</PostBuildEvent>
+  </PropertyGroup>
+</Project>
