@@ -1,2 +1,3 @@
 # TDP.Robot
-A software developed in C# to automate tasks, monitor and data integration in Windows systems.
+The Dummy Programmer Robot is a software to automate tasks, monitor and data integration in Windows systems, using a graphical interface.
+Open source and fully developed in C#.
