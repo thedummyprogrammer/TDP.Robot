@@ -54,6 +54,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTask.cs" />
     <Compile Include="DynamicData\CommonDynamicData.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Constants.cs" />
@@ -73,12 +74,14 @@
     <Compile Include="IEventConfig.cs" />
     <Compile Include="IFolder.cs" />
     <Compile Include="Infrastructure\ListItemOfT.cs" />
+    <Compile Include="InstanceExecResult.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="IPluginInstance.cs" />
     <Compile Include="IPluginInstanceBase.cs" />
     <Compile Include="IPluginInstanceConfig.cs" />
     <Compile Include="ITask.cs" />
     <Compile Include="ITaskConfig.cs" />
+    <Compile Include="IterationTask.cs" />
     <Compile Include="Logging\Abstract\IPluginInstanceLogger.cs" />
     <Compile Include="Logging\PluginInstanceLogger.cs" />
     <Compile Include="Persistence\JobsPersistence.cs" />
@@ -146,6 +149,8 @@
       <DependentUpon>WndPluginTaskConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

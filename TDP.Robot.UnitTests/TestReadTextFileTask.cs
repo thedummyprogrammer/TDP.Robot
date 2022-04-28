@@ -64,7 +64,7 @@ namespace TDP.Robot.UnitTests
                 DDataChain.Add(2, DDataSet);
 
                 TaskRead.Init();
-                ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger);
+                ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger).execResults[0];
 
                 DataTable Dt = (DataTable)ER.Data["DefaultRecordset"];
 
@@ -93,7 +93,7 @@ namespace TDP.Robot.UnitTests
                 DDataChain.Add(2, DDataSet);
 
                 TaskRead.Init();
-                ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger);
+                ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger).execResults[0];
 
                 DataTable Dt = (DataTable)ER.Data["DefaultRecordset"];
 
@@ -121,7 +121,7 @@ namespace TDP.Robot.UnitTests
                 DDataChain.Add(2, DDataSet);
 
                 TaskRead.Init();
-                ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger);
+                ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger).execResults[0];
 
                 DataTable Dt = (DataTable)ER.Data["DefaultRecordset"];
 

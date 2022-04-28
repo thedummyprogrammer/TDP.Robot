@@ -27,6 +27,8 @@ namespace TDP.Robot.JobEngineLib
         internal static string LogPath { get; private set; }
         internal static string LibPath { get; private set; }
         internal static string DataPath { get; private set; }
+        internal static bool SerialExecution { get; private set; }
+
 
         internal static void Init()
         {
@@ -34,6 +36,7 @@ namespace TDP.Robot.JobEngineLib
             LogPath = CR.Get(ConfigReaderKeys.KeyLogPath, Constants.DefaultLogPath);
             LibPath = CR.Get(ConfigReaderKeys.KeyLibPath, Constants.DefaultLibPath);
             DataPath = CR.Get(ConfigReaderKeys.KeyDataPath, Constants.DefaultDataPath);
+            SerialExecution = CR.Get(ConfigReaderKeys.KeySerialExecution, Constants.DefaultSerialExecution);
         }
     }
 }

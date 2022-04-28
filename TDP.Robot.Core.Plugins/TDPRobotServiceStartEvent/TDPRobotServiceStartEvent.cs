@@ -94,7 +94,7 @@ namespace TDP.Robot.Plugins.Core.TDPRobotServiceStartEvent
             
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             IPluginInstanceLogger Logger = PluginInstanceLogger.GetLogger(this);
 
@@ -124,7 +124,10 @@ namespace TDP.Robot.Plugins.Core.TDPRobotServiceStartEvent
                 if (!Config.DoNotLog)
                     Logger.EventError(this, ex);
             }
-            return new ExecResult(true, null);
+
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
     }
 }

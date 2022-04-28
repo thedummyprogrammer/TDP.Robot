@@ -30,24 +30,8 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.ExcelFileTask
 {
     [Serializable]
-    public class ExcelFileTask : ITask
+    public class ExcelFileTask : BaseTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
-
-        public void Init()
-        {
-            
-        }
-
-        public void Destroy()
-        {
-
-        }
-
         bool WorksheetExists(IXLWorkbook wb, string worksheetName)
         {
             int TotalWorksheets = wb.Worksheets.Count();
@@ -60,194 +44,183 @@ namespace TDP.Robot.Plugins.Core.ExcelFileTask
             return false;
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        protected override void RunTask()
         {
-            ExecResult Result;
             DateTime StartDateTime = DateTime.Now;
-
             DataTable DefaultRecordset = new DataTable();
 
-            int ActualIterations = 0;
+            int ActualIterations = 1;
+            ExcelFileTaskConfig TConfig_0 = (ExcelFileTaskConfig)CoreHelpers.CloneObjects(Config);
+            DynamicDataParser.Parse(TConfig_0, _dataChain, 0);
 
             try
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
-
-                ExcelFileTaskConfig TConfig = (ExcelFileTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-                if (IterationsCount > 0)
+                
+                switch (TConfig_0.TaskType)
                 {
-                    switch (TConfig.TaskType)
-                    {
-                        case ExcelFileTaskType.AppendRow:
-                        case ExcelFileTaskType.InsertRow:
+                    case ExcelFileTaskType.AppendRow:
+                    case ExcelFileTaskType.InsertRow:
+                        {
+                            bool FileExists = File.Exists(TConfig_0.FilePath);
+
+                            using (IXLWorkbook WksBook = (FileExists ? new XLWorkbook(TConfig_0.FilePath) : new XLWorkbook()))
                             {
-                                bool FileExists = File.Exists(TConfig.FilePath);
+                                IXLWorksheet WksSheet;
+                                if (!WorksheetExists(WksBook, TConfig_0.SheetName))
+                                    WksSheet = WksBook.Worksheets.Add(TConfig_0.SheetName);
+                                else
+                                    WksSheet = WksBook.Worksheet(TConfig_0.SheetName);
 
-                                using (IXLWorkbook WksBook = (FileExists ? new XLWorkbook(TConfig.FilePath) : new XLWorkbook()))
+                                int LastRow = WksSheet.RowsUsed().Count();
+
+                                ExcelFileTaskConfig ConfigCopy_0 = (ExcelFileTaskConfig)CoreHelpers.CloneObjects(Config);
+                                DynamicDataParser.Parse(ConfigCopy_0, _dataChain, 0);
+
+                                if (ConfigCopy_0.AddHeaderIfEmpty && (!FileExists || LastRow == 0))
                                 {
-                                    IXLWorksheet WksSheet;
-                                    if (!WorksheetExists(WksBook, TConfig.SheetName))
-                                        WksSheet = WksBook.Worksheets.Add(TConfig.SheetName);
-                                    else
-                                        WksSheet = WksBook.Worksheet(TConfig.SheetName);
-
-                                    int LastRow = WksSheet.RowsUsed().Count();
-
-                                    ExcelFileTaskConfig ConfigCopy_0 = (ExcelFileTaskConfig)CoreHelpers.CloneObjects(Config);
-                                    DynamicDataParser.Parse(ConfigCopy_0, dataChain, 0);
-
-                                    if (ConfigCopy_0.AddHeaderIfEmpty && (!FileExists || LastRow == 0))
+                                    LastRow = 1;
+                                    // Create header
+                                    // During header creation dynamic data is parsed only one time using the data first iteration                                        
+                                    int ColIndex = 1;
+                                    foreach (ExcelFileColumnDefinition Col in ConfigCopy_0.ColumnsDefinition)
                                     {
-                                        LastRow = 1;
-                                        // Create header
-                                        // During header creation dynamic data is parsed only one time using the data first iteration                                        
-                                        int ColIndex = 1;
-                                        foreach (ExcelFileColumnDefinition Col in ConfigCopy_0.ColumnsDefinition)
-                                        {
-                                            WksSheet.Cell(LastRow, ColIndex).Value = DynamicDataParser.ReplaceDynamicData(Col.HeaderTitle, dataChain, 1);
-                                            ColIndex++;
-                                        }
+                                        WksSheet.Cell(LastRow, ColIndex).Value = DynamicDataParser.ReplaceDynamicData(Col.HeaderTitle, _dataChain, 1);
+                                        ColIndex++;
                                     }
-
-                                    if (TConfig.TaskType == ExcelFileTaskType.InsertRow)
-                                    {
-                                        int InsertAtRow = int.Parse(ConfigCopy_0.InsertAtRow);
-                                        WksSheet.Row(InsertAtRow).InsertRowsAbove(IterationsCount);
-                                        LastRow = InsertAtRow;
-                                    }
-                                    else
-                                    {
-                                        LastRow++;
-                                    }
-                                    
-                                    for (int i = 0; i < IterationsCount; i++)
-                                    {
-                                        ExcelFileTaskConfig ConfigCopy = (ExcelFileTaskConfig)CoreHelpers.CloneObjects(Config);
-                                        DynamicDataParser.Parse(ConfigCopy, dataChain, i);
-
-                                        int ColIndex = 1;
-                                        foreach (ExcelFileColumnDefinition Col in ConfigCopy.ColumnsDefinition)
-                                        {
-                                            WksSheet.Cell(LastRow, ColIndex).Value = DynamicDataParser.ReplaceDynamicData(Col.CellValue, dataChain, i);
-                                            ColIndex++;
-                                        }
-
-                                        LastRow++;
-                                        ActualIterations++;
-                                    }
-
-                                    if (FileExists)
-                                        WksBook.Save();
-                                    else
-                                        WksBook.SaveAs(TConfig.FilePath);
                                 }
-                            }
-                            break;
 
-                        case ExcelFileTaskType.ReadRow:
-                            {
-                                using (IXLWorkbook WksBook = new XLWorkbook(TConfig.FilePath))
+                                if (TConfig_0.TaskType == ExcelFileTaskType.InsertRow)
                                 {
-                                    IXLWorksheet WksSheet = WksBook.Worksheet(TConfig.SheetName);
+                                    int InsertAtRow = int.Parse(ConfigCopy_0.InsertAtRow);
+                                    WksSheet.Row(InsertAtRow).InsertRowsAbove(_iterationsCount);
+                                    LastRow = InsertAtRow;
+                                }
+                                else
+                                {
+                                    LastRow++;
+                                }
                                     
-                                    ExcelFileTaskConfig ConfigCopy_0 = (ExcelFileTaskConfig)CoreHelpers.CloneObjects(Config);
-                                    DynamicDataParser.Parse(ConfigCopy_0, dataChain, 0);
+                                for (int i = 0; i < _iterationsCount; i++)
+                                {
+                                    ExcelFileTaskConfig ConfigCopy = (ExcelFileTaskConfig)CoreHelpers.CloneObjects(Config);
+                                    DynamicDataParser.Parse(ConfigCopy, _dataChain, i);
 
-                                    int ReadFromRow = 0;
-                                    int ReadToRow = 0;
-                                    int LastRow = WksSheet.RowsUsed().Count();
-                                    int LastCol;
-                                    if (!string.IsNullOrEmpty(ConfigCopy_0.NumColumnsToRead))
-                                        LastCol = int.Parse(ConfigCopy_0.NumColumnsToRead);
+                                    int ColIndex = 1;
+                                    foreach (ExcelFileColumnDefinition Col in ConfigCopy.ColumnsDefinition)
+                                    {
+                                        WksSheet.Cell(LastRow, ColIndex).Value = DynamicDataParser.ReplaceDynamicData(Col.CellValue, _dataChain, i);
+                                        ColIndex++;
+                                    }
+
+                                    LastRow++;
+                                    ActualIterations++;
+                                }
+
+                                if (FileExists)
+                                    WksBook.Save();
+                                else
+                                    WksBook.SaveAs(TConfig_0.FilePath);
+                            }
+                        }
+                        break;
+
+                    case ExcelFileTaskType.ReadRow:
+                        {
+                            using (IXLWorkbook WksBook = new XLWorkbook(TConfig_0.FilePath))
+                            {
+                                IXLWorksheet WksSheet = WksBook.Worksheet(TConfig_0.SheetName);
+
+                                int ReadFromRow = 0;
+                                int ReadToRow = 0;
+                                int LastRow = WksSheet.RowsUsed().Count();
+                                int LastCol;
+                                if (!string.IsNullOrEmpty(TConfig_0.NumColumnsToRead))
+                                    LastCol = int.Parse(TConfig_0.NumColumnsToRead);
+                                else
+                                    LastCol = WksSheet.CellsUsed().Count();
+
+                                if (TConfig_0.ReadLastRowOption || TConfig_0.ReadRowNumberOption)
+                                {
+                                    if (TConfig_0.ReadLastRowOption)
+                                    {
+                                        ReadFromRow = LastRow;
+                                        ReadToRow = LastRow;
+                                    }
                                     else
-                                        LastCol = WksSheet.CellsUsed().Count();
-
-                                    if (TConfig.ReadLastRowOption || TConfig.ReadRowNumberOption)
                                     {
-                                        if (TConfig.ReadLastRowOption)
-                                        {
-                                            ReadFromRow = LastRow;
+                                        ReadFromRow = int.Parse(TConfig_0.ReadRowNumber);
+                                        ReadToRow = ReadFromRow;
+                                    }
+                                }
+                                else if (TConfig_0.ReadIntervalOption)
+                                {
+                                    switch (TConfig_0.ReadInterval)
+                                    {
+                                        case ExcelReadIntervalType.ReadLastNRows:
+                                            int NumberOfRows = int.Parse(TConfig_0.ReadNumberOfRows);
+                                            if (LastRow - NumberOfRows >= 1)
+                                                ReadFromRow = LastRow - NumberOfRows;
+                                            else
+                                                ReadFromRow = 1;
+
                                             ReadToRow = LastRow;
-                                        }
-                                        else
-                                        {
-                                            ReadFromRow = int.Parse(ConfigCopy_0.ReadRowNumber);
-                                            ReadToRow = ReadFromRow;
-                                        }
+                                            break;
+
+                                        case ExcelReadIntervalType.ReadFromRowToRow:
+                                            ReadFromRow = int.Parse(TConfig_0.ReadFromRow);
+
+                                            if (ReadFromRow <= LastRow)
+                                            {                                                
+                                                ReadToRow = int.Parse(TConfig_0.ReadToRow);
+
+                                                if (ReadToRow > LastRow)
+                                                    ReadToRow = LastRow;
+                                            }
+                                            break;
+
+                                        case ExcelReadIntervalType.ReadFromRowToLastRow:
+                                            ReadFromRow = int.Parse(TConfig_0.ReadFromRow);
+                                            ReadToRow = LastRow;
+                                            break;
                                     }
-                                    else if (TConfig.ReadIntervalOption)
+                                }
+
+                                if (ReadToRow >= ReadFromRow 
+                                    && ReadFromRow > 0 
+                                    && ReadToRow > 0)
+                                {
+                                    for (int CurCol = 1; CurCol <= LastCol; CurCol++)
                                     {
-                                        switch (TConfig.ReadInterval)
-                                        {
-                                            case ExcelReadIntervalType.ReadLastNRows:
-                                                int NumberOfRows = int.Parse(ConfigCopy_0.ReadNumberOfRows);
-                                                if (LastRow - NumberOfRows >= 1)
-                                                    ReadFromRow = LastRow - NumberOfRows;
-                                                else
-                                                    ReadFromRow = 1;
-
-                                                ReadToRow = LastRow;
-                                                break;
-
-                                            case ExcelReadIntervalType.ReadFromRowToRow:
-                                                ReadFromRow = int.Parse(ConfigCopy_0.ReadFromRow);
-
-                                                if (ReadFromRow <= LastRow)
-                                                {                                                
-                                                    ReadToRow = int.Parse(ConfigCopy_0.ReadToRow);
-
-                                                    if (ReadToRow > LastRow)
-                                                        ReadToRow = LastRow;
-                                                }
-                                                break;
-
-                                            case ExcelReadIntervalType.ReadFromRowToLastRow:
-                                                ReadFromRow = int.Parse(ConfigCopy_0.ReadFromRow);
-                                                ReadToRow = LastRow;
-                                                break;
-                                        }
+                                        DefaultRecordset.Columns.Add("Column" + CurCol.ToString());
                                     }
 
-                                    if (ReadToRow >= ReadFromRow 
-                                        && ReadFromRow > 0 
-                                        && ReadToRow > 0)
+                                    for (int CurRow = ReadFromRow; CurRow <= ReadToRow; CurRow++)
                                     {
+                                        DataRow DR = DefaultRecordset.NewRow();
                                         for (int CurCol = 1; CurCol <= LastCol; CurCol++)
                                         {
-                                            DefaultRecordset.Columns.Add("Column" + CurCol.ToString());
+                                            DR[CurCol - 1] = WksSheet.Cell(CurRow, CurCol).Value.ToString();
                                         }
-
-                                        for (int CurRow = ReadFromRow; CurRow <= ReadToRow; CurRow++)
-                                        {
-                                            DataRow DR = DefaultRecordset.NewRow();
-                                            for (int CurCol = 1; CurCol <= LastCol; CurCol++)
-                                            {
-                                                DR[CurCol - 1] = WksSheet.Cell(CurRow, CurCol).Value.ToString();
-                                            }
-                                            DefaultRecordset.Rows.Add(DR);
-                                            
-                                            ActualIterations++;
-                                        }
+                                        DefaultRecordset.Rows.Add(DR);
                                     }
                                 }
                             }
-                            break;
-                    }
+                        }
+                        break;
                 }
+                
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
+                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, _iterationsCount);
 
-                if (TConfig.TaskType == ExcelFileTaskType.ReadRow)
+                if (TConfig_0.TaskType == ExcelFileTaskType.ReadRow)
                     DDataSet.Add(CommonDynamicData.DefaultRecordsetName, DefaultRecordset);
-                Result = new ExecResult(true, DDataSet);
+                ExecResult Result = new ExecResult(true, DDataSet);
+                _execResults.Add(Result);
 
                 if (!Config.DoNotLog)
                 {
-                    instanceLogger.Info(this, $"Rows processed: {ActualIterations}");
-                    instanceLogger.TaskCompleted(this);
+                    _instanceLogger.Info(this, $"Rows processed: {_iterationsCount}");
+                    _instanceLogger.TaskCompleted(this);
                 }
                     
             }
@@ -255,16 +228,14 @@ namespace TDP.Robot.Plugins.Core.ExcelFileTask
             {
                 if (!Config.DoNotLog)
                 {
-                    instanceLogger.Info(this, $"Rows processed: {ActualIterations}");
-                    instanceLogger.TaskError(this, ex);
+                    _instanceLogger.Info(this, $"Rows processed: {ActualIterations}");
+                    _instanceLogger.TaskError(this, ex);
                 }
 
                 DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                DDataSet.Add(CommonDynamicData.DefaultRecordsetName, DefaultRecordset);
-                Result = new ExecResult(false, DDataSet);
+                ExecResult Result = new ExecResult(false, DDataSet);
+                _execResults.Add(Result);
             }
-
-            return Result;
         }
     }
 }

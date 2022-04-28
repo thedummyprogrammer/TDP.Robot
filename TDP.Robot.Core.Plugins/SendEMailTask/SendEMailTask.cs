@@ -28,98 +28,45 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.SendEMailTask
 {
     [Serializable]
-    public class SendEMailTask : ITask
+    public class SendEMailTask : IterationTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
-
-        public void Init()
+        protected override void RunIteration(int currentIteration)
         {
-            
-        }
+            SendEMailTaskConfig TConfig = (SendEMailTaskConfig)_iterationConfig;
 
-        public void Destroy()
-        {
-            
-        }
-
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
-        {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
-
-            int ActualIterations = 0;
-
-            try
+            using (SmtpClient MailClient = new SmtpClient(TConfig.SMTPServer, int.Parse(TConfig.Port)))
+            using (MailMessage Mail = new MailMessage())
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
+                Mail.Sender = new MailAddress(TConfig.Sender);
+                Mail.From = new MailAddress(TConfig.Sender);
 
-                SendEMailTaskConfig TConfig = (SendEMailTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-                for (int i = 0; i < IterationsCount; i++)
+                foreach (string Recipient in TConfig.Recipients)
                 {
-                    SendEMailTaskConfig ConfigCopy = (SendEMailTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, i);
-
-                    using (SmtpClient MailClient = new SmtpClient(ConfigCopy.SMTPServer, int.Parse(ConfigCopy.Port)))
-                    using (MailMessage Mail = new MailMessage())
-                    {
-                        Mail.Sender = new MailAddress(ConfigCopy.Sender);
-                        Mail.From = new MailAddress(ConfigCopy.Sender);
-
-                        foreach (string Recipient in ConfigCopy.Recipients)
-                        {
-                            Mail.To.Add(Recipient);
-                        }
-
-                        foreach (string CCRecipient in ConfigCopy.CC)
-                        {
-                            Mail.CC.Add(CCRecipient);
-                        }
-
-                        Mail.Subject = ConfigCopy.Subject;
-                        Mail.Body = ConfigCopy.Message;
-
-                        if (TConfig.Authenticate)
-                        {
-                            MailClient.Credentials = new NetworkCredential(ConfigCopy.Username, ConfigCopy.Password);
-                        }
-
-                        MailClient.EnableSsl = ConfigCopy.UseSSL;
-                        MailClient.Port = int.Parse(ConfigCopy.Port);
-                        MailClient.Send(Mail);
-
-                        ActualIterations++;
-                    }
+                    Mail.To.Add(Recipient);
                 }
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
+                foreach (string CCRecipient in TConfig.CC)
                 {
-                    instanceLogger.Info($"Number of emails sent: {ActualIterations}");
-                    instanceLogger.TaskCompleted(this);
+                    Mail.CC.Add(CCRecipient);
                 }
+
+                foreach (string FileAttachment in TConfig.Attachments)
+                {
+                    Mail.Attachments.Add(new Attachment(FileAttachment));
+                }
+
+                Mail.Subject = TConfig.Subject;
+                Mail.Body = TConfig.Message;
+
+                if (TConfig.Authenticate)
+                {
+                    MailClient.Credentials = new NetworkCredential(TConfig.Username, TConfig.Password);
+                }
+
+                MailClient.EnableSsl = TConfig.UseSSL;
+                MailClient.Port = int.Parse(TConfig.Port);
+                MailClient.Send(Mail);
             }
-            catch (Exception ex)
-            {
-                if (!Config.DoNotLog)
-                {
-                    instanceLogger.Info($"Number of emails sent: {ActualIterations}");
-                    instanceLogger.TaskError(this, ex);
-                }
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(false, DDataSet);
-            }
-
-            return Result;
         }
     }
 }

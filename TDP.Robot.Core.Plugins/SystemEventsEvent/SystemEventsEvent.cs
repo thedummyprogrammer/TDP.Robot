@@ -70,7 +70,7 @@ namespace TDP.Robot.Plugins.Core.SystemEventsEvent
             
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             new Thread(() =>
             {
@@ -129,7 +129,9 @@ namespace TDP.Robot.Plugins.Core.SystemEventsEvent
 
             }).Start();
 
-            return new ExecResult(true, null);
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
 
         private void TriggerEvent(string eventCode)

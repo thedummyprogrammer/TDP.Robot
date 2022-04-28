@@ -74,7 +74,7 @@ namespace TDP.Robot.Plugins.Core.DiskSpaceEvent
             _RecurringTimer.Dispose();
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             DiskSpaceEventConfig TConfig = (DiskSpaceEventConfig)Config;
 
@@ -86,8 +86,9 @@ namespace TDP.Robot.Plugins.Core.DiskSpaceEvent
 
             _RecurringTimer.Enabled = true;
 
-            ExecResult ER = new ExecResult(true, null);
-            return ER;
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
 
         private long ThresholdToBytes(long totalDriveSpace, int value, DiskThresholdUnitMeasure unit)

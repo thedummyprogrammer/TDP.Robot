@@ -28,72 +28,20 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.RunProgramTask
 {
     [Serializable]
-    public class RunProgramTask : ITask
+    public class RunProgramTask : IterationTask
     {
-        public int ID { get; set; }
-        public IFolder ParentFolder { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();        
-        
-
-        public void Init()
+        protected override void RunIteration(int currentIteration)
         {
-            
-        }
+            RunProgramTaskConfig TConfig = (RunProgramTaskConfig)_iterationConfig;
 
-        public void Destroy()
-        {
-            
-        }
-
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
-        {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
-
-            int ActualIterations = 0;
-
-            try
+            ProcessStartInfo PInfo = new ProcessStartInfo(TConfig.ProgramPath, TConfig.Parameters);
+            string DefaultWorkingFolder = Path.GetDirectoryName(TConfig.ProgramPath);
+            PInfo.WorkingDirectory = string.IsNullOrEmpty(TConfig.WorkingFolder) ? DefaultWorkingFolder : TConfig.WorkingFolder;
+            _instanceLogger.Info(this, $"Running program: {TConfig.ProgramPath} Parameters: {TConfig.Parameters} Working folder: {PInfo.WorkingDirectory}");
+            using (Process NewProc = Process.Start(PInfo))
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
-
-                RunProgramTaskConfig TConfig = (RunProgramTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-                for (int i = 0; i < IterationsCount; i++)
-                {
-                    RunProgramTaskConfig ConfigCopy = (RunProgramTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, i);
-
-                    ProcessStartInfo PInfo = new ProcessStartInfo(ConfigCopy.ProgramPath, ConfigCopy.Parameters);
-                    string DefaultWorkingFolder = Path.GetDirectoryName(ConfigCopy.ProgramPath);
-                    PInfo.WorkingDirectory = string.IsNullOrEmpty(ConfigCopy.WorkingFolder) ? DefaultWorkingFolder : ConfigCopy.WorkingFolder;
-                    instanceLogger.Info(this, $"Running program: {ConfigCopy.ProgramPath} Parameters: {ConfigCopy.Parameters} Working folder: {PInfo.WorkingDirectory}");
-                    using (Process NewProc = Process.Start(PInfo))
-                    {
-                        NewProc.WaitForExit();
-                    }
-
-                    ActualIterations++;
-                }
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskCompleted(this);
+                NewProc.WaitForExit();
             }
-            catch (Exception ex)
-            {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskError(this, ex);
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(false, DDataSet);
-            }
-
-            return Result;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace TDP.Robot.Plugins.Core.TDPRobotServiceStartEvent
             {
                 if (DataValidationHelper.IsEmptyString(TxtMinutesWithin.Text))
                     SetError(TxtMinutesWithin, Resource.TxtFieldCannotBeEmpty);
-                else if (DataValidationHelper.IsInteger(TxtMinutesWithin.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
+                else if (!DataValidationHelper.IsInteger(TxtMinutesWithin.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
                     SetError(TxtMinutesWithin, Resource.TxtFieldNotContainAValidInteger);
             }
 
@@ -58,7 +58,7 @@ namespace TDP.Robot.Plugins.Core.TDPRobotServiceStartEvent
             {
                 if (DataValidationHelper.IsEmptyString(TxtMinutesAfter.Text))
                     SetError(TxtMinutesAfter, Resource.TxtFieldCannotBeEmpty);
-                else if (DataValidationHelper.IsInteger(TxtMinutesAfter.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
+                else if (!DataValidationHelper.IsInteger(TxtMinutesAfter.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
                     SetError(TxtMinutesAfter, Resource.TxtFieldNotContainAValidInteger);
             }
 

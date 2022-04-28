@@ -32,73 +32,26 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.SqlServerBulkCopyTask
 {
     [Serializable]
-    public class SqlServerBulkCopyTask : ITask
+    public class SqlServerBulkCopyTask : IterationTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
-
-        public void Init()
+        protected override void RunIteration(int currentIteration)
         {
+            SqlServerBulkCopyTaskConfig TConfig = (SqlServerBulkCopyTaskConfig)_iterationConfig;            
+            string ConnectionString = $"Server={TConfig.Server};Database={TConfig.Database};User ID={TConfig.Username};Password={TConfig.Password};{TConfig.ConnectionStringOptions}";
 
-        }
-
-        public void Destroy()
-        {
-
-        }
-
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
-        {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
-
-            int ActualIterations = 0;
-
-            try
+            using (SqlConnection Cnt = new SqlConnection(ConnectionString))
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
+                Cnt.Open();
 
-                SqlServerBulkCopyTaskConfig TConfig = (SqlServerBulkCopyTaskConfig)Config;
-
-                // This object iterates only one time!!
-                SqlServerBulkCopyTaskConfig ConfigCopy = (SqlServerBulkCopyTaskConfig)CoreHelpers.CloneObjects(Config);
-                DynamicDataParser.Parse(ConfigCopy, dataChain, ActualIterations);
-
-                string ConnectionString = $"Server={ConfigCopy.Server};Database={ConfigCopy.Database};User ID={ConfigCopy.Username};Password={ConfigCopy.Password};{ConfigCopy.ConnectionStringOptions}";
-
-                using (SqlConnection Cnt = new SqlConnection(ConnectionString))
+                using (SqlBulkCopy BulkCopy = new SqlBulkCopy(Cnt))
                 {
-                    Cnt.Open();
-
-                    using (SqlBulkCopy BulkCopy = new SqlBulkCopy(Cnt))
-                    {
-                        BulkCopy.DestinationTableName = ConfigCopy.DestinationTable;
-                        DataTable DtSource = (DataTable)DynamicDataParser.GetDynamicDataObject(ConfigCopy.SourceRecordset, dataChain);
-                        instanceLogger.Info(this, $"About to bulk copy {DtSource.Rows.Count} rows to table {ConfigCopy.DestinationTable}...");
-                        BulkCopy.WriteToServer(DtSource);
-                        instanceLogger.Info(this, "Bulk copy successfully completed");
-                    }
+                    BulkCopy.DestinationTableName = TConfig.DestinationTable;
+                    DataTable DtSource = (DataTable)DynamicDataParser.GetDynamicDataObject(TConfig.SourceRecordset, _dataChain);
+                    _instanceLogger.Info(this, $"About to bulk copy {DtSource.Rows.Count} rows to table {TConfig.DestinationTable}...");
+                    BulkCopy.WriteToServer(DtSource);
+                    _instanceLogger.Info(this, "Bulk copy successfully completed");
                 }
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskCompleted(this);
             }
-            catch (Exception ex)
-            {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskError(this, ex);
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(false, DDataSet);
-            }
-
-            return Result;
         }
     }
 }

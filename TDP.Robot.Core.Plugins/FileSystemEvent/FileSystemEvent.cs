@@ -123,14 +123,16 @@ namespace TDP.Robot.Plugins.Core.FileSystemEvent
             }
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             foreach (FileSystemWatcher Watcher in _FileSystemWatchers)
             {
                 Watcher.EnableRaisingEvents = true;
             }
 
-            return new ExecResult(true, null);
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
     }
 }

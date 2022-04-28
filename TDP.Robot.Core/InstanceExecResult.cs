@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -18,17 +18,16 @@
 ======================================================================================*/
 
 using System.Collections.Generic;
-using TDP.Robot.Core.DynamicData;
-using TDP.Robot.Core.Logging;
 
 namespace TDP.Robot.Core
 {
-    public interface IPluginInstance : IPluginInstanceBase
-    {       
-        void Init();
-        InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger);
-        IPluginInstanceConfig Config { get; set; }
-        List<PluginInstanceConnection> Connections { get; }
-        void Destroy();
+    public class InstanceExecResult
+    {
+        public InstanceExecResult(List<ExecResult> execResults)
+        {
+            this.execResults = execResults;
+        }
+
+        public List<ExecResult> execResults { get; private set; } 
     }
 }

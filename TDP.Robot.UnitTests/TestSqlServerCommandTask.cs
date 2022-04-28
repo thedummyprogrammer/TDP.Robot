@@ -119,7 +119,7 @@ namespace TDP.Robot.UnitTests
 
             TaskClean.Run(DDataChain, DDataSet, Logger);
             TaskWrite.Run(DDataChain, DDataSet, Logger);
-            ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger);
+            ExecResult ER = TaskRead.Run(DDataChain, DDataSet, Logger).execResults[0];
 
             DataTable DtRead = (DataTable)ER.Data["DefaultRecordset"];
 

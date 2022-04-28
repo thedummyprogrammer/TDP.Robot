@@ -43,6 +43,9 @@ namespace TDP.Robot.Plugins.Core.RESTApiTask
             get
             {
                 List<DynamicDataSample> Samples = CommonDynamicData.BuildStandardDynamicDataSamples("REST Api file task 1");
+                Samples.Add(new DynamicDataSample(RESTApiTaskCommon.DynDataKeyURL, Resource.TxtURL, Resource.TxtURLExample));
+                Samples.Add(new DynamicDataSample(RESTApiTaskCommon.DynDataKeyRawContent, Resource.TxtRawContent, Resource.TxtRawContentExample));
+                Samples.Add(new DynamicDataSample(RESTApiTaskCommon.DynDataKeyHttpResult, Resource.TxtHttpResult, Resource.TxtHttpResultExample));
                 Samples.Add(new DynamicDataSample(CommonDynamicData.DefaultRecordsetName, Resource.TxtDynDataDefaultRecordset, Resource.TxtDynDataFieldXOfRecordsetsRow, true));
                 return Samples;
             }

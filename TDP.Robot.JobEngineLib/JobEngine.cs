@@ -61,7 +61,7 @@ namespace TDP.Robot.JobEngineLib
             try
             {
                 _Log.Info("Loading jobs data...");
-                Common.RootFolder = JobsPersistence.LoadXML(DataPath, Common.PluginTypes);
+                Common.RootFolder = JobsPersistence.Load(DataPath, new PluginBinder(Common.PluginTypes));
             }
             catch (Exception ex)
             {
@@ -123,7 +123,7 @@ namespace TDP.Robot.JobEngineLib
 
                     if (!task.Config.DoNotLog)
                         instanceLogger.TaskStarting(task);
-                    ExecResult ExecResult = task.Run(dataChain, LastDataSetCopy, instanceLogger);
+                    InstanceExecResult InstExecResult = task.Run(dataChain, LastDataSetCopy, instanceLogger);
                     if (!task.Config.DoNotLog)
                         instanceLogger.TaskEnded(task);
 
@@ -142,11 +142,14 @@ namespace TDP.Robot.JobEngineLib
                             if (NextTask.Config.Disable)
                                 continue;
 
-                            if (Connection.EvaluateExecConditions(ExecResult))
+                            foreach (ExecResult ExecRes in InstExecResult.execResults)
                             {
-                                DynamicDataChain DataChainCopy = (DynamicDataChain)CoreHelpers.CloneObjects(dataChain);
-                                DataChainCopy.Add(task.ID, ExecResult.Data);
-                                ExecuteTask(NextTask, DataChainCopy, ExecResult.Data, instanceLogger);
+                                if (Connection.EvaluateExecConditions(ExecRes))
+                                {
+                                    DynamicDataChain DataChainCopy = (DynamicDataChain)CoreHelpers.CloneObjects(dataChain);
+                                    DataChainCopy.Add(task.ID, ExecRes.Data);
+                                    ExecuteTask(NextTask, DataChainCopy, ExecRes.Data, instanceLogger);
+                                }
                             }
                         }
                     }
@@ -157,6 +160,9 @@ namespace TDP.Robot.JobEngineLib
                 }
             });
             T.Start();
+
+            if (Config.SerialExecution)
+                T.Wait();
 
             return T;
         }

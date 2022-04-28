@@ -17,18 +17,18 @@
     along with The Dummy Programmer Robot.  If not, see <http://www.gnu.org/licenses/>.
 ======================================================================================*/
 
+using System;
 using System.Collections.Generic;
-using TDP.Robot.Core.DynamicData;
-using TDP.Robot.Core.Logging;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TDP.Robot.Core
+namespace TDP.Robot.Plugins.Core.RESTApiTask
 {
-    public interface IPluginInstance : IPluginInstanceBase
-    {       
-        void Init();
-        InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger);
-        IPluginInstanceConfig Config { get; set; }
-        List<PluginInstanceConnection> Connections { get; }
-        void Destroy();
+    internal class RESTApiTaskCommon
+    {
+        public const string DynDataKeyURL = "URL";
+        public const string DynDataKeyRawContent = "RawContent";
+        public const string DynDataKeyHttpResult = "HttpResult";
     }
 }

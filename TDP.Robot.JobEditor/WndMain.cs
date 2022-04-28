@@ -82,7 +82,7 @@ namespace TDP.Robot.JobEditor
             try
             {
                 _Log.Info("Loading jobs data...");
-                Common.RootFolder = WorkspacePersistence.LoadXML(DataPath);
+                Common.RootFolder = WorkspacePersistence.Load(DataPath);
             }
             catch (Exception ex)
             {
@@ -208,7 +208,7 @@ namespace TDP.Robot.JobEditor
         {
             try
             {
-                WorkspacePersistence.SaveXML(GetDataPath(), Common.RootFolder, true);
+                WorkspacePersistence.Save(GetDataPath(), Common.RootFolder, true);
             }
             catch 
             {

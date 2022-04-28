@@ -134,7 +134,7 @@ namespace TDP.Robot.Plugins.Core.DateTimeEvent
         }
 
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             bool EnableOneTimeTimer = false;
             bool EnableRecurringTimer = false;
@@ -163,7 +163,9 @@ namespace TDP.Robot.Plugins.Core.DateTimeEvent
             else if (EnableRecurringTimer)
                 _RecurringTimer.Enabled = true;
 
-            return new ExecResult(true, null);
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
     }
 }

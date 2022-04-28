@@ -87,6 +87,7 @@ namespace TDP.Robot.Core
                         if (FileLibInfo.Name.ToLower().StartsWith("tdp.robot.plugins") && FileLibInfo.Name.ToLower().EndsWith(".dll"))
                         {
                             logger.Info($"Loading library {FileLibName}...");
+                            
                             Assembly Asx = Assembly.LoadFrom(FileLibName);
                             foreach (Type TypeExported in Asx.ExportedTypes)
                             {

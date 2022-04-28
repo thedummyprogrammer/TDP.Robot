@@ -187,7 +187,7 @@ namespace TDP.Robot.Plugins.Core.CpuEvent
             }
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             CpuEventConfig TConfig = (CpuEventConfig)Config;
 
@@ -199,8 +199,10 @@ namespace TDP.Robot.Plugins.Core.CpuEvent
 
             _RecurringTimer.Enabled = true;
 
-            ExecResult ER = new ExecResult(true, null);
-            return ER;
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+
+            return new InstanceExecResult(execResults);
         }
     }
 }

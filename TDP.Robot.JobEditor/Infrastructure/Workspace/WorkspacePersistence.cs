@@ -99,7 +99,7 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
 
         public static void Save(string dataPath, IWorkspaceFolder rootFolderData, bool generateJobEngineData)
         {
-            SaveXML(dataPath, rootFolderData, generateJobEngineData);
+            //SaveXML(dataPath, rootFolderData, generateJobEngineData);
 
             string FilePathName = Path.Combine(dataPath, "Jobs.dat");
             BinaryFormatter Serializer = new BinaryFormatter();

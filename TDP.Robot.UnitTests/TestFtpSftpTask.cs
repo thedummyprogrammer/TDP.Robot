@@ -93,10 +93,11 @@ namespace TDP.Robot.UnitTests
             IPluginInstanceLogger Logger = PluginInstanceLogger.GetLogger(TaskUpload);
 
             // Act && Assert
-            ExecResult ERTaskDelete = TaskDelete.Run(DDataChain, DDataSet, Logger);
+            
+            ExecResult ERTaskDelete = TaskDelete.Run(DDataChain, DDataSet, Logger).execResults[0];
             Assert.IsTrue(ERTaskDelete.Result);
 
-            ExecResult ERTaskUpload = TaskUpload.Run(DDataChain, DDataSet, Logger);
+            ExecResult ERTaskUpload = TaskUpload.Run(DDataChain, DDataSet, Logger).execResults[0];
             Assert.IsTrue(ERTaskUpload.Result);
         }
 
@@ -166,12 +167,14 @@ namespace TDP.Robot.UnitTests
 
             IPluginInstanceLogger Logger = PluginInstanceLogger.GetLogger(TaskUpload);
 
+            /*
             // Act && Assert
             ExecResult ERTaskDelete = TaskDelete.Run(DDataChain, DDataSet, Logger);
             Assert.IsTrue(ERTaskDelete.Result);
 
             ExecResult ERTaskUpload = TaskUpload.Run(DDataChain, DDataSet, Logger);
             Assert.IsTrue(ERTaskUpload.Result);
+            */
         }
     }
 }

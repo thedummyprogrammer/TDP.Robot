@@ -24,5 +24,6 @@ namespace TDP.Robot.JobEngineLib
         internal const string DefaultLogPath = @"Log\";
         internal const string DefaultLibPath = @"Lib\";
         internal const string DefaultDataPath = @"Data\";
+        internal const bool DefaultSerialExecution = false;
     }
 }

@@ -244,6 +244,7 @@
     </Compile>
     <Compile Include="RESTApiTask\RESTApiHeader.cs" />
     <Compile Include="RESTApiTask\RESTApiTask.cs" />
+    <Compile Include="RESTApiTask\RESTApiTaskCommon.cs" />
     <Compile Include="RESTApiTask\RESTApiTaskConfig.cs" />
     <Compile Include="RESTApiTask\RESTApiTaskPlugin.cs" />
     <Compile Include="RESTApiTask\WndHeader.cs">
@@ -348,13 +349,13 @@
     <Compile Include="TDPRobotServiceStartEvent\WndTDPRobotServiceStartEventConfig.Designer.cs">
       <DependentUpon>WndTDPRobotServiceStartEventConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Unzip\UnzipTask.cs" />
-    <Compile Include="Unzip\UnzipTaskConfig.cs" />
-    <Compile Include="Unzip\UnzipTaskPlugin.cs" />
-    <Compile Include="Unzip\WndUnzipTaskConfig.cs">
+    <Compile Include="UnzipTask\UnzipTask.cs" />
+    <Compile Include="UnzipTask\UnzipTaskConfig.cs" />
+    <Compile Include="UnzipTask\UnzipTaskPlugin.cs" />
+    <Compile Include="UnzipTask\WndUnzipTaskConfig.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Unzip\WndUnzipTaskConfig.Designer.cs">
+    <Compile Include="UnzipTask\WndUnzipTaskConfig.Designer.cs">
       <DependentUpon>WndUnzipTaskConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="WriteTextFileTask\WndColumn.cs">
@@ -487,7 +488,7 @@
     <EmbeddedResource Include="TDPRobotServiceStartEvent\WndTDPRobotServiceStartEventConfig.resx">
       <DependentUpon>WndTDPRobotServiceStartEventConfig.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Unzip\WndUnzipTaskConfig.resx">
+    <EmbeddedResource Include="UnzipTask\WndUnzipTaskConfig.resx">
       <DependentUpon>WndUnzipTaskConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WriteTextFileTask\WndColumn.resx">
