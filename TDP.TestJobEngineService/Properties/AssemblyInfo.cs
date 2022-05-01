@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("TestJobEngineService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("https://www.thedummyprogrammer.com")]
 [assembly: AssemblyProduct("TestJobEngineService")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright ©  2021 - 2022 by The Dummy Programmer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
