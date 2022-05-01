@@ -116,6 +116,7 @@ namespace TDP.Robot.Plugins.Core.RunProgramTask
             this.BtnBrowseWorkingFolder.TabIndex = 39;
             this.BtnBrowseWorkingFolder.Text = "...";
             this.BtnBrowseWorkingFolder.UseVisualStyleBackColor = true;
+            this.BtnBrowseWorkingFolder.Click += new System.EventHandler(this.BtnBrowseWorkingFolder_Click);
             // 
             // BtnDynDataParameters
             // 
@@ -145,6 +146,7 @@ namespace TDP.Robot.Plugins.Core.RunProgramTask
             this.BtnBrowseProgramPath.TabIndex = 35;
             this.BtnBrowseProgramPath.Text = "...";
             this.BtnBrowseProgramPath.UseVisualStyleBackColor = true;
+            this.BtnBrowseProgramPath.Click += new System.EventHandler(this.BtnBrowseProgramPath_Click);
             // 
             // TxtWorkingFolder
             // 

@@ -39,6 +39,7 @@ namespace TDP.Robot.Core
         public const string ExecutionStartDateHour = "ExecutionStartDateHour";
         public const string ExecutionStartDateMinute = "ExecutionStartDateMinute";
         public const string ExecutionStartDateSecond = "ExecutionStartDateSecond";
+        public const string ExecutionStartDateTicks = "ExecutionStartDateTicks";
 
         public const string ExecutionEndDate = "ExecutionEndDate";
         public const string ExecutionEndDateYear = "ExecutionEndDateYear";
@@ -47,6 +48,7 @@ namespace TDP.Robot.Core
         public const string ExecutionEndDateHour = "ExecutionEndDateHour";
         public const string ExecutionEndDateMinute = "ExecutionEndDateMinute";
         public const string ExecutionEndDateSecond = "ExecutionEndDateSecond";
+        public const string ExecutionEndDateTicks = "ExecutionEndDateTicks";
 
         public const string NumberOfIterations = "NumberOfIterations";
 
@@ -68,6 +70,7 @@ namespace TDP.Robot.Core
             DDataSet.Add(ExecutionStartDateHour, executionStartDate.Hour);
             DDataSet.Add(ExecutionStartDateMinute, executionStartDate.Minute);
             DDataSet.Add(ExecutionStartDateSecond, executionStartDate.Second);
+            DDataSet.Add(ExecutionStartDateTicks, executionStartDate.Ticks);
 
             DDataSet.Add(ExecutionEndDate, executionEndDate);
             DDataSet.Add(ExecutionEndDateYear, executionEndDate.Year);
@@ -76,6 +79,7 @@ namespace TDP.Robot.Core
             DDataSet.Add(ExecutionEndDateHour, executionEndDate.Hour);
             DDataSet.Add(ExecutionEndDateMinute, executionEndDate.Minute);
             DDataSet.Add(ExecutionEndDateSecond, executionEndDate.Second);
+            DDataSet.Add(ExecutionEndDateTicks, executionEndDate.Ticks);
 
             DDataSet.Add(NumberOfIterations, numberOfIterations);
 
@@ -98,6 +102,7 @@ namespace TDP.Robot.Core
                 new DynamicDataSample(ExecutionStartDateHour, Resource.TxtDynDataExecutionStartDateHour, "18"),
                 new DynamicDataSample(ExecutionStartDateMinute, Resource.TxtDynDataExecutionStartDateMinute, "30"),
                 new DynamicDataSample(ExecutionStartDateSecond, Resource.TxtDynDataExecutionStartDateSecond, "0"),
+                new DynamicDataSample(ExecutionStartDateTicks, Resource.TxtDynDataExecutionStartDateTicks, "3847458755"),
 
                 new DynamicDataSample(ExecutionEndDate, Resource.TxtDynDataExecutionEndDate, "02/20/2021 18:30:00"),
                 new DynamicDataSample(ExecutionEndDateYear, Resource.TxtDynDataExecutionEndDateYear, "2021"),
@@ -105,7 +110,7 @@ namespace TDP.Robot.Core
                 new DynamicDataSample(ExecutionEndDateDay, Resource.TxtDynDataExecutionEndDateDay, "20"),
                 new DynamicDataSample(ExecutionEndDateHour, Resource.TxtDynDataExecutionEndDateHour, "18"),
                 new DynamicDataSample(ExecutionEndDateMinute, Resource.TxtDynDataExecutionEndDateMinute, "30"),
-                new DynamicDataSample(ExecutionEndDateSecond, Resource.TxtDynDataExecutionEndDateSecond, "0"),
+                new DynamicDataSample(ExecutionEndDateSecond, Resource.TxtDynDataExecutionEndDateSecond, "3847458755"),
 
                 new DynamicDataSample(NumberOfIterations, Resource.TxtDynDataNumberOfIterations, "10")
             };

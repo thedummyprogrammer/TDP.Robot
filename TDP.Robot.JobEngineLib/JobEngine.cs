@@ -116,20 +116,21 @@ namespace TDP.Robot.JobEngineLib
         {
             Task T = new Task(() =>
             {
+                ITask TaskCopy = null;
                 try
                 {
-                    ITask TaskCopy = (ITask)CoreHelpers.CloneObjects(task);
+                    TaskCopy = (ITask)CoreHelpers.CloneObjects(task);
                     DynamicDataSet LastDataSetCopy = (DynamicDataSet)CoreHelpers.CloneObjects(lastDynamicDataSet);
 
-                    if (!task.Config.DoNotLog)
-                        instanceLogger.TaskStarting(task);
-                    InstanceExecResult InstExecResult = task.Run(dataChain, LastDataSetCopy, instanceLogger);
-                    if (!task.Config.DoNotLog)
-                        instanceLogger.TaskEnded(task);
+                    if (!TaskCopy.Config.DoNotLog)
+                        instanceLogger.TaskStarting(TaskCopy);
+                    InstanceExecResult InstExecResult = TaskCopy.Run(dataChain, LastDataSetCopy, instanceLogger);
+                    if (!TaskCopy.Config.DoNotLog)
+                        instanceLogger.TaskEnded(TaskCopy);
 
-                    if (task.Connections != null)
+                    if (TaskCopy.Connections != null)
                     {
-                        foreach (PluginInstanceConnection Connection in task.Connections)
+                        foreach (PluginInstanceConnection Connection in TaskCopy.Connections)
                         {
                             if (Connection.Disable)
                                 continue;
@@ -147,7 +148,7 @@ namespace TDP.Robot.JobEngineLib
                                 if (Connection.EvaluateExecConditions(ExecRes))
                                 {
                                     DynamicDataChain DataChainCopy = (DynamicDataChain)CoreHelpers.CloneObjects(dataChain);
-                                    DataChainCopy.Add(task.ID, ExecRes.Data);
+                                    DataChainCopy.Add(TaskCopy.ID, ExecRes.Data);
                                     ExecuteTask(NextTask, DataChainCopy, ExecRes.Data, instanceLogger);
                                 }
                             }
@@ -156,7 +157,10 @@ namespace TDP.Robot.JobEngineLib
                 }
                 catch (Exception ex)
                 {
-                    instanceLogger.Error(task, "ExecuteTask", ex);
+                    if (TaskCopy != null)
+                        instanceLogger.Error(TaskCopy, "ExecuteTask", ex);
+                    else
+                        instanceLogger.Error("ExecuteTask: TaskCopy object is null.", ex);
                 }
             });
             T.Start();

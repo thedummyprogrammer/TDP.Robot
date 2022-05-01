@@ -159,6 +159,9 @@
   <data name="TxtDynDataExecutionEndDateSecond" xml:space="preserve">
     <value>Execution end date (second)</value>
   </data>
+  <data name="TxtDynDataExecutionEndDateTicks" xml:space="preserve">
+    <value>Execution end date (ticks)</value>
+  </data>
   <data name="TxtDynDataExecutionEndDateYear" xml:space="preserve">
     <value>Execution end date (year)</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="TxtDynDataExecutionStartDateSecond" xml:space="preserve">
     <value>Execution start date (second)</value>
+  </data>
+  <data name="TxtDynDataExecutionStartDateTicks" xml:space="preserve">
+    <value>Execution start date (ticks)</value>
   </data>
   <data name="TxtDynDataExecutionStartDateYear" xml:space="preserve">
     <value>Execution start date (year)</value>
