@@ -196,6 +196,33 @@ namespace TDP.Robot.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Execution end date (separated by underscores).
+        /// </summary>
+        internal static string TxtDynDataExecutionEndDateUnderscore {
+            get {
+                return ResourceManager.GetString("TxtDynDataExecutionEndDateUnderscore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execution end date (only date, separated by underscores).
+        /// </summary>
+        internal static string TxtDynDataExecutionEndDateUnderscoreDate {
+            get {
+                return ResourceManager.GetString("TxtDynDataExecutionEndDateUnderscoreDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execution end date (only time, separated by underscores).
+        /// </summary>
+        internal static string TxtDynDataExecutionEndDateUnderscoreTime {
+            get {
+                return ResourceManager.GetString("TxtDynDataExecutionEndDateUnderscoreTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Execution end date (year).
         /// </summary>
         internal static string TxtDynDataExecutionEndDateYear {
@@ -282,6 +309,33 @@ namespace TDP.Robot.Core {
         internal static string TxtDynDataExecutionStartDateTicks {
             get {
                 return ResourceManager.GetString("TxtDynDataExecutionStartDateTicks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execution start date (separated by underscores).
+        /// </summary>
+        internal static string TxtDynDataExecutionStartDateUnderscore {
+            get {
+                return ResourceManager.GetString("TxtDynDataExecutionStartDateUnderscore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execution start date (only date, separated by underscores).
+        /// </summary>
+        internal static string TxtDynDataExecutionStartDateUnderscoreDate {
+            get {
+                return ResourceManager.GetString("TxtDynDataExecutionStartDateUnderscoreDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execution start date (only time, separated by underscores).
+        /// </summary>
+        internal static string TxtDynDataExecutionStartDateUnderscoreTime {
+            get {
+                return ResourceManager.GetString("TxtDynDataExecutionStartDateUnderscoreTime", resourceCulture);
             }
         }
         

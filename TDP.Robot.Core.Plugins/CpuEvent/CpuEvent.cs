@@ -66,7 +66,7 @@ namespace TDP.Robot.Plugins.Core.CpuEvent
         private CounterSample _LastSample;
 
         [field: NonSerialized]
-        private List<CpuUsageSample> _CpuUsageSamples = new List<CpuUsageSample>();
+        private List<CpuUsageSample> _CpuUsageSamples;
 
         [field: NonSerialized]
         private DateTime _DateLastTrigger;
@@ -92,6 +92,7 @@ namespace TDP.Robot.Plugins.Core.CpuEvent
 
         public void Init()
         {
+            _CpuUsageSamples = new List<CpuUsageSample>();
             _RecurringTimer = new System.Timers.Timer();
             _RecurringTimer.Enabled = false;
             _RecurringTimer.AutoReset = true;

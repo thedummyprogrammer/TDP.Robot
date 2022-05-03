@@ -64,7 +64,7 @@ namespace TDP.Robot.Plugins.Core.MemoryEvent
         private ComputerInfo _ComputerInfo;
 
         [field: NonSerialized]
-        private List<MemoryUsageSample> _MemoryUsageSamples = new List<MemoryUsageSample>();
+        private List<MemoryUsageSample> _MemoryUsageSamples;
 
         [field: NonSerialized]
         private DateTime _DateLastTrigger;
@@ -90,6 +90,7 @@ namespace TDP.Robot.Plugins.Core.MemoryEvent
 
         public void Init()
         {
+            _MemoryUsageSamples = new List<MemoryUsageSample>();
             _RecurringTimer = new System.Timers.Timer();
             _RecurringTimer.Enabled = false;
             _RecurringTimer.AutoReset = true;

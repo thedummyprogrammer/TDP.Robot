@@ -40,6 +40,9 @@ namespace TDP.Robot.Core
         public const string ExecutionStartDateMinute = "ExecutionStartDateMinute";
         public const string ExecutionStartDateSecond = "ExecutionStartDateSecond";
         public const string ExecutionStartDateTicks = "ExecutionStartDateTicks";
+        public const string ExecutionStartDateUnderscore = "ExecutionStartDateUnderscore";
+        public const string ExecutionStartDateUnderscoreDate = "ExecutionStartDateUnderscoreDate";
+        public const string ExecutionStartDateUnderscoreTime = "ExecutionStartDateUnderscoreTime";
 
         public const string ExecutionEndDate = "ExecutionEndDate";
         public const string ExecutionEndDateYear = "ExecutionEndDateYear";
@@ -49,6 +52,9 @@ namespace TDP.Robot.Core
         public const string ExecutionEndDateMinute = "ExecutionEndDateMinute";
         public const string ExecutionEndDateSecond = "ExecutionEndDateSecond";
         public const string ExecutionEndDateTicks = "ExecutionEndDateTicks";
+        public const string ExecutionEndDateUnderscore = "ExecutionEndDateUnderscore";
+        public const string ExecutionEndDateUnderscoreDate = "ExecutionEndDateUnderscoreDate";
+        public const string ExecutionEndDateUnderscoreTime = "ExecutionEndDateUnderscoreTime";
 
         public const string NumberOfIterations = "NumberOfIterations";
 
@@ -71,6 +77,9 @@ namespace TDP.Robot.Core
             DDataSet.Add(ExecutionStartDateMinute, executionStartDate.Minute);
             DDataSet.Add(ExecutionStartDateSecond, executionStartDate.Second);
             DDataSet.Add(ExecutionStartDateTicks, executionStartDate.Ticks);
+            DDataSet.Add(ExecutionStartDateUnderscore, $"{executionStartDate:dd_MM_yyyy_HH_mm_ss}");
+            DDataSet.Add(ExecutionStartDateUnderscoreDate, $"{executionStartDate:dd_MM_yyyy}");
+            DDataSet.Add(ExecutionStartDateUnderscoreTime, $"{executionStartDate:HH_mm_ss}");
 
             DDataSet.Add(ExecutionEndDate, executionEndDate);
             DDataSet.Add(ExecutionEndDateYear, executionEndDate.Year);
@@ -80,6 +89,9 @@ namespace TDP.Robot.Core
             DDataSet.Add(ExecutionEndDateMinute, executionEndDate.Minute);
             DDataSet.Add(ExecutionEndDateSecond, executionEndDate.Second);
             DDataSet.Add(ExecutionEndDateTicks, executionEndDate.Ticks);
+            DDataSet.Add(ExecutionEndDateUnderscore, $"{executionEndDate:dd_MM_yyyy_HH_mm_ss}");
+            DDataSet.Add(ExecutionEndDateUnderscoreDate, $"{executionEndDate:dd_MM_yyyy}");
+            DDataSet.Add(ExecutionEndDateUnderscoreTime, $"{executionEndDate:HH_mm_ss}");
 
             DDataSet.Add(NumberOfIterations, numberOfIterations);
 
@@ -103,6 +115,9 @@ namespace TDP.Robot.Core
                 new DynamicDataSample(ExecutionStartDateMinute, Resource.TxtDynDataExecutionStartDateMinute, "30"),
                 new DynamicDataSample(ExecutionStartDateSecond, Resource.TxtDynDataExecutionStartDateSecond, "0"),
                 new DynamicDataSample(ExecutionStartDateTicks, Resource.TxtDynDataExecutionStartDateTicks, "3847458755"),
+                new DynamicDataSample(ExecutionStartDateUnderscore, Resource.TxtDynDataExecutionStartDateUnderscore, "2021_02_20_18_30_00"),
+                new DynamicDataSample(ExecutionStartDateUnderscoreDate, Resource.TxtDynDataExecutionStartDateUnderscoreDate, "2021_02_20"),
+                new DynamicDataSample(ExecutionStartDateUnderscoreTime, Resource.TxtDynDataExecutionStartDateUnderscoreTime, "18_30_00"),
 
                 new DynamicDataSample(ExecutionEndDate, Resource.TxtDynDataExecutionEndDate, "02/20/2021 18:30:00"),
                 new DynamicDataSample(ExecutionEndDateYear, Resource.TxtDynDataExecutionEndDateYear, "2021"),
@@ -110,7 +125,11 @@ namespace TDP.Robot.Core
                 new DynamicDataSample(ExecutionEndDateDay, Resource.TxtDynDataExecutionEndDateDay, "20"),
                 new DynamicDataSample(ExecutionEndDateHour, Resource.TxtDynDataExecutionEndDateHour, "18"),
                 new DynamicDataSample(ExecutionEndDateMinute, Resource.TxtDynDataExecutionEndDateMinute, "30"),
-                new DynamicDataSample(ExecutionEndDateSecond, Resource.TxtDynDataExecutionEndDateSecond, "3847458755"),
+                new DynamicDataSample(ExecutionEndDateSecond, Resource.TxtDynDataExecutionEndDateSecond, "0"),
+                new DynamicDataSample(ExecutionEndDateTicks, Resource.TxtDynDataExecutionEndDateTicks, "3847458755"),
+                new DynamicDataSample(ExecutionEndDateUnderscore, Resource.TxtDynDataExecutionEndDateUnderscore, "2021_02_20_18_30_00"),
+                new DynamicDataSample(ExecutionEndDateUnderscoreDate, Resource.TxtDynDataExecutionEndDateUnderscoreDate, "2021_02_20"),
+                new DynamicDataSample(ExecutionEndDateUnderscoreTime, Resource.TxtDynDataExecutionEndDateUnderscoreTime, "18_30_00"),
 
                 new DynamicDataSample(NumberOfIterations, Resource.TxtDynDataNumberOfIterations, "10")
             };
