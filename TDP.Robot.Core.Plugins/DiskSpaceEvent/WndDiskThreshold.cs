@@ -94,15 +94,20 @@ namespace TDP.Robot.Plugins.Core.DiskSpaceEvent
                 if (CmbCheckOperator.SelectedIndex < 0)
                     SetError(CmbCheckOperator, Resource.TxtFieldCannotBeEmpty);
 
-                if (DataValidationHelper.IsEmptyString(TxtThreshold.Text))
-                    SetError(TxtThreshold, Resource.TxtFieldCannotBeEmpty);
-                else if (((DiskThresholdUnitMeasure)CmbCheckOperator.SelectedValue) != DiskThresholdUnitMeasure.Terabytes && !DataValidationHelper.IsInteger(TxtThreshold.Text, _ThresholdMaxLength, _ThresholdMinValue, _ThresholdMaxValue))
-                    SetError(TxtThreshold, string.Format(Resource.TxtMustBeANumberBetweenXAndY, _ThresholdMinValue, _ThresholdMaxValue));
-                else if (((DiskThresholdUnitMeasure)CmbCheckOperator.SelectedValue) == DiskThresholdUnitMeasure.Terabytes && !DataValidationHelper.IsInteger(TxtThreshold.Text, _ThresholdMaxLengthTB, _ThresholdMinValue, _ThresholdMaxValueTB))
-                    SetError(TxtThreshold, string.Format(Resource.TxtMustBeANumberBetweenXAndY, _ThresholdMinValue, _ThresholdMaxValueTB));
-
                 if (CmbUnitMeasure.SelectedIndex < 0)
                     SetError(CmbUnitMeasure, Resource.TxtFieldCannotBeEmpty);
+
+                if (GetErrorCount() > 0)
+                    return;
+
+                ListItem<DiskThresholdUnitMeasure> ItemUnitMeasure = (ListItem<DiskThresholdUnitMeasure>)CmbUnitMeasure.SelectedItem;
+
+                if (DataValidationHelper.IsEmptyString(TxtThreshold.Text))
+                    SetError(TxtThreshold, Resource.TxtFieldCannotBeEmpty);
+                else if (ItemUnitMeasure.Value != DiskThresholdUnitMeasure.Terabytes && !DataValidationHelper.IsInteger(TxtThreshold.Text, _ThresholdMaxLength, _ThresholdMinValue, _ThresholdMaxValue))
+                    SetError(TxtThreshold, string.Format(Resource.TxtMustBeANumberBetweenXAndY, _ThresholdMinValue, _ThresholdMaxValue));
+                else if (ItemUnitMeasure.Value == DiskThresholdUnitMeasure.Terabytes && !DataValidationHelper.IsInteger(TxtThreshold.Text, _ThresholdMaxLengthTB, _ThresholdMinValue, _ThresholdMaxValueTB))
+                    SetError(TxtThreshold, string.Format(Resource.TxtMustBeANumberBetweenXAndY, _ThresholdMinValue, _ThresholdMaxValueTB));
             }
             finally
             {

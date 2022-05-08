@@ -161,6 +161,8 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
         {
             CanvasHeight = 0;
             CanvasWidth = 0;
+            IWorkspaceItemIcon AnIcon = null;
+            Point InitialScrollPos = _Container.AutoScrollOffset;
 
             _RootFolder.CurrentFolder.Where(I => I is IWorkspaceItemBase)
                     .ToList().ForEach(I =>
@@ -168,6 +170,9 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
                         if (I is IWorkspaceItemIcon)
                         {
                             IWorkspaceItemIcon IIcon = (IWorkspaceItemIcon)I;
+                            if (AnIcon == null)
+                                AnIcon = IIcon;
+
                             if ((IIcon.Location.X + IIcon.ItemIcon.Width + (Config.ItemHandleSize * 2)) > CanvasWidth)
                             {
                                 CanvasWidth = IIcon.Location.X + IIcon.ItemIcon.Width + (Config.ItemHandleSize * 2);
@@ -177,15 +182,19 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
                             {
                                 CanvasHeight = IIcon.Location.Y + IIcon.ItemIcon.Height + IIcon.NameHeight;
                             }
-
-                            // Add more space...
-                            CanvasWidth += IIcon.ItemIcon.Width * 3;
-                            CanvasHeight += IIcon.ItemIcon.Height * 1;
-
-                            _Container.Width = Math.Max((int)CanvasWidth, (int)WindowClientWidth);
-                            _Container.Height = Math.Max((int)CanvasHeight, (int)WindowClientHeight);
                         }
                     });
+
+            // Add more space...
+            if (AnIcon != null)
+            {
+                CanvasWidth += AnIcon.ItemIcon.Width + (Config.ItemHandleSize * 2);
+                CanvasHeight += AnIcon.ItemIcon.Height + AnIcon.NameHeight;
+            }
+
+            _Container.Width = Math.Max((int)CanvasWidth, (int)WindowClientWidth);
+            _Container.Height = Math.Max((int)CanvasHeight, (int)WindowClientHeight);
+            _Container.AutoScrollOffset = InitialScrollPos;
         }
 
         private ContextMenu BuildContextMenu()
