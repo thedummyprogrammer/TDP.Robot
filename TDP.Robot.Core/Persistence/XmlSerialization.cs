@@ -330,6 +330,7 @@ namespace TDP.Robot.Core.Persistence
             XmlEl.Attributes.Append(XmlRefAttr);
             XmlEl.Attributes.Append(CreateTypeAttribute(objectToSerialize));
 
+            // Take care of parent classes!
             Type CurrentType = ObjectType;
             do
             {

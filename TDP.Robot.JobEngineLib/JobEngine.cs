@@ -61,7 +61,7 @@ namespace TDP.Robot.JobEngineLib
             try
             {
                 _Log.Info("Loading jobs data...");
-                Common.RootFolder = JobsPersistence.Load(DataPath, new PluginBinder(Common.PluginTypes));
+                Common.RootFolder = JobsPersistence.LoadXML(DataPath, Common.PluginTypes);
             }
             catch (Exception ex)
             {

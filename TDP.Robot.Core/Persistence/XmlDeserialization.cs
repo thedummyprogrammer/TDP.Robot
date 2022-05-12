@@ -193,7 +193,17 @@ namespace TDP.Robot.Core.Persistence
             int RefObjectID = -1;
             int ThisObjectID = int.Parse(xmlObject.GetAttribute(XmlCommon.RefIDAttributeName));
 
-            FieldInfo[] Fields = ObjType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            // Take care of parent classes!
+            List<FieldInfo> FieldList = new List<FieldInfo>();
+            Type CurrentType = ObjType;
+            do
+            {
+                FieldInfo[] TypeFields = CurrentType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                FieldList.AddRange(TypeFields);
+                CurrentType = CurrentType.BaseType;
+            } while (CurrentType != null);
+            FieldInfo[] Fields = FieldList.ToArray();
+
             object ObjClass = CreateObjectInstance(ObjType);
 
             bool ObjectExists = CheckIfObjectExists(ThisObjectID, out object ThisObject);
