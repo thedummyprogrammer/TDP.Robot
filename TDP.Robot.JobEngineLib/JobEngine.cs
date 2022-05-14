@@ -37,6 +37,8 @@ namespace TDP.Robot.JobEngineLib
         private List<ITask> _Tasks;
         private string _BasePath;
 
+        private System.Timers.Timer _LogCleanTimer;
+
         private string GetLogPath()
         {
             return Path.Combine(_BasePath, Config.LogPath);
@@ -240,6 +242,27 @@ namespace TDP.Robot.JobEngineLib
                     return;
                 }
 
+                // Set the timer to clean logs
+                if (Config.CleanUpLogsOlderThanHours > 0)
+                {
+                    try
+                    {
+                        // Trigger a clean up at service startup
+                        _Log.Info("Cleaning up old logs on initialization");
+                        CleanUpLog(Config.LogPath, Config.CleanUpLogsOlderThanHours);
+                    }
+                    catch (Exception ex)
+                    {
+                        _Log.Error("An error occurred while cleaning up old logs on initialization", ex);
+                    }
+
+                    _LogCleanTimer = new System.Timers.Timer();
+                    _LogCleanTimer.Interval = new TimeSpan(0, Config.CleanUpLogsIntervalHours, 0, 0).TotalMilliseconds;
+                    _LogCleanTimer.Enabled = true;
+                    _LogCleanTimer.AutoReset = true;
+                    _LogCleanTimer.Elapsed += _LogCleanTimer_Elapsed;
+                }
+
                 // Initializes events and tasks
                 _Log.Info("Starting events initialization");
                 _Events = GetEventList(Common.RootFolder);
@@ -276,7 +299,46 @@ namespace TDP.Robot.JobEngineLib
             {
                 _Log.Error("An error occurred while starting JobEngine.", ex);
             }
-        }        
+        }
+
+        private bool IsDirectoryEmpty(string directoryPath)
+        {
+            return (Directory.GetFiles(directoryPath).Length == 0 && Directory.GetDirectories(directoryPath).Length == 0);
+        }
+
+        private void CleanUpLog(string logPath, int cleanUpLogsOlderThanHours)
+        {
+            DateTime DateLimit = DateTime.Now.AddHours(-cleanUpLogsOlderThanHours);
+            string[] Files = Directory.GetFiles(logPath);
+            foreach (string FullPathFileName in Files)
+            {
+                FileInfo FI = new FileInfo(FullPathFileName);
+                if (FI.CreationTime < DateLimit)
+                    FI.Delete();
+            }
+
+            string[] Directories = Directory.GetDirectories(logPath);
+            foreach (string FullPathDirectoryName in Directories)
+            {
+                CleanUpLog(FullPathDirectoryName, cleanUpLogsOlderThanHours);
+                if (IsDirectoryEmpty(FullPathDirectoryName))
+                    Directory.Delete(FullPathDirectoryName);
+            }
+        }
+
+        private void _LogCleanTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                _Log.Info("Cleaning up old logs");
+                CleanUpLog(Config.LogPath, Config.CleanUpLogsOlderThanHours);
+
+            }
+            catch (Exception ex)
+            {
+                _Log.Error("An error occurred while cleaning up old logs", ex);
+            }
+        }
 
         public void Stop()
         {

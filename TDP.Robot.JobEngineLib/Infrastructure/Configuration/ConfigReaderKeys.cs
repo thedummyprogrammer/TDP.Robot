@@ -25,5 +25,7 @@ namespace TDP.Robot.JobEngineLib.Infrastructure.Configuration
         internal const string KeyLibPath = "JobEngine:LibPath";
         internal const string KeyDataPath = "JobEngine:DataPath";
         internal const string KeySerialExecution = "JobEngine:SerialExecution";
+        internal const string CleanUpLogsOlderThanHours = "JobEngine:CleanUpLogsOlderThanHours";
+        internal const string CleanUpLogsIntervalHours = "JobEngine:CleanUpLogsIntervalHours";
     }
 }
