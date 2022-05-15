@@ -159,6 +159,18 @@
   <data name="TxtDynDataExecutionEndDateSecond" xml:space="preserve">
     <value>Execution end date (second)</value>
   </data>
+  <data name="TxtDynDataExecutionEndDateTicks" xml:space="preserve">
+    <value>Execution end date (ticks)</value>
+  </data>
+  <data name="TxtDynDataExecutionEndDateUnderscore" xml:space="preserve">
+    <value>Execution end date (separated by underscores)</value>
+  </data>
+  <data name="TxtDynDataExecutionEndDateUnderscoreDate" xml:space="preserve">
+    <value>Execution end date (only date, separated by underscores)</value>
+  </data>
+  <data name="TxtDynDataExecutionEndDateUnderscoreTime" xml:space="preserve">
+    <value>Execution end date (only time, separated by underscores)</value>
+  </data>
   <data name="TxtDynDataExecutionEndDateYear" xml:space="preserve">
     <value>Execution end date (year)</value>
   </data>
@@ -185,6 +197,18 @@
   </data>
   <data name="TxtDynDataExecutionStartDateSecond" xml:space="preserve">
     <value>Execution start date (second)</value>
+  </data>
+  <data name="TxtDynDataExecutionStartDateTicks" xml:space="preserve">
+    <value>Execution start date (ticks)</value>
+  </data>
+  <data name="TxtDynDataExecutionStartDateUnderscore" xml:space="preserve">
+    <value>Execution start date (separated by underscores)</value>
+  </data>
+  <data name="TxtDynDataExecutionStartDateUnderscoreDate" xml:space="preserve">
+    <value>Execution start date (only date, separated by underscores)</value>
+  </data>
+  <data name="TxtDynDataExecutionStartDateUnderscoreTime" xml:space="preserve">
+    <value>Execution start date (only time, separated by underscores)</value>
   </data>
   <data name="TxtDynDataExecutionStartDateYear" xml:space="preserve">
     <value>Execution start date (year)</value>

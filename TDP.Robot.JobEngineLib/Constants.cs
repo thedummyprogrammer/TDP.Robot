@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -24,5 +24,8 @@ namespace TDP.Robot.JobEngineLib
         internal const string DefaultLogPath = @"Log\";
         internal const string DefaultLibPath = @"Lib\";
         internal const string DefaultDataPath = @"Data\";
+        internal const bool DefaultSerialExecution = false;
+        internal const int CleanUpLogsOlderThanHours = 0;
+        internal const int CleanUpLogsIntervalHours = 0;
     }
 }

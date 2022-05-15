@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -134,7 +134,7 @@ namespace TDP.Robot.Plugins.Core.DateTimeEvent
         }
 
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             bool EnableOneTimeTimer = false;
             bool EnableRecurringTimer = false;
@@ -163,7 +163,9 @@ namespace TDP.Robot.Plugins.Core.DateTimeEvent
             else if (EnableRecurringTimer)
                 _RecurringTimer.Enabled = true;
 
-            return new ExecResult(true, null);
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
     }
 }

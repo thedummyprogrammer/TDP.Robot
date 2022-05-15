@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -99,7 +99,7 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
 
         public static void Save(string dataPath, IWorkspaceFolder rootFolderData, bool generateJobEngineData)
         {
-            SaveXML(dataPath, rootFolderData, generateJobEngineData);
+            //SaveXML(dataPath, rootFolderData, generateJobEngineData);
 
             string FilePathName = Path.Combine(dataPath, "Jobs.dat");
             BinaryFormatter Serializer = new BinaryFormatter();

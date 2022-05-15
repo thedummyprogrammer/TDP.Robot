@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("https://www.thedummyprogrammer.com")]
 [assembly: AssemblyProduct("TDP.Robot.Core.Plugins")]
-[assembly: AssemblyCopyright("Copyright ©  2021 by The Dummy Programmer")]
+[assembly: AssemblyCopyright("Copyright ©  2021 - 2022 by The Dummy Programmer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.80.0.0")]
-[assembly: AssemblyFileVersion("0.80.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

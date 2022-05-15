@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -33,25 +33,9 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.ReadTextFileTask
 {
     [Serializable]
-    public class ReadTextFileTask : ITask
+    public class ReadTextFileTask : IterationTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
-
-        private Dictionary<string, CultureInfo> _CultureInfoCache = new Dictionary<string, CultureInfo>();
-
-        public void Init()
-        {
-
-        }
-
-        public void Destroy()
-        {
-            
-        }
+        
 
         private string[] BuildDelimitersArray(ReadTextFileTaskConfig config)
         {
@@ -218,197 +202,172 @@ namespace TDP.Robot.Plugins.Core.ReadTextFileTask
             }
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        protected override void RunIteration(int currentIteration)
         {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
-
+            // For this kind of objects consider only one iteration
+            ReadTextFileTaskConfig TConfig = (ReadTextFileTaskConfig)_iterationConfig;
             DataTable DefaultRecordset = new DataTable();
+            _defaultRecordset = DefaultRecordset;
 
-            int ActualIterations = 0;
-            int CurrentRow = 1;
+            // If columns definition have been overriden, build the datatable according to user definition
+            if (TConfig.OverrideDefaultColumnsDefinition)
+                BuildCustomDataTable(DefaultRecordset, TConfig);
 
-            try
+            using (TextFieldParser FileParser = new TextFieldParser(TConfig.FilePath))
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
-
-                ReadTextFileTaskConfig TConfig = (ReadTextFileTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-                if (IterationsCount > 0)
+                if (TConfig.SplitColumnsType == ReadTextFileSplitColumnsType.UseDelimiters)
                 {
-                    ActualIterations = 1;
+                    FileParser.TextFieldType = FieldType.Delimited;
+                    FileParser.Delimiters = BuildDelimitersArray(TConfig);
+                    FileParser.HasFieldsEnclosedInQuotes = TConfig.UseDoubleQuotes;
+                }
 
-                    // For this kind of objects consider only one iteration
-                    ReadTextFileTaskConfig ConfigCopy = (ReadTextFileTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, 0);
+                int ReadFromRow = 0;
+                int ReadToRow = 0;
+                int CurrentRow = 1;
 
-                    // If columns definition have been overriden, build the datatable according to user definition
-                    if (ConfigCopy.OverrideDefaultColumnsDefinition)
-                        BuildCustomDataTable(DefaultRecordset, ConfigCopy);
-
-                    using (TextFieldParser FileParser = new TextFieldParser(ConfigCopy.FilePath))
+                if (TConfig.ReadAllTheRowsOption)
+                {
+                    while (!FileParser.EndOfData)
                     {
-                        if (ConfigCopy.SplitColumnsType == ReadTextFileSplitColumnsType.UseDelimiters)
+                        try
                         {
-                            FileParser.TextFieldType = FieldType.Delimited;
-                            FileParser.Delimiters = BuildDelimitersArray(ConfigCopy);
-                            FileParser.HasFieldsEnclosedInQuotes = ConfigCopy.UseDoubleQuotes;
-                        }
+                            string[] Row = ReadRow(FileParser, TConfig);
 
-                        int ReadFromRow = 0;
-                        int ReadToRow = 0;
-
-                        if (TConfig.ReadAllTheRowsOption)
-                        {
-                            while (!FileParser.EndOfData)
+                            if (CurrentRow == 1 && TConfig.SkipFirstLine)
                             {
-                                try
-                                {
-                                    string[] Row = ReadRow(FileParser, ConfigCopy);
-
-                                    if (CurrentRow == 1 && ConfigCopy.SkipFirstLine)
-                                    {
-                                        CurrentRow++;
-                                        continue;
-                                    }
-
-                                    AddRow(CurrentRow, Row, ConfigCopy, DefaultRecordset);
-                                }
-                                catch (MalformedLineException ex)
-                                {
-                                    instanceLogger.Error(this, "Error parsing line", ex);
-                                }
-
                                 CurrentRow++;
+                                continue;
+                            }
+
+                            AddRow(CurrentRow, Row, TConfig, DefaultRecordset);
+                        }
+                        catch (MalformedLineException ex)
+                        {
+                            _instanceLogger.Error(this, "Error parsing line", ex);
+                        }
+
+                        CurrentRow++;
+                    }
+                }
+                else if (TConfig.ReadLastRowOption)
+                {
+                    string[] Row = null;
+                    while (!FileParser.EndOfData)
+                    {
+                        try
+                        {
+                            Row = ReadRow(FileParser, TConfig);
+                            CurrentRow++;
+                        }
+                        catch (MalformedLineException ex)
+                        {
+                            _instanceLogger.Error(this, "Error parsing line", ex);
+                        }
+                    }
+                    if (Row != null)
+                    {
+                        AddRow(CurrentRow, Row, TConfig, DefaultRecordset);
+                    }
+                }
+                else if (TConfig.ReadRowNumberOption || (TConfig.ReadIntervalOption && TConfig.ReadInterval == ReadTextFileIntervalType.ReadFromRowToRow))
+                {
+                    if (TConfig.ReadRowNumberOption)
+                    {
+                        ReadFromRow = int.Parse(TConfig.ReadRowNumber);
+                        ReadToRow = ReadFromRow;
+                    }
+                    else
+                    {
+                        ReadFromRow = int.Parse(TConfig.ReadFromRow);
+                        ReadToRow = int.Parse(TConfig.ReadToRow);
+                    }
+
+                    string[] Row = null;
+                    while (!FileParser.EndOfData)
+                    {
+                        try
+                        {
+                            if (CurrentRow > ReadToRow)
+                                break;
+
+                            Row = ReadRow(FileParser, TConfig);
+                            if (CurrentRow >= ReadFromRow && CurrentRow <= ReadToRow)
+                            {
+                                AddRow(CurrentRow, Row, TConfig, DefaultRecordset);
                             }
                         }
-                        else if (TConfig.ReadLastRowOption)
+                        catch (MalformedLineException ex)
                         {
-                            string[] Row = null;
-                            while (!FileParser.EndOfData)
-                            {
-                                try
-                                {
-                                    Row = ReadRow(FileParser, ConfigCopy);
-                                    CurrentRow++;
-                                }
-                                catch (MalformedLineException ex)
-                                {
-                                    instanceLogger.Error(this, "Error parsing line", ex);
-                                }
-                            }
-                            if (Row != null)
-                            {
-                                AddRow(CurrentRow ,Row, ConfigCopy, DefaultRecordset);
-                            }
+                            _instanceLogger.Error(this, "Error parsing line", ex);
                         }
-                        else if (TConfig.ReadRowNumberOption || (TConfig.ReadIntervalOption && TConfig.ReadInterval == ReadTextFileIntervalType.ReadFromRowToRow))
+
+                        CurrentRow++;
+                    }
+                }
+                else
+                {
+                    List<string[]> Rows = new List<string[]>();
+                    string[] Row = null;
+                    while (!FileParser.EndOfData)
+                    {
+                        try
                         {
-                            if (TConfig.ReadRowNumberOption)
-                            {
-                                ReadFromRow = int.Parse(ConfigCopy.ReadRowNumber);
-                                ReadToRow = ReadFromRow;
-                            }
-                            else
-                            {
-                                ReadFromRow = int.Parse(ConfigCopy.ReadFromRow);
-                                ReadToRow = int.Parse(ConfigCopy.ReadToRow);
-                            }
+                            Row = ReadRow(FileParser, TConfig);
+                            Rows.Add(Row);
+                        }
+                        catch (MalformedLineException ex)
+                        {
+                            _instanceLogger.Error(this, "Error parsing line", ex);
+                        }
+                    }
 
-                            string[] Row = null;
-                            while (!FileParser.EndOfData)
-                            {
-                                try
-                                {
-                                    if (CurrentRow > ReadToRow)
-                                        break;
-
-                                    Row = ReadRow(FileParser, ConfigCopy);
-                                    if (CurrentRow >= ReadFromRow && CurrentRow <= ReadToRow)
-                                    {
-                                        AddRow(CurrentRow, Row, ConfigCopy, DefaultRecordset);
-                                    }
-                                }
-                                catch (MalformedLineException ex)
-                                {
-                                    instanceLogger.Error(this, "Error parsing line", ex);
-                                }
-
-                                CurrentRow++;
-                            }
+                    if (Rows.Count > 0)
+                    {
+                        if (TConfig.ReadInterval == ReadTextFileIntervalType.ReadFromRowToLastRow)
+                        {
+                            // From row to end
+                            ReadFromRow = int.Parse(TConfig.ReadFromRow);
+                            ReadFromRow--;
+                            if (ReadFromRow < 0) ReadFromRow = 0;
                         }
                         else
                         {
-                            List<string[]> Rows = new List<string[]>();
-                            string[] Row = null;
-                            while (!FileParser.EndOfData)
-                            {
-                                try
-                                {
-                                    Row = ReadRow(FileParser, ConfigCopy);
-                                    Rows.Add(Row);
-                                }
-                                catch (MalformedLineException ex)
-                                {
-                                    instanceLogger.Error(this, "Error parsing line", ex);
-                                }
-                            }
+                            // Read N Last rows
+                            ReadFromRow = (Rows.Count - 1) - int.Parse(TConfig.ReadNumberOfRows);
+                        }
 
-                            if (Rows.Count > 0)
+                        if (ReadFromRow <= (Rows.Count - 1))
+                        {
+                            for (int RowIndex = ReadFromRow; RowIndex < Rows.Count; RowIndex++)
                             {
-                                if (TConfig.ReadInterval == ReadTextFileIntervalType.ReadFromRowToLastRow)
-                                {
-                                    // From row to end
-                                    ReadFromRow = int.Parse(ConfigCopy.ReadFromRow);
-                                    ReadFromRow--;
-                                    if (ReadFromRow < 0) ReadFromRow = 0;
-                                }
-                                else
-                                {
-                                    // Read N Last rows
-                                    ReadFromRow = (Rows.Count - 1) - int.Parse(ConfigCopy.ReadNumberOfRows);
-                                }
-
-                                if (ReadFromRow <= (Rows.Count - 1))
-                                {
-                                    for (int RowIndex = ReadFromRow; RowIndex < Rows.Count; RowIndex++)
-                                    {
-                                        AddRow(RowIndex, Row, ConfigCopy, DefaultRecordset);
-                                    }
-                                }
+                                AddRow(RowIndex, Row, TConfig, DefaultRecordset);
                             }
                         }
                     }
                 }
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-
-                DDataSet.Add(CommonDynamicData.DefaultRecordsetName, DefaultRecordset);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
-                {
-                    instanceLogger.Info(this, $"Rows processed: {CurrentRow - 1}");
-                    instanceLogger.TaskCompleted(this);
-                }
-                    
             }
-            catch (Exception ex)
+        }
+
+        private void PostIteration(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            if (!Config.DoNotLog)
             {
-                if (!Config.DoNotLog)
-                {
-                    instanceLogger.Info(this, $"Rows processed: {CurrentRow - 1}");
-                    instanceLogger.TaskError(this, ex);
-                }
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                DDataSet.Add(CommonDynamicData.DefaultRecordsetName, DefaultRecordset);
-                Result = new ExecResult(false, DDataSet);
+                _instanceLogger.Info(this, $"Rows processed: {currentIteration - 1}");
+                _instanceLogger.TaskCompleted(this);
             }
 
-            return Result;
+            dDataSet.Add(CommonDynamicData.DefaultRecordsetName, _defaultRecordset);
+        }
+
+        protected override void PostIterationSucceded(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            PostIteration(currentIteration, result, dDataSet);
+        }
+
+        protected override void PostIterationFailed(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            PostIteration(currentIteration, result, dDataSet);
         }
     }
 }

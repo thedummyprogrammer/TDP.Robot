@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -285,8 +285,11 @@ namespace TDP.Robot.Core.Persistence
             IEnumerable List = (IEnumerable)objectToSerialize;
             foreach (object ListItem in List)
             {
-                XmlElement XmlListItem = SerializeInnerObject(ListItem, XmlCommon.ListItemTagName, false);
-                XmlElItems.AppendChild(XmlListItem);
+                if (ListItem != null)
+                {
+                    XmlElement XmlListItem = SerializeInnerObject(ListItem, XmlCommon.ListItemTagName, false);
+                    XmlElItems.AppendChild(XmlListItem);
+                }
             }
 
             return XmlEl;
@@ -327,22 +330,29 @@ namespace TDP.Robot.Core.Persistence
             XmlEl.Attributes.Append(XmlRefAttr);
             XmlEl.Attributes.Append(CreateTypeAttribute(objectToSerialize));
 
-            FieldInfo[] Fields = ObjectType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
-            foreach (FieldInfo FI in Fields)
+            // Take care of parent classes!
+            Type CurrentType = ObjectType;
+            do
             {
-                if (XmlCommon.Field_IsEvent(FI)
-                    || XmlCommon.Field_IsPtr(FI)
-                    || !XmlCommon.Field_IsSerializable(FI))
-                    continue;
+                FieldInfo[] Fields = CurrentType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-                string FieldName = XmlCommon.Field_GetFieldName(FI);
+                foreach (FieldInfo FI in Fields)
+                {
+                    if (XmlCommon.Field_IsEvent(FI)
+                        || XmlCommon.Field_IsPtr(FI)
+                        || !XmlCommon.Field_IsSerializable(FI))
+                        continue;
 
-                if (XmlCommon.Field_IsNull(objectToSerialize, FI))
-                    XmlEl.AppendChild(SerializeNullValue(FieldName));
-                else
-                    XmlEl.AppendChild(SerializeInnerObject(FI.GetValue(objectToSerialize), FieldName, XmlCommon.Field_HasAttribute(FI, typeof(XmlEncryptFieldAttribute))));
-            }
+                    string FieldName = XmlCommon.Field_GetFieldName(FI);
+
+                    if (XmlCommon.Field_IsNull(objectToSerialize, FI))
+                        XmlEl.AppendChild(SerializeNullValue(FieldName));
+                    else
+                        XmlEl.AppendChild(SerializeInnerObject(FI.GetValue(objectToSerialize), FieldName, XmlCommon.Field_HasAttribute(FI, typeof(XmlEncryptFieldAttribute))));
+                }
+
+                CurrentType = CurrentType.BaseType;
+            } while (CurrentType != null);
 
             return XmlEl;
         }

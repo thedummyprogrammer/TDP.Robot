@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -50,7 +50,7 @@ namespace TDP.Robot.Plugins.Core.TDPRobotServiceStartEvent
             {
                 if (DataValidationHelper.IsEmptyString(TxtMinutesWithin.Text))
                     SetError(TxtMinutesWithin, Resource.TxtFieldCannotBeEmpty);
-                else if (DataValidationHelper.IsInteger(TxtMinutesWithin.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
+                else if (!DataValidationHelper.IsInteger(TxtMinutesWithin.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
                     SetError(TxtMinutesWithin, Resource.TxtFieldNotContainAValidInteger);
             }
 
@@ -58,7 +58,7 @@ namespace TDP.Robot.Plugins.Core.TDPRobotServiceStartEvent
             {
                 if (DataValidationHelper.IsEmptyString(TxtMinutesAfter.Text))
                     SetError(TxtMinutesAfter, Resource.TxtFieldCannotBeEmpty);
-                else if (DataValidationHelper.IsInteger(TxtMinutesAfter.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
+                else if (!DataValidationHelper.IsInteger(TxtMinutesAfter.Text, _MinutesLength, _MinMinutesLengthValue, _MaxMinutesLengthValue))
                     SetError(TxtMinutesAfter, Resource.TxtFieldNotContainAValidInteger);
             }
 

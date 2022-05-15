@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -28,13 +28,9 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.SqlServerCommandTask
 {
     [Serializable]
-    public class SqlServerCommandTask : ITask
+    public class SqlServerCommandTask : IterationTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
+        private int _executionReturnValue;
 
         private SqlParameter CreateParameter(SqlServerParamDefinition paramDef, DynamicDataChain dataChain, int iterationNumber)
         {
@@ -106,110 +102,78 @@ namespace TDP.Robot.Plugins.Core.SqlServerCommandTask
             return SqlParam;
         }
 
-        public void Init()
+        protected override void RunIteration(int currentIteration)
         {
-            
-        }
+            SqlServerCommandTaskConfig TConfig = (SqlServerCommandTaskConfig)_iterationConfig;
+            _defaultRecordset = new DataTable();
 
-        public void Destroy()
-        {
-            
-        }
+            string ConnectionString = $"Server={TConfig.Server};Database={TConfig.Database};User Id={TConfig.Username};Password={TConfig.Password};{TConfig.ConnectionStringOptions}";
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
-        {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
-
-            DataTable DefaultRecordset = new DataTable();
-            int ExecutionReturnValue = -1;
-            int ActualIterations = 0;
-
-            try
+            using (SqlConnection Cnt = new SqlConnection(ConnectionString))
+            using (SqlCommand Cmd = new SqlCommand(string.Empty, Cnt))
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
+                Cnt.Open();
 
-                SqlServerCommandTaskConfig TConfig = (SqlServerCommandTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
+                if (TConfig.Type == QueryTaskType.Text)
+                    Cmd.CommandType = CommandType.Text;
+                else
+                    Cmd.CommandType = CommandType.StoredProcedure;
 
-                for (int i = 0; i < IterationsCount; i++)
+                if (Cmd.CommandType == CommandType.StoredProcedure)
                 {
-                    SqlServerCommandTaskConfig ConfigCopy = (SqlServerCommandTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, i);
-
-                    string ConnectionString = $"Server={ConfigCopy.Server};Database={ConfigCopy.Database};User Id={ConfigCopy.Username};Password={ConfigCopy.Password};{ConfigCopy.ConnectionStringOptions}";
-
-                    using (SqlConnection Cnt = new SqlConnection(ConnectionString))
-                    using (SqlCommand Cmd = new SqlCommand(string.Empty, Cnt))
-                    {
-                        Cnt.Open();
-
-                        if (TConfig.Type == QueryTaskType.Text)
-                            Cmd.CommandType = CommandType.Text;
-                        else
-                            Cmd.CommandType = CommandType.StoredProcedure;
-
-                        if (Cmd.CommandType == CommandType.StoredProcedure)
-                        {
-                            Cmd.Parameters.Add("@RETVALUE", SqlDbType.Int);
-                            Cmd.Parameters["@RETVALUE"].Direction = ParameterDirection.ReturnValue;
-                        }
-
-                        foreach (SqlServerParamDefinition ParamDef in ConfigCopy.ParamsDefinition)
-                        {
-                            Cmd.Parameters.Add(CreateParameter(ParamDef, dataChain, i));
-                        }
-
-                        Cmd.CommandText = ConfigCopy.Query;
-                        Cmd.CommandTimeout = int.Parse(ConfigCopy.CommandTimeout);
-
-                        if (ConfigCopy.ReturnsRecordset)
-                        {
-                            SqlDataAdapter DA = new SqlDataAdapter(Cmd);
-                            DA.Fill(DefaultRecordset);
-                        }
-                        else
-                        {
-                            ExecutionReturnValue = Cmd.ExecuteNonQuery();
-                        }
-
-                        if (Cmd.CommandType == CommandType.StoredProcedure)
-                        {
-                            ExecutionReturnValue = (int)Cmd.Parameters["@RETVALUE"].Value;
-                        }
-                    }
-
-                    ActualIterations++;
+                    Cmd.Parameters.Add("@RETVALUE", SqlDbType.Int);
+                    Cmd.Parameters["@RETVALUE"].Direction = ParameterDirection.ReturnValue;
                 }
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, ExecutionReturnValue, StartDateTime, DateTime.Now, ActualIterations);
+                foreach (SqlServerParamDefinition ParamDef in TConfig.ParamsDefinition)
+                {
+                    Cmd.Parameters.Add(CreateParameter(ParamDef, _dataChain, currentIteration));
+                }
+
+                Cmd.CommandText = TConfig.Query;
+                Cmd.CommandTimeout = int.Parse(TConfig.CommandTimeout);
 
                 if (TConfig.ReturnsRecordset)
-                    DDataSet.Add(CommonDynamicData.DefaultRecordsetName, DefaultRecordset);                    
-                
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
                 {
-                    instanceLogger.Info(this, $"Number of queries/commands executed: {ActualIterations}");
-                    instanceLogger.TaskCompleted(this);
-                }                    
-            }
-            catch (Exception ex)
-            {
-                if (!Config.DoNotLog)
+                    SqlDataAdapter DA = new SqlDataAdapter(Cmd);
+                    DA.Fill((DataTable)_defaultRecordset);
+                }
+                else
                 {
-                    instanceLogger.Info(this, $"Number of queries/commands executed: {ActualIterations}");
-                    instanceLogger.TaskError(this, ex);
+                    _executionReturnValue = Cmd.ExecuteNonQuery();
                 }
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                DDataSet.Add(CommonDynamicData.DefaultRecordsetName, DefaultRecordset);
-                Result = new ExecResult(false, DDataSet);
+                if (Cmd.CommandType == CommandType.StoredProcedure)
+                {
+                    _executionReturnValue = (int)Cmd.Parameters["@RETVALUE"].Value;
+                }
+            }
+        }
+
+        private void PostIteration(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            if (!_iterationConfig.DoNotLog)
+            {
+                _instanceLogger.Info(this, $"Number of queries/commands executed: {currentIteration + 1}");
+                _instanceLogger.TaskCompleted(this);
             }
 
-            return Result;
+            SqlServerCommandTaskConfig TConfig = (SqlServerCommandTaskConfig)_iterationConfig;
+
+            if (TConfig.ReturnsRecordset)
+                dDataSet.Add(CommonDynamicData.DefaultRecordsetName, _defaultRecordset);
+
+            dDataSet[CommonDynamicData.ExecutionReturnValue] = _executionReturnValue;
+        }
+
+        protected override void PostIterationSucceded(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            PostIteration(currentIteration, result, dDataSet);
+        }
+
+        protected override void PostIterationFailed(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            PostIteration(currentIteration, result, dDataSet);
         }
     }
 }

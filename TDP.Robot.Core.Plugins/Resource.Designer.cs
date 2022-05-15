@@ -19,7 +19,7 @@ namespace TDP.Robot.Plugins.Core {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resource {
@@ -865,6 +865,24 @@ namespace TDP.Robot.Plugins.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 200.
+        /// </summary>
+        internal static string TxtHttpResult {
+            get {
+                return ResourceManager.GetString("TxtHttpResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 200.
+        /// </summary>
+        internal static string TxtHttpResultExample {
+            get {
+                return ResourceManager.GetString("TxtHttpResultExample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Insert row.
         /// </summary>
         internal static string TxtInsertRow {
@@ -1086,6 +1104,24 @@ namespace TDP.Robot.Plugins.Core {
         internal static string TxtPut {
             get {
                 return ResourceManager.GetString("TxtPut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Raw content.
+        /// </summary>
+        internal static string TxtRawContent {
+            get {
+                return ResourceManager.GetString("TxtRawContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [{&quot;Column1&quot;:&quot;file1.txt&quot;}, {&quot;Column1&quot;:&quot;file2.txt&quot;}, {&quot;Column1&quot;:&quot;file3.txt&quot;}].
+        /// </summary>
+        internal static string TxtRawContentExample {
+            get {
+                return ResourceManager.GetString("TxtRawContentExample", resourceCulture);
             }
         }
         
@@ -1464,6 +1500,24 @@ namespace TDP.Robot.Plugins.Core {
         internal static string TxtUnzipTask {
             get {
                 return ResourceManager.GetString("TxtUnzipTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to URL.
+        /// </summary>
+        internal static string TxtURL {
+            get {
+                return ResourceManager.GetString("TxtURL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://www.example.com.
+        /// </summary>
+        internal static string TxtURLExample {
+            get {
+                return ResourceManager.GetString("TxtURLExample", resourceCulture);
             }
         }
         

@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -17,39 +17,17 @@
     along with The Dummy Programmer Robot.  If not, see <http://www.gnu.org/licenses/>.
 ======================================================================================*/
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TDP.Robot.Core;
 
-namespace TDP.Robot.Plugins.Core.Unzip
+namespace TDP.Robot.Core
 {
-    [Serializable]
-    public enum IfDestFileExistsType
+    public class InstanceExecResult
     {
-        Overwrite,
-        CreateWithUniqueNames,
-        Fail
-    }
+        public InstanceExecResult(List<ExecResult> execResults)
+        {
+            this.execResults = execResults;
+        }
 
-    [Serializable]
-    public class UnzipTaskConfig : ITaskConfig
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public bool Disable { get; set; }
-        public bool DoNotLog { get; set; }
-
-        public string Source { get; set; }
-        public string Destination { get; set; }
-
-        public IfDestFileExistsType IfDestFileExists { get; set; }
-
-        public IterationMode PluginIterationMode { get; set; }
-        public string IterationObject { get; set; }
-        public int IterationsCount { get; set; }
-
+        public List<ExecResult> execResults { get; private set; } 
     }
 }

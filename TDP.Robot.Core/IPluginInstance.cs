@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -26,7 +26,7 @@ namespace TDP.Robot.Core
     public interface IPluginInstance : IPluginInstanceBase
     {       
         void Init();
-        ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger);
+        InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger);
         IPluginInstanceConfig Config { get; set; }
         List<PluginInstanceConnection> Connections { get; }
         void Destroy();

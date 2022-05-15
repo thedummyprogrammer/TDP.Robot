@@ -23,27 +23,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TDP.Robot.Plugins.Core.FileSystemTask
+namespace TDP.Robot.Plugins.Core.RESTApiTask
 {
-    [Serializable]
-    public class FileSystemTaskDeleteItem
+    internal class RESTApiTaskCommon
     {
-        public FileSystemTaskDeleteItem()
-        {
-
-        }
-
-        public FileSystemTaskDeleteItem(string deletePath)
-        {
-            DeletePath = deletePath;
-        }
-
-
-        public string DeletePath { get; set; }
-
-        public override string ToString()
-        {
-            return $"{Resource.TxtPath}: {DeletePath}";
-        }
+        public const string DynDataKeyURL = "URL";
+        public const string DynDataKeyRawContent = "RawContent";
+        public const string DynDataKeyHttpResult = "HttpResult";
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -30,26 +30,14 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.SqlServerBackupTask
 {
     [Serializable]
-    public class SqlServerBackupTask : ITask
+    public class SqlServerBackupTask : IterationTask
     {
         private const int _BackupSuccess = -1;
         private const int _BackupSuccessChecksumError = -2;
         private const int _BackupError = -3;
 
-        public IFolder ParentFolder { get; set ; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
-
-        public void Init()
-        {
-            
-        }
-
-        public void Destroy()
-        {
-            
-        }
+        private int _successfulBackupsNumber = 0;
+        private int _failedBackupsNumber = 0;
 
         private int BackupDatabase(string connectionString, string databaseName, string destination, string fileName, bool overwriteIfExists,
                                         bool checksum, bool continueOnError, string mediaName, UseCompressionEnum compression,
@@ -255,136 +243,108 @@ namespace TDP.Robot.Plugins.Core.SqlServerBackupTask
             return Result;
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        protected override void RunIteration(int currentIteration)
         {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
+            _successfulBackupsNumber = 0;
+            _failedBackupsNumber = 0;
 
-            int ActualIterations = 0;
-            int SuccessfulBackupsNumber = 0;
-            int FailedBackupsNumber = 0;
+            SqlServerBackupTaskConfig TConfig = (SqlServerBackupTaskConfig)_iterationConfig;
 
-            try
+            string ConnectionString = $"Server={TConfig.Server};User ID={TConfig.Username};Password={TConfig.Password};{TConfig.ConnectionStringOptions}";
+
+            List<string> DbToBackup;
+            if (TConfig.DatabasesToBackup == DatabasesToBackupEnum.AllDatabases)
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
-
-                SqlServerBackupTaskConfig TConfig = (SqlServerBackupTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-                for (int i = 0; i < IterationsCount; i++)
+                DbToBackup = SqlServerBackupTaskCommon.GetDatabaseList(ConnectionString);
+            }
+            else if (TConfig.DatabasesToBackup == DatabasesToBackupEnum.AllUserDatabases)
+            {
+                DbToBackup = SqlServerBackupTaskCommon.GetDatabaseList(ConnectionString, true);
+            }
+            else
+            {
+                DbToBackup = new List<string>();
+                List<string> DatabaseList = SqlServerBackupTaskCommon.GetDatabaseList(ConnectionString);
+                foreach (string DbName in TConfig.SelectedDatabases)
                 {
-                    SqlServerBackupTaskConfig ConfigCopy = (SqlServerBackupTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, i);
+                    if (DatabaseList.Contains(DbName))
+                        DbToBackup.Add(DbName);
+                    else
+                        _instanceLogger.Info(this, $"Database '{DbName}' doesn't exist, skipping...");
+                }
+            }
 
-                    string ConnectionString = $"Server={ConfigCopy.Server};User ID={ConfigCopy.Username};Password={ConfigCopy.Password};{ConfigCopy.ConnectionStringOptions}";
+            string PrevFileNameTemplate = TConfig.FileNameTemplate;
+            foreach (string DbName in DbToBackup)
+            {
+                try
+                {
+                    TConfig.FileNameTemplate = PrevFileNameTemplate.Replace("{DatabaseName}", DbName);
+                    _instanceLogger.Info(this, $"Backing up database '{DbName}'...");
+                    int BackupResult;
 
-                    List<string> DbToBackup;
-                    if (ConfigCopy.DatabasesToBackup == DatabasesToBackupEnum.AllDatabases)
+                    if (TConfig.BackupType == BackupTypeEnum.Full)
                     {
-                        DbToBackup = SqlServerBackupTaskCommon.GetDatabaseList(ConnectionString);
-                    }
-                    else if (ConfigCopy.DatabasesToBackup == DatabasesToBackupEnum.AllUserDatabases)
-                    {
-                        DbToBackup = SqlServerBackupTaskCommon.GetDatabaseList(ConnectionString, true);
+                        BackupResult = BackupDatabase(ConnectionString, DbName, TConfig.DestinationPath, TConfig.FileNameTemplate, TConfig.OverwriteIfExists,
+                                                        TConfig.PerformChecksum, TConfig.ContinueOnError,
+                                                        $"TheDummyProgrammer-Backup-{DateTime.Now.Ticks}", TConfig.UseCompression, _instanceLogger);
+
+                        if (BackupResult == _BackupSuccess)
+                            _instanceLogger.Info(this, $"Backup database '{DbName}' completed");
+                        else if (BackupResult == _BackupSuccessChecksumError)
+                            _instanceLogger.Info(this, $"Backup database '{DbName}' completed, but checksum failed");
+                        else
+                            _instanceLogger.Info(this, $"Backup database '{DbName}' failed");
                     }
                     else
                     {
-                        DbToBackup = new List<string>();
-                        List<string> DatabaseList = SqlServerBackupTaskCommon.GetDatabaseList(ConnectionString);
-                        foreach (string DbName in ConfigCopy.SelectedDatabases)
-                        {
-                            if (DatabaseList.Contains(DbName))
-                                DbToBackup.Add(DbName);
-                            else
-                                instanceLogger.Info(this, $"Database '{DbName}' doesn't exist, skipping...");
-                        }
+                        BackupResult = BackupTransactionLog(ConnectionString, DbName, TConfig.DestinationPath, TConfig.FileNameTemplate, TConfig.OverwriteIfExists,
+                                                            TConfig.PerformChecksum, TConfig.ContinueOnError,
+                                                            $"TheDummyProgrammer-TranLogBackup-{DateTime.Now.Ticks}", TConfig.UseCompression, _instanceLogger);
+
+                        if (BackupResult == _BackupSuccess)
+                            _instanceLogger.Info(this, $"Backup transaction log '{DbName}' completed");
+                        else if (BackupResult == _BackupSuccessChecksumError)
+                            _instanceLogger.Info(this, $"Backup transaction log '{DbName}' completed, but checksum failed");
+                        else
+                            _instanceLogger.Info(this, $"Backup transaction log '{DbName}' failed");
                     }
 
-                    string PrevFileNameTemplate = ConfigCopy.FileNameTemplate;
-                    foreach (string DbName in DbToBackup)
+                    if (BackupResult == _BackupSuccess)
+                        _successfulBackupsNumber++;
+                    else
+                        _failedBackupsNumber++;
+
+                    if (BackupResult == _BackupSuccess || BackupResult == _BackupSuccessChecksumError)
                     {
-                        try
+                        if (TConfig.VerifyBackup)
                         {
-                            ConfigCopy.FileNameTemplate = PrevFileNameTemplate.Replace("{DatabaseName}", DbName);
-                            instanceLogger.Info(this, $"Backing up database '{DbName}'...");
-                            int BackupResult;
+                            _instanceLogger.Info(this, $"Starting backup verification '{DbName}'...");
 
-                            if (ConfigCopy.BackupType == BackupTypeEnum.Full)
-                            {
-                                BackupResult = BackupDatabase(ConnectionString, DbName, ConfigCopy.DestinationPath, ConfigCopy.FileNameTemplate, ConfigCopy.OverwriteIfExists,
-                                                                ConfigCopy.PerformChecksum, ConfigCopy.ContinueOnError,
-                                                                $"TheDummyProgrammer-Backup-{DateTime.Now.Ticks}", ConfigCopy.UseCompression, instanceLogger);
-
-                                if (BackupResult == _BackupSuccess)
-                                    instanceLogger.Info(this, $"Backup database '{DbName}' completed");
-                                else if (BackupResult == _BackupSuccessChecksumError)
-                                    instanceLogger.Info(this, $"Backup database '{DbName}' completed, but checksum failed");
-                                else
-                                    instanceLogger.Info(this, $"Backup database '{DbName}' failed");
-                            }
+                            if (VerifyBackup(ConnectionString, DbName, TConfig.DestinationPath, TConfig.FileNameTemplate, TConfig.BackupType, _instanceLogger))
+                                _instanceLogger.Info(this, "Verification OK");
                             else
-                            {
-                                BackupResult = BackupTransactionLog(ConnectionString, DbName, ConfigCopy.DestinationPath, ConfigCopy.FileNameTemplate, ConfigCopy.OverwriteIfExists,
-                                                                    ConfigCopy.PerformChecksum, ConfigCopy.ContinueOnError,
-                                                                    $"TheDummyProgrammer-TranLogBackup-{DateTime.Now.Ticks}", ConfigCopy.UseCompression, instanceLogger);
-
-                                if (BackupResult == _BackupSuccess)
-                                    instanceLogger.Info(this, $"Backup transaction log '{DbName}' completed");
-                                else if (BackupResult == _BackupSuccessChecksumError)
-                                    instanceLogger.Info(this, $"Backup transaction log '{DbName}' completed, but checksum failed");
-                                else
-                                    instanceLogger.Info(this, $"Backup transaction log '{DbName}' failed");
-                            }
-
-                            if (BackupResult == _BackupSuccess)
-                                SuccessfulBackupsNumber++;
-                            else
-                                FailedBackupsNumber++;
-
-                            if (BackupResult == _BackupSuccess || BackupResult == _BackupSuccessChecksumError)
-                            {
-                                if (ConfigCopy.VerifyBackup)
-                                {
-                                    instanceLogger.Info(this, $"Starting backup verification '{DbName}'...");
-
-                                    if (VerifyBackup(ConnectionString, DbName, ConfigCopy.DestinationPath, ConfigCopy.FileNameTemplate, ConfigCopy.BackupType, instanceLogger))
-                                        instanceLogger.Info(this, "Verification OK");
-                                    else
-                                        instanceLogger.Info(this, "Verification failed");
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            instanceLogger.Error(this, $"Error backing up database '{DbName}'", ex);
+                                _instanceLogger.Info(this, "Verification failed");
                         }
                     }
-
-                    ActualIterations++;
-                }        
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-                DDataSet.Add(SqlServerBackupTaskCommon.DynDataKeySuccessfulBackupsNumber, SuccessfulBackupsNumber);
-                DDataSet.Add(SqlServerBackupTaskCommon.DynDataKeyFailedBackupsNumber, FailedBackupsNumber);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskCompleted(this);
+                }
+                catch (Exception ex)
+                {
+                    _instanceLogger.Error(this, $"Error backing up database '{DbName}'", ex);
+                }
             }
-            catch (Exception ex)
-            {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskError(this, ex);
+        }
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                DDataSet.Add(SqlServerBackupTaskCommon.DynDataKeySuccessfulBackupsNumber, SuccessfulBackupsNumber);
-                DDataSet.Add(SqlServerBackupTaskCommon.DynDataKeyFailedBackupsNumber, FailedBackupsNumber);
+        protected override void PostIterationSucceded(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            dDataSet.Add(SqlServerBackupTaskCommon.DynDataKeySuccessfulBackupsNumber, _successfulBackupsNumber);
+            dDataSet.Add(SqlServerBackupTaskCommon.DynDataKeyFailedBackupsNumber, _failedBackupsNumber);
+        }
 
-                Result = new ExecResult(false, DDataSet);
-            }
-            
-            return Result;
+        protected override void PostIterationFailed(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            dDataSet.Add(SqlServerBackupTaskCommon.DynDataKeySuccessfulBackupsNumber, _successfulBackupsNumber);
+            dDataSet.Add(SqlServerBackupTaskCommon.DynDataKeyFailedBackupsNumber, _failedBackupsNumber);
         }
     }
 }

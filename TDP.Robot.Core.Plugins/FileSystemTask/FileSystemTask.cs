@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -30,24 +30,9 @@ using TDP.Robot.Core.Logging;
 namespace TDP.Robot.Plugins.Core.FileSystemTask
 {
     [Serializable]
-    public class FileSystemTask : ITask
+    public class FileSystemTask : IterationTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
-
-        public void Destroy()
-        {
-            
-        }
-
-        public void Init()
-        {
-            
-        }
-
+     
         private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwriteIfFileExists)
         {
             // Get the subdirectories for the specified directory.
@@ -119,75 +104,37 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             }
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        protected override void RunIteration(int currentIteration)
         {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
+            FileSystemTaskConfig TConfig = (FileSystemTaskConfig)_iterationConfig;
 
-            int ActualIterations = 0;
-
-            try
+            if (TConfig.Command == FileSystemTaskCommandType.Copy)
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
+                _instanceLogger.Info(this, "Starting copy files...");
 
-                FileSystemTaskConfig TConfig = (FileSystemTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-
-                for (int i = 0; i < IterationsCount; i++)
+                foreach (FileSystemTaskCopyItem CopyItem in TConfig.CopyItems)
                 {
-                    FileSystemTaskConfig ConfigCopy = (FileSystemTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, IterationsCount);
-
-                    if (ConfigCopy.Command == FileSystemTaskCommandType.Copy)
-                    {
-                        instanceLogger.Info(this, "Starting copy files...");
-
-                        foreach (FileSystemTaskCopyItem CopyItem in ConfigCopy.CopyItems)
-                        {
-                            FileSystemTaskCopyItem CopyItemCopy = (FileSystemTaskCopyItem)CoreHelpers.CloneObjects(CopyItem);
-                            CopyItemCopy.SourcePath = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.SourcePath, dataChain, IterationsCount);
-                            CopyItemCopy.DestinationPath = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.DestinationPath, dataChain, IterationsCount);
-                            ManageCopyItem(CopyItemCopy, instanceLogger);
-                        }
-
-                        instanceLogger.Info(this, "Copy files completed");
-                    }
-                    else
-                    {
-                        instanceLogger.Info(this, "Starting delete files...");
-
-                        foreach (FileSystemTaskDeleteItem DeleteItem in ConfigCopy.DeleteItems)
-                        {
-                            FileSystemTaskDeleteItem DeleteItemCopy = (FileSystemTaskDeleteItem)CoreHelpers.CloneObjects(DeleteItem);
-                            DeleteItemCopy.DeletePath = DynamicDataParser.ReplaceDynamicData(DeleteItemCopy.DeletePath, dataChain, IterationsCount);
-                            ManageDeleteItem(DeleteItemCopy, instanceLogger);
-                        }
-
-                        instanceLogger.Info(this, "Delete files completed");
-                    }
-                    
-
-                    ActualIterations++;
+                    FileSystemTaskCopyItem CopyItemCopy = (FileSystemTaskCopyItem)CoreHelpers.CloneObjects(CopyItem);
+                    CopyItemCopy.SourcePath = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.SourcePath, _dataChain, currentIteration);
+                    CopyItemCopy.DestinationPath = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.DestinationPath, _dataChain, currentIteration);
+                    ManageCopyItem(CopyItemCopy, _instanceLogger);
                 }
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskCompleted(this);
+                _instanceLogger.Info(this, "Copy files completed");
             }
-            catch (Exception ex)
+            else
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskError(this, ex);
+                _instanceLogger.Info(this, "Starting delete files...");
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(false, DDataSet);
+                foreach (FileSystemTaskDeleteItem DeleteItem in TConfig.DeleteItems)
+                {
+                    FileSystemTaskDeleteItem DeleteItemCopy = (FileSystemTaskDeleteItem)CoreHelpers.CloneObjects(DeleteItem);
+                    DeleteItemCopy.DeletePath = DynamicDataParser.ReplaceDynamicData(DeleteItemCopy.DeletePath, _dataChain, currentIteration);
+                    ManageDeleteItem(DeleteItemCopy, _instanceLogger);
+                }
+
+                _instanceLogger.Info(this, "Delete files completed");
             }
-
-            return Result;
         }
     }
 }

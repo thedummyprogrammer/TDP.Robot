@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -36,6 +36,8 @@ namespace TDP.Robot.JobEngineLib
         private List<IEvent> _Events;
         private List<ITask> _Tasks;
         private string _BasePath;
+
+        private System.Timers.Timer _LogCleanTimer;
 
         private string GetLogPath()
         {
@@ -116,20 +118,21 @@ namespace TDP.Robot.JobEngineLib
         {
             Task T = new Task(() =>
             {
+                ITask TaskCopy = null;
                 try
                 {
-                    ITask TaskCopy = (ITask)CoreHelpers.CloneObjects(task);
+                    TaskCopy = (ITask)CoreHelpers.CloneObjects(task);
                     DynamicDataSet LastDataSetCopy = (DynamicDataSet)CoreHelpers.CloneObjects(lastDynamicDataSet);
 
-                    if (!task.Config.DoNotLog)
-                        instanceLogger.TaskStarting(task);
-                    ExecResult ExecResult = task.Run(dataChain, LastDataSetCopy, instanceLogger);
-                    if (!task.Config.DoNotLog)
-                        instanceLogger.TaskEnded(task);
+                    if (!TaskCopy.Config.DoNotLog)
+                        instanceLogger.TaskStarting(TaskCopy);
+                    InstanceExecResult InstExecResult = TaskCopy.Run(dataChain, LastDataSetCopy, instanceLogger);
+                    if (!TaskCopy.Config.DoNotLog)
+                        instanceLogger.TaskEnded(TaskCopy);
 
-                    if (task.Connections != null)
+                    if (TaskCopy.Connections != null)
                     {
-                        foreach (PluginInstanceConnection Connection in task.Connections)
+                        foreach (PluginInstanceConnection Connection in TaskCopy.Connections)
                         {
                             if (Connection.Disable)
                                 continue;
@@ -142,21 +145,30 @@ namespace TDP.Robot.JobEngineLib
                             if (NextTask.Config.Disable)
                                 continue;
 
-                            if (Connection.EvaluateExecConditions(ExecResult))
+                            foreach (ExecResult ExecRes in InstExecResult.execResults)
                             {
-                                DynamicDataChain DataChainCopy = (DynamicDataChain)CoreHelpers.CloneObjects(dataChain);
-                                DataChainCopy.Add(task.ID, ExecResult.Data);
-                                ExecuteTask(NextTask, DataChainCopy, ExecResult.Data, instanceLogger);
+                                if (Connection.EvaluateExecConditions(ExecRes))
+                                {
+                                    DynamicDataChain DataChainCopy = (DynamicDataChain)CoreHelpers.CloneObjects(dataChain);
+                                    DataChainCopy.Add(TaskCopy.ID, ExecRes.Data);
+                                    ExecuteTask(NextTask, DataChainCopy, ExecRes.Data, instanceLogger);
+                                }
                             }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    instanceLogger.Error(task, "ExecuteTask", ex);
+                    if (TaskCopy != null)
+                        instanceLogger.Error(TaskCopy, "ExecuteTask", ex);
+                    else
+                        instanceLogger.Error("ExecuteTask: TaskCopy object is null.", ex);
                 }
             });
             T.Start();
+
+            if (Config.SerialExecution)
+                T.Wait();
 
             return T;
         }
@@ -230,6 +242,27 @@ namespace TDP.Robot.JobEngineLib
                     return;
                 }
 
+                // Set the timer to clean logs
+                if (Config.CleanUpLogsOlderThanHours > 0)
+                {
+                    try
+                    {
+                        // Trigger a clean up at service startup
+                        _Log.Info("Cleaning up old logs on initialization");
+                        CleanUpLog(Config.LogPath, Config.CleanUpLogsOlderThanHours);
+                    }
+                    catch (Exception ex)
+                    {
+                        _Log.Error("An error occurred while cleaning up old logs on initialization", ex);
+                    }
+
+                    _LogCleanTimer = new System.Timers.Timer();
+                    _LogCleanTimer.Interval = new TimeSpan(0, Config.CleanUpLogsIntervalHours, 0, 0).TotalMilliseconds;
+                    _LogCleanTimer.Enabled = true;
+                    _LogCleanTimer.AutoReset = true;
+                    _LogCleanTimer.Elapsed += _LogCleanTimer_Elapsed;
+                }
+
                 // Initializes events and tasks
                 _Log.Info("Starting events initialization");
                 _Events = GetEventList(Common.RootFolder);
@@ -266,7 +299,46 @@ namespace TDP.Robot.JobEngineLib
             {
                 _Log.Error("An error occurred while starting JobEngine.", ex);
             }
-        }        
+        }
+
+        private bool IsDirectoryEmpty(string directoryPath)
+        {
+            return (Directory.GetFiles(directoryPath).Length == 0 && Directory.GetDirectories(directoryPath).Length == 0);
+        }
+
+        private void CleanUpLog(string logPath, int cleanUpLogsOlderThanHours)
+        {
+            DateTime DateLimit = DateTime.Now.AddHours(-cleanUpLogsOlderThanHours);
+            string[] Files = Directory.GetFiles(logPath);
+            foreach (string FullPathFileName in Files)
+            {
+                FileInfo FI = new FileInfo(FullPathFileName);
+                if (FI.CreationTime < DateLimit)
+                    FI.Delete();
+            }
+
+            string[] Directories = Directory.GetDirectories(logPath);
+            foreach (string FullPathDirectoryName in Directories)
+            {
+                CleanUpLog(FullPathDirectoryName, cleanUpLogsOlderThanHours);
+                if (IsDirectoryEmpty(FullPathDirectoryName))
+                    Directory.Delete(FullPathDirectoryName);
+            }
+        }
+
+        private void _LogCleanTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            try
+            {
+                _Log.Info("Cleaning up old logs");
+                CleanUpLog(Config.LogPath, Config.CleanUpLogsOlderThanHours);
+
+            }
+            catch (Exception ex)
+            {
+                _Log.Error("An error occurred while cleaning up old logs", ex);
+            }
+        }
 
         public void Stop()
         {

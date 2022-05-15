@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -64,7 +64,7 @@ namespace TDP.Robot.Plugins.Core.MemoryEvent
         private ComputerInfo _ComputerInfo;
 
         [field: NonSerialized]
-        private List<MemoryUsageSample> _MemoryUsageSamples = new List<MemoryUsageSample>();
+        private List<MemoryUsageSample> _MemoryUsageSamples;
 
         [field: NonSerialized]
         private DateTime _DateLastTrigger;
@@ -90,6 +90,7 @@ namespace TDP.Robot.Plugins.Core.MemoryEvent
 
         public void Init()
         {
+            _MemoryUsageSamples = new List<MemoryUsageSample>();
             _RecurringTimer = new System.Timers.Timer();
             _RecurringTimer.Enabled = false;
             _RecurringTimer.AutoReset = true;
@@ -185,7 +186,7 @@ namespace TDP.Robot.Plugins.Core.MemoryEvent
             }
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             MemoryEventConfig TConfig = (MemoryEventConfig)Config;
 
@@ -197,8 +198,9 @@ namespace TDP.Robot.Plugins.Core.MemoryEvent
 
             _RecurringTimer.Enabled = true;
 
-            ExecResult ER = new ExecResult(true, null);
-            return ER;
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
     }
 }

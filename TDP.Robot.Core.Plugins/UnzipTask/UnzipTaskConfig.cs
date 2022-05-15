@@ -22,28 +22,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TDP.Robot.Core;
 
-namespace TDP.Robot.Plugins.Core.FileSystemTask
+namespace TDP.Robot.Plugins.Core.Unzip
 {
     [Serializable]
-    public class FileSystemTaskDeleteItem
+    public enum IfDestFileExistsType
     {
-        public FileSystemTaskDeleteItem()
-        {
+        Overwrite,
+        CreateWithUniqueNames,
+        Fail
+    }
 
-        }
+    [Serializable]
+    public class UnzipTaskConfig : ITaskConfig
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public bool Disable { get; set; }
+        public bool DoNotLog { get; set; }
 
-        public FileSystemTaskDeleteItem(string deletePath)
-        {
-            DeletePath = deletePath;
-        }
+        public string Source { get; set; }
+        public string Destination { get; set; }
 
+        public IfDestFileExistsType IfDestFileExists { get; set; }
 
-        public string DeletePath { get; set; }
+        public IterationMode PluginIterationMode { get; set; }
+        public string IterationObject { get; set; }
+        public int IterationsCount { get; set; }
 
-        public override string ToString()
-        {
-            return $"{Resource.TxtPath}: {DeletePath}";
-        }
     }
 }

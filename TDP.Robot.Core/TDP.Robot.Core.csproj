@@ -39,9 +39,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseTask.cs" />
     <Compile Include="DynamicData\CommonDynamicData.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Constants.cs" />
@@ -73,12 +80,14 @@
     <Compile Include="IEventConfig.cs" />
     <Compile Include="IFolder.cs" />
     <Compile Include="Infrastructure\ListItemOfT.cs" />
+    <Compile Include="InstanceExecResult.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="IPluginInstance.cs" />
     <Compile Include="IPluginInstanceBase.cs" />
     <Compile Include="IPluginInstanceConfig.cs" />
     <Compile Include="ITask.cs" />
     <Compile Include="ITaskConfig.cs" />
+    <Compile Include="IterationTask.cs" />
     <Compile Include="Logging\Abstract\IPluginInstanceLogger.cs" />
     <Compile Include="Logging\PluginInstanceLogger.cs" />
     <Compile Include="Persistence\JobsPersistence.cs" />
@@ -146,6 +155,8 @@
       <DependentUpon>WndPluginTaskConfig.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

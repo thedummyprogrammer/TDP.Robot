@@ -379,6 +379,12 @@
   <data name="TxtHigh" xml:space="preserve">
     <value>High</value>
   </data>
+  <data name="TxtHttpResult" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="TxtHttpResultExample" xml:space="preserve">
+    <value>200</value>
+  </data>
   <data name="TxtInsertRow" xml:space="preserve">
     <value>Insert row</value>
   </data>
@@ -453,6 +459,12 @@
   </data>
   <data name="TxtPut" xml:space="preserve">
     <value>Put</value>
+  </data>
+  <data name="TxtRawContent" xml:space="preserve">
+    <value>Raw content</value>
+  </data>
+  <data name="TxtRawContentExample" xml:space="preserve">
+    <value>[{"Column1":"file1.txt"}, {"Column1":"file2.txt"}, {"Column1":"file3.txt"}]</value>
   </data>
   <data name="TxtReadFromRowToLastRow" xml:space="preserve">
     <value>From &lt;row&gt; to last row</value>
@@ -579,6 +591,12 @@
   </data>
   <data name="TxtUnzipTask" xml:space="preserve">
     <value>Unzip task</value>
+  </data>
+  <data name="TxtURL" xml:space="preserve">
+    <value>URL</value>
+  </data>
+  <data name="TxtURLExample" xml:space="preserve">
+    <value>https://www.example.com</value>
   </data>
   <data name="TxtUseServerDefault" xml:space="preserve">
     <value>Use server default</value>

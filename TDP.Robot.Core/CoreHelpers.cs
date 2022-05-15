@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -87,6 +87,7 @@ namespace TDP.Robot.Core
                         if (FileLibInfo.Name.ToLower().StartsWith("tdp.robot.plugins") && FileLibInfo.Name.ToLower().EndsWith(".dll"))
                         {
                             logger.Info($"Loading library {FileLibName}...");
+                            
                             Assembly Asx = Assembly.LoadFrom(FileLibName);
                             foreach (Type TypeExported in Asx.ExportedTypes)
                             {

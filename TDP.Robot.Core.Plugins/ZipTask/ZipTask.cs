@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -20,25 +20,14 @@
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TDP.Robot.Core;
-using TDP.Robot.Core.DynamicData;
-using TDP.Robot.Core.Logging;
 
 namespace TDP.Robot.Plugins.Core.ZipTask
 {
     [Serializable]
-    public class ZipTask : ITask
+    public class ZipTask : IterationTask
     {
-        public IFolder ParentFolder { get; set; }
-        public int ID { get; set; }
-        public IPluginInstanceConfig Config { get; set; }
-
-        public List<PluginInstanceConnection> Connections { get; } = new List<PluginInstanceConnection>();
 
         private int ToNumericCompressionLevel(CompressionLevelType compressionLevel)
         {
@@ -153,76 +142,28 @@ namespace TDP.Robot.Plugins.Core.ZipTask
             }
         }
 
-        public void Init()
+        protected override void RunIteration(int currentIteration)
         {
+            ZipTaskConfig TConfig = (ZipTaskConfig)_iterationConfig;
             
-        }
-
-        public void Destroy()
-        {
-            
-        }
-
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
-        {
-            ExecResult Result;
-            DateTime StartDateTime = DateTime.Now;
-
-            int ActualIterations = 0;
-
-            try
+            if (File.Exists(TConfig.Destination))
             {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskStarted(this);
-
-                ZipTaskConfig TConfig = (ZipTaskConfig)Config;
-                int IterationsCount = DynamicDataParser.GetIterationCount(TConfig, dataChain, lastDynamicDataSet);
-
-                for (int i = 0; i < IterationsCount; i++)
+                if (TConfig.IfArchiveExists == IfArchiveExistsType.CreateWithUniqueNames)
                 {
-                    ZipTaskConfig ConfigCopy = (ZipTaskConfig)CoreHelpers.CloneObjects(Config);
-                    DynamicDataParser.Parse(ConfigCopy, dataChain, IterationsCount);
-
-                    if (File.Exists(ConfigCopy.Destination))
-                    {
-                        if (ConfigCopy.IfArchiveExists == IfArchiveExistsType.CreateWithUniqueNames)
-                        {
-                            ConfigCopy.Destination = Common.GetUniqueFileName(ConfigCopy.Destination);
-                        }
-                        else if (ConfigCopy.IfArchiveExists == IfArchiveExistsType.Fail)
-                        {
-                            if (!Config.DoNotLog)
-                                instanceLogger.Error($"File name {ConfigCopy.Destination} already exists.");
-
-                            DynamicDataSet FailDDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                            Result = new ExecResult(false, FailDDataSet);
-                            break;
-                        }
-                    }
-
-                    instanceLogger.Info(this, $"Compressing {ConfigCopy.Source} to {ConfigCopy.Destination}...");
-                    CompressItem(ConfigCopy.Source, ConfigCopy.Destination, ConfigCopy.IncludeFilesInSubFolders,
-                                    ConfigCopy.StoreFullPath, ConfigCopy.SkipEmptyFolder, ToNumericCompressionLevel(ConfigCopy.CompressionLevel));
-                        
-                    ActualIterations++;
+                    TConfig.Destination = Common.GetUniqueFileName(TConfig.Destination);
                 }
+                else if (TConfig.IfArchiveExists == IfArchiveExistsType.Fail)
+                {
+                    if (!Config.DoNotLog)
+                        _instanceLogger.Error($"File name {TConfig.Destination} already exists.");
 
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, true, 0, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(true, DDataSet);
-
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskCompleted(this);
-            }
-            catch (Exception ex)
-            {
-                if (!Config.DoNotLog)
-                    instanceLogger.TaskError(this, ex);
-
-                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(this, false, -1, StartDateTime, DateTime.Now, ActualIterations);
-                Result = new ExecResult(false, DDataSet);
+                    throw new ApplicationException($"File name {TConfig.Destination} already exists.");
+                }
             }
 
-            return Result;
+            _instanceLogger.Info(this, $"Compressing {TConfig.Source} to {TConfig.Destination}...");
+            CompressItem(TConfig.Source, TConfig.Destination, TConfig.IncludeFilesInSubFolders,
+                            TConfig.StoreFullPath, TConfig.SkipEmptyFolder, ToNumericCompressionLevel(TConfig.CompressionLevel));
         }
     }
 }

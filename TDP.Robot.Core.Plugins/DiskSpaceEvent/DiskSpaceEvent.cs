@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -74,7 +74,7 @@ namespace TDP.Robot.Plugins.Core.DiskSpaceEvent
             _RecurringTimer.Dispose();
         }
 
-        public ExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
+        public InstanceExecResult Run(DynamicDataChain dataChain, DynamicDataSet lastDynamicDataSet, IPluginInstanceLogger instanceLogger)
         {
             DiskSpaceEventConfig TConfig = (DiskSpaceEventConfig)Config;
 
@@ -86,8 +86,9 @@ namespace TDP.Robot.Plugins.Core.DiskSpaceEvent
 
             _RecurringTimer.Enabled = true;
 
-            ExecResult ER = new ExecResult(true, null);
-            return ER;
+            List<ExecResult> execResults = new List<ExecResult>();
+            execResults.Add(new ExecResult(true, null));
+            return new InstanceExecResult(execResults);
         }
 
         private long ThresholdToBytes(long totalDriveSpace, int value, DiskThresholdUnitMeasure unit)
