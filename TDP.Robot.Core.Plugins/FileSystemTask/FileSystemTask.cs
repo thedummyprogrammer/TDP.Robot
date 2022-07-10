@@ -32,7 +32,8 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
     [Serializable]
     public class FileSystemTask : IterationTask
     {
-     
+        private bool _FilePathExists = false;
+
         private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwriteIfFileExists)
         {
             // Get the subdirectories for the specified directory.
@@ -122,7 +123,7 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
 
                 _instanceLogger.Info(this, "Copy files completed");
             }
-            else
+            else if (TConfig.Command == FileSystemTaskCommandType.Delete)
             {
                 _instanceLogger.Info(this, "Starting delete files...");
 
@@ -134,6 +135,32 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 }
 
                 _instanceLogger.Info(this, "Delete files completed");
+            }
+            else
+            {
+                _instanceLogger.Info(this, "Starting check existence of file/directory...");
+                _FilePathExists = false;
+
+                if (File.Exists(TConfig.CheckExistenceFilePath) || Directory.Exists(TConfig.CheckExistenceFilePath))
+                {
+                    _FilePathExists = true;
+                    _instanceLogger.Info(this, $"File/Folder: {TConfig.CheckExistenceFilePath} exists");
+                }
+
+                _instanceLogger.Info(this, "Check existence completed");
+            }
+        }
+
+        protected override void PostIterationSucceded(int currentIteration, ExecResult result, DynamicDataSet dDataSet)
+        {
+            FileSystemTaskConfig TConfig = (FileSystemTaskConfig)_iterationConfig;
+
+            if (TConfig.Command == FileSystemTaskCommandType.CheckExistence)
+            {
+                if (_FilePathExists)
+                    dDataSet.Add("FilePathExists", 1);
+                else
+                    dDataSet.Add("FilePathExists", 0);
             }
         }
     }

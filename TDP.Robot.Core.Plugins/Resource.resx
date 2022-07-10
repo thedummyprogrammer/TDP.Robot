@@ -199,6 +199,9 @@
   <data name="TxtChangingThisOptionYouWillLoseColumnDef" xml:space="preserve">
     <value>If you change this option the configuration in "Column definition" tab will be lost. Do you want to continue?</value>
   </data>
+  <data name="TxtCheckExistence" xml:space="preserve">
+    <value>Check existence</value>
+  </data>
   <data name="TxtCompressBackup" xml:space="preserve">
     <value>Compress backup</value>
   </data>
@@ -333,6 +336,9 @@
   </data>
   <data name="TxtFieldNotContainAValidSqlServerDate" xml:space="preserve">
     <value>This field doesn't contain a valid Sql Server date</value>
+  </data>
+  <data name="TxtFilePathExists" xml:space="preserve">
+    <value>File / Path exists</value>
   </data>
   <data name="TxtFileSystemEvent" xml:space="preserve">
     <value>File system event</value>

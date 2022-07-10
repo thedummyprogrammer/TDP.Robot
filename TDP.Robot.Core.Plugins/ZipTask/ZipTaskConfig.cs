@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TDP.Robot.Core;
+using TDP.Robot.Core.DynamicData;
 
 namespace TDP.Robot.Plugins.Core.ZipTask
 {
@@ -50,7 +51,9 @@ namespace TDP.Robot.Plugins.Core.ZipTask
         public bool Disable { get; set; }
         public bool DoNotLog { get; set; }
 
+        [DynamicData]
         public string Source { get; set; }
+        [DynamicData]
         public string Destination { get; set; }
         public bool IncludeFilesInSubFolders { get; set; }
         public bool StoreFullPath { get; set; }

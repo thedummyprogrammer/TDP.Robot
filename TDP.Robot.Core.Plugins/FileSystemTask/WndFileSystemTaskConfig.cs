@@ -27,6 +27,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TDP.BaseServices.Infrastructure.DataValidation;
 using TDP.Robot.Core;
 using TDP.Robot.Plugins.Core.Infrastructure;
 
@@ -42,7 +43,10 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
 
             CmbCommand.Items.Add(new ListItem<FileSystemTaskCommandType>(FileSystemTaskCommandType.Copy, Resource.TxtCopy));
             CmbCommand.Items.Add(new ListItem<FileSystemTaskCommandType>(FileSystemTaskCommandType.Delete, Resource.TxtDelete));
+            CmbCommand.Items.Add(new ListItem<FileSystemTaskCommandType>(FileSystemTaskCommandType.CheckExistence, Resource.TxtCheckExistence));
             CmbCommand.SelectedIndex = 0;
+
+            BtnDynDataCheckFIlePath.Click += BtnDynDataButton_Click;
         }
 
         private void ManageEditCopyPath()
@@ -116,6 +120,8 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             {
                 Config.DeleteItems.Add(DeleteItem);
             }
+
+            Config.CheckExistenceFilePath = TxtCheckFilePath.Text;
         }
 
         protected override void FillForm(IPluginInstanceConfig config)
@@ -137,6 +143,8 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             {
                 LstDeletePaths.Items.Add(DeleteItem);
             }
+
+            TxtCheckFilePath.Text = Config.CheckExistenceFilePath;
         }
 
         protected override bool ValidateConfig(IPluginInstanceConfig config)
@@ -154,6 +162,11 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 if (LstDeletePaths.Items.Count == 0)
                     SetError(LstDeletePaths, Resource.TxtFieldCannotBeEmpty);
             }
+            else if (GrpCheckExistence.Visible)
+            {
+                if (DataValidationHelper.IsEmptyString(TxtCheckFilePath.Text))
+                    SetError(TxtCheckFilePath, Resource.TxtFieldCannotBeEmpty);
+            }
 
             return GetErrorCount() == 0;
         }
@@ -167,11 +180,19 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 case FileSystemTaskCommandType.Copy:
                     GrpCopyMove.Visible = true;
                     GrpDelete.Visible = false;
+                    GrpCheckExistence.Visible = false;
                     break;
 
                 case FileSystemTaskCommandType.Delete:
                     GrpCopyMove.Visible = false;
                     GrpDelete.Visible = true;
+                    GrpCheckExistence.Visible = false;
+                    break;
+
+                case FileSystemTaskCommandType.CheckExistence:
+                    GrpCopyMove.Visible = false;
+                    GrpDelete.Visible = false;
+                    GrpCheckExistence.Visible = true;
                     break;
             }
         }
@@ -244,6 +265,22 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         private void LstDeletePaths_DoubleClick(object sender, EventArgs e)
         {
             ManageEditDeletePath();
+        }
+
+        private void BtnBrowseCheckFIlePath_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog F = new OpenFileDialog())
+            {
+                F.RestoreDirectory = true;
+                F.CheckPathExists = false;
+                F.CheckFileExists = false;
+
+                if (F.ShowDialog() == DialogResult.OK)
+                {
+                    //Get the path of specified file
+                    TxtCheckFilePath.Text = F.FileName;
+                }
+            }
         }
     }
 }

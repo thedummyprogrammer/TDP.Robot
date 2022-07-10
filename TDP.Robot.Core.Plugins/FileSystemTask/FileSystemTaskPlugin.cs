@@ -43,6 +43,7 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             get
             {
                 List<DynamicDataSample> Samples = CommonDynamicData.BuildStandardDynamicDataSamples("File system file task 1");
+                Samples.Add(new DynamicDataSample("FilePathExists", Resource.TxtFilePathExists, "1"));
                 return Samples;
             }
         }
