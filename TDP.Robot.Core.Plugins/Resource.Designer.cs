@@ -325,6 +325,15 @@ namespace TDP.Robot.Plugins.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check existence.
+        /// </summary>
+        internal static string TxtCheckExistence {
+            get {
+                return ResourceManager.GetString("TxtCheckExistence", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compress backup.
         /// </summary>
         internal static string TxtCompressBackup {
@@ -726,6 +735,15 @@ namespace TDP.Robot.Plugins.Core {
         internal static string TxtFieldNotContainAValidSqlServerDate {
             get {
                 return ResourceManager.GetString("TxtFieldNotContainAValidSqlServerDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File / Path exists.
+        /// </summary>
+        internal static string TxtFilePathExists {
+            get {
+                return ResourceManager.GetString("TxtFilePathExists", resourceCulture);
             }
         }
         

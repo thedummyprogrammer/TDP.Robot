@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TDP.Robot.Core;
+using TDP.Robot.Core.DynamicData;
 
 namespace TDP.Robot.Plugins.Core.FileSystemTask
 {
@@ -30,7 +31,8 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
     public enum FileSystemTaskCommandType
     {
         Copy,
-        Delete
+        Delete,
+        CheckExistence
     }
 
     [Serializable]
@@ -50,5 +52,8 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         public List<FileSystemTaskCopyItem> CopyItems { get; } = new List<FileSystemTaskCopyItem>();
 
         public List<FileSystemTaskDeleteItem> DeleteItems { get; } = new List<FileSystemTaskDeleteItem>();
+
+        [DynamicData]
+        public string CheckExistenceFilePath { get; set; }
     }
 }

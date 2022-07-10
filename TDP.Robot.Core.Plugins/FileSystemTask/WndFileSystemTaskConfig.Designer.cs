@@ -48,27 +48,34 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WndFileSystemTaskConfig));
             this.CmbCommand = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
             this.TabGeneral = new System.Windows.Forms.TabPage();
-            this.GrpCopyMove = new System.Windows.Forms.GroupBox();
-            this.BtnRemoveCopyPath = new System.Windows.Forms.Button();
-            this.BtnEditCopyPath = new System.Windows.Forms.Button();
-            this.BtnAddCopyPath = new System.Windows.Forms.Button();
-            this.LblCopyPaths = new System.Windows.Forms.Label();
-            this.LstCopyPaths = new System.Windows.Forms.ListBox();
+            this.GrpCheckExistence = new System.Windows.Forms.GroupBox();
+            this.BtnDynDataCheckFIlePath = new System.Windows.Forms.Button();
+            this.BtnBrowseCheckFIlePath = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.TxtCheckFilePath = new System.Windows.Forms.TextBox();
             this.GrpDelete = new System.Windows.Forms.GroupBox();
             this.BtnRemoveDeletePath = new System.Windows.Forms.Button();
             this.BtnEditDeletePath = new System.Windows.Forms.Button();
             this.BtnAddDeletePath = new System.Windows.Forms.Button();
             this.LblDeletePaths = new System.Windows.Forms.Label();
             this.LstDeletePaths = new System.Windows.Forms.ListBox();
+            this.GrpCopyMove = new System.Windows.Forms.GroupBox();
+            this.BtnRemoveCopyPath = new System.Windows.Forms.Button();
+            this.BtnEditCopyPath = new System.Windows.Forms.Button();
+            this.BtnAddCopyPath = new System.Windows.Forms.Button();
+            this.LblCopyPaths = new System.Windows.Forms.Label();
+            this.LstCopyPaths = new System.Windows.Forms.ListBox();
             this.TabConfig2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ErrProvider)).BeginInit();
             this.TabGeneral.SuspendLayout();
-            this.GrpCopyMove.SuspendLayout();
+            this.GrpCheckExistence.SuspendLayout();
             this.GrpDelete.SuspendLayout();
+            this.GrpCopyMove.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabConfig2
@@ -105,16 +112,130 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             // 
             // TabGeneral
             // 
+            this.TabGeneral.Controls.Add(this.GrpCheckExistence);
             this.TabGeneral.Controls.Add(this.label7);
             this.TabGeneral.Controls.Add(this.CmbCommand);
-            this.TabGeneral.Controls.Add(this.GrpCopyMove);
             this.TabGeneral.Controls.Add(this.GrpDelete);
+            this.TabGeneral.Controls.Add(this.GrpCopyMove);
             this.TabGeneral.Location = new System.Drawing.Point(4, 22);
             this.TabGeneral.Name = "TabGeneral";
             this.TabGeneral.Size = new System.Drawing.Size(555, 415);
             this.TabGeneral.TabIndex = 3;
             this.TabGeneral.Text = "General";
             this.TabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // GrpCheckExistence
+            // 
+            this.GrpCheckExistence.Controls.Add(this.BtnDynDataCheckFIlePath);
+            this.GrpCheckExistence.Controls.Add(this.BtnBrowseCheckFIlePath);
+            this.GrpCheckExistence.Controls.Add(this.label8);
+            this.GrpCheckExistence.Controls.Add(this.TxtCheckFilePath);
+            this.GrpCheckExistence.Location = new System.Drawing.Point(8, 42);
+            this.GrpCheckExistence.Name = "GrpCheckExistence";
+            this.GrpCheckExistence.Size = new System.Drawing.Size(538, 65);
+            this.GrpCheckExistence.TabIndex = 34;
+            this.GrpCheckExistence.TabStop = false;
+            this.GrpCheckExistence.Text = "Check existence";
+            // 
+            // BtnDynDataCheckFIlePath
+            // 
+            this.BtnDynDataCheckFIlePath.Image = global::TDP.Robot.Plugins.Core.Resource.LightningAdd;
+            this.BtnDynDataCheckFIlePath.Location = new System.Drawing.Point(491, 24);
+            this.BtnDynDataCheckFIlePath.Name = "BtnDynDataCheckFIlePath";
+            this.BtnDynDataCheckFIlePath.Size = new System.Drawing.Size(23, 21);
+            this.BtnDynDataCheckFIlePath.TabIndex = 34;
+            this.BtnDynDataCheckFIlePath.Text = "...";
+            this.BtnDynDataCheckFIlePath.UseVisualStyleBackColor = true;
+            // 
+            // BtnBrowseCheckFIlePath
+            // 
+            this.BtnBrowseCheckFIlePath.Location = new System.Drawing.Point(454, 24);
+            this.BtnBrowseCheckFIlePath.Name = "BtnBrowseCheckFIlePath";
+            this.BtnBrowseCheckFIlePath.Size = new System.Drawing.Size(31, 20);
+            this.BtnBrowseCheckFIlePath.TabIndex = 33;
+            this.BtnBrowseCheckFIlePath.Text = "...";
+            this.BtnBrowseCheckFIlePath.UseVisualStyleBackColor = true;
+            this.BtnBrowseCheckFIlePath.Click += new System.EventHandler(this.BtnBrowseCheckFIlePath_Click);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(9, 27);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(74, 13);
+            this.label8.TabIndex = 29;
+            this.label8.Text = "Path to check";
+            // 
+            // TxtCheckFilePath
+            // 
+            this.TxtCheckFilePath.Location = new System.Drawing.Point(89, 24);
+            this.TxtCheckFilePath.MaxLength = 5000;
+            this.TxtCheckFilePath.Name = "TxtCheckFilePath";
+            this.TxtCheckFilePath.Size = new System.Drawing.Size(359, 20);
+            this.TxtCheckFilePath.TabIndex = 30;
+            // 
+            // GrpDelete
+            // 
+            this.GrpDelete.Controls.Add(this.BtnRemoveDeletePath);
+            this.GrpDelete.Controls.Add(this.BtnEditDeletePath);
+            this.GrpDelete.Controls.Add(this.BtnAddDeletePath);
+            this.GrpDelete.Controls.Add(this.LblDeletePaths);
+            this.GrpDelete.Controls.Add(this.LstDeletePaths);
+            this.GrpDelete.Location = new System.Drawing.Point(8, 42);
+            this.GrpDelete.Name = "GrpDelete";
+            this.GrpDelete.Size = new System.Drawing.Size(537, 122);
+            this.GrpDelete.TabIndex = 28;
+            this.GrpDelete.TabStop = false;
+            this.GrpDelete.Text = "Delete";
+            this.GrpDelete.Visible = false;
+            // 
+            // BtnRemoveDeletePath
+            // 
+            this.BtnRemoveDeletePath.Location = new System.Drawing.Point(443, 85);
+            this.BtnRemoveDeletePath.Name = "BtnRemoveDeletePath";
+            this.BtnRemoveDeletePath.Size = new System.Drawing.Size(87, 23);
+            this.BtnRemoveDeletePath.TabIndex = 9;
+            this.BtnRemoveDeletePath.Text = "Remove";
+            this.BtnRemoveDeletePath.UseVisualStyleBackColor = true;
+            this.BtnRemoveDeletePath.Click += new System.EventHandler(this.BtnRemoveDeletePath_Click);
+            // 
+            // BtnEditDeletePath
+            // 
+            this.BtnEditDeletePath.Location = new System.Drawing.Point(443, 56);
+            this.BtnEditDeletePath.Name = "BtnEditDeletePath";
+            this.BtnEditDeletePath.Size = new System.Drawing.Size(87, 23);
+            this.BtnEditDeletePath.TabIndex = 8;
+            this.BtnEditDeletePath.Text = "Edit...";
+            this.BtnEditDeletePath.UseVisualStyleBackColor = true;
+            this.BtnEditDeletePath.Click += new System.EventHandler(this.BtnEditDeletePath_Click);
+            // 
+            // BtnAddDeletePath
+            // 
+            this.BtnAddDeletePath.Location = new System.Drawing.Point(444, 27);
+            this.BtnAddDeletePath.Name = "BtnAddDeletePath";
+            this.BtnAddDeletePath.Size = new System.Drawing.Size(87, 23);
+            this.BtnAddDeletePath.TabIndex = 7;
+            this.BtnAddDeletePath.Text = "Add...";
+            this.BtnAddDeletePath.UseVisualStyleBackColor = true;
+            this.BtnAddDeletePath.Click += new System.EventHandler(this.BtnAddDeletePath_Click);
+            // 
+            // LblDeletePaths
+            // 
+            this.LblDeletePaths.AutoSize = true;
+            this.LblDeletePaths.Location = new System.Drawing.Point(6, 26);
+            this.LblDeletePaths.Name = "LblDeletePaths";
+            this.LblDeletePaths.Size = new System.Drawing.Size(34, 13);
+            this.LblDeletePaths.TabIndex = 6;
+            this.LblDeletePaths.Text = "Paths";
+            // 
+            // LstDeletePaths
+            // 
+            this.LstDeletePaths.FormattingEnabled = true;
+            this.LstDeletePaths.Location = new System.Drawing.Point(46, 26);
+            this.LstDeletePaths.Name = "LstDeletePaths";
+            this.LstDeletePaths.Size = new System.Drawing.Size(391, 82);
+            this.LstDeletePaths.TabIndex = 5;
+            this.LstDeletePaths.DoubleClick += new System.EventHandler(this.LstDeletePaths_DoubleClick);
             // 
             // GrpCopyMove
             // 
@@ -178,74 +299,12 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             this.LstCopyPaths.TabIndex = 0;
             this.LstCopyPaths.DoubleClick += new System.EventHandler(this.LstCopyPaths_DoubleClick);
             // 
-            // GrpDelete
-            // 
-            this.GrpDelete.Controls.Add(this.BtnRemoveDeletePath);
-            this.GrpDelete.Controls.Add(this.BtnEditDeletePath);
-            this.GrpDelete.Controls.Add(this.BtnAddDeletePath);
-            this.GrpDelete.Controls.Add(this.LblDeletePaths);
-            this.GrpDelete.Controls.Add(this.LstDeletePaths);
-            this.GrpDelete.Location = new System.Drawing.Point(5, 42);
-            this.GrpDelete.Name = "GrpDelete";
-            this.GrpDelete.Size = new System.Drawing.Size(537, 122);
-            this.GrpDelete.TabIndex = 28;
-            this.GrpDelete.TabStop = false;
-            this.GrpDelete.Text = "Delete";
-            this.GrpDelete.Visible = false;
-            // 
-            // BtnRemoveDeletePath
-            // 
-            this.BtnRemoveDeletePath.Location = new System.Drawing.Point(443, 85);
-            this.BtnRemoveDeletePath.Name = "BtnRemoveDeletePath";
-            this.BtnRemoveDeletePath.Size = new System.Drawing.Size(87, 23);
-            this.BtnRemoveDeletePath.TabIndex = 9;
-            this.BtnRemoveDeletePath.Text = "Remove";
-            this.BtnRemoveDeletePath.UseVisualStyleBackColor = true;
-            this.BtnRemoveDeletePath.Click += new System.EventHandler(this.BtnRemoveDeletePath_Click);
-            // 
-            // BtnEditDeletePath
-            // 
-            this.BtnEditDeletePath.Location = new System.Drawing.Point(443, 56);
-            this.BtnEditDeletePath.Name = "BtnEditDeletePath";
-            this.BtnEditDeletePath.Size = new System.Drawing.Size(87, 23);
-            this.BtnEditDeletePath.TabIndex = 8;
-            this.BtnEditDeletePath.Text = "Edit...";
-            this.BtnEditDeletePath.UseVisualStyleBackColor = true;
-            this.BtnEditDeletePath.Click += new System.EventHandler(this.BtnEditDeletePath_Click);
-            // 
-            // BtnAddDeletePath
-            // 
-            this.BtnAddDeletePath.Location = new System.Drawing.Point(444, 27);
-            this.BtnAddDeletePath.Name = "BtnAddDeletePath";
-            this.BtnAddDeletePath.Size = new System.Drawing.Size(87, 23);
-            this.BtnAddDeletePath.TabIndex = 7;
-            this.BtnAddDeletePath.Text = "Add...";
-            this.BtnAddDeletePath.UseVisualStyleBackColor = true;
-            this.BtnAddDeletePath.Click += new System.EventHandler(this.BtnAddDeletePath_Click);
-            // 
-            // LblDeletePaths
-            // 
-            this.LblDeletePaths.AutoSize = true;
-            this.LblDeletePaths.Location = new System.Drawing.Point(6, 26);
-            this.LblDeletePaths.Name = "LblDeletePaths";
-            this.LblDeletePaths.Size = new System.Drawing.Size(34, 13);
-            this.LblDeletePaths.TabIndex = 6;
-            this.LblDeletePaths.Text = "Paths";
-            // 
-            // LstDeletePaths
-            // 
-            this.LstDeletePaths.FormattingEnabled = true;
-            this.LstDeletePaths.Location = new System.Drawing.Point(46, 26);
-            this.LstDeletePaths.Name = "LstDeletePaths";
-            this.LstDeletePaths.Size = new System.Drawing.Size(391, 82);
-            this.LstDeletePaths.TabIndex = 5;
-            this.LstDeletePaths.DoubleClick += new System.EventHandler(this.LstDeletePaths_DoubleClick);
-            // 
             // WndFileSystemTaskConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(597, 568);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WndFileSystemTaskConfig";
             this.Text = "File system task config";
             this.TabConfig2.ResumeLayout(false);
@@ -254,10 +313,12 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             ((System.ComponentModel.ISupportInitialize)(this.ErrProvider)).EndInit();
             this.TabGeneral.ResumeLayout(false);
             this.TabGeneral.PerformLayout();
-            this.GrpCopyMove.ResumeLayout(false);
-            this.GrpCopyMove.PerformLayout();
+            this.GrpCheckExistence.ResumeLayout(false);
+            this.GrpCheckExistence.PerformLayout();
             this.GrpDelete.ResumeLayout(false);
             this.GrpDelete.PerformLayout();
+            this.GrpCopyMove.ResumeLayout(false);
+            this.GrpCopyMove.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -279,5 +340,10 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         private System.Windows.Forms.Button BtnAddDeletePath;
         private System.Windows.Forms.Label LblDeletePaths;
         private System.Windows.Forms.ListBox LstDeletePaths;
+        private System.Windows.Forms.GroupBox GrpCheckExistence;
+        private System.Windows.Forms.Button BtnDynDataCheckFIlePath;
+        private System.Windows.Forms.Button BtnBrowseCheckFIlePath;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox TxtCheckFilePath;
     }
 }
