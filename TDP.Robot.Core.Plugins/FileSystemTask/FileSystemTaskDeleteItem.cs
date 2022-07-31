@@ -33,13 +33,19 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
 
         }
 
-        public FileSystemTaskDeleteItem(string deletePath)
+        public FileSystemTaskDeleteItem(string deletePath, string filesOlderThanDays, string filesOlderThanHours, string filesOlderThanMinutes)
         {
             DeletePath = deletePath;
+            FilesOlderThanDays = filesOlderThanDays;
+            FilesOlderThanHours = filesOlderThanHours;
+            FilesOlderThanMinutes = filesOlderThanMinutes;
         }
 
 
         public string DeletePath { get; set; }
+        public string FilesOlderThanDays { get; set; }
+        public string FilesOlderThanHours { get; set; }
+        public string FilesOlderThanMinutes { get; set; }
 
         public override string ToString()
         {

@@ -63,6 +63,9 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             {
                 F.SourcePath = CopyItem.SourcePath;
                 F.DestinationPath = CopyItem.DestinationPath;
+                F.FilesOlderThanDays = CopyItem.FilesOlderThanDays;
+                F.FilesOlderThanHours = CopyItem.FilesOlderThanHours;
+                F.FilesOlderThanMinutes = CopyItem.FilesOlderThanMinutes;
                 F.OverwriteFileIfExists = CopyItem.OverwriteFileIfExists;
                 F.RecursivelyCopyDirectories = CopyItem.RecursivelyCopyDirectories;
                 F.DynamicDataObjectSamples = DynamicDataObjectSamples;
@@ -71,6 +74,9 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 {
                     CopyItem.SourcePath= F.SourcePath;
                     CopyItem.DestinationPath = F.DestinationPath;
+                    CopyItem.FilesOlderThanDays = F.FilesOlderThanDays;
+                    CopyItem.FilesOlderThanHours = F.FilesOlderThanHours;
+                    CopyItem.FilesOlderThanMinutes = F.FilesOlderThanMinutes;
                     CopyItem.OverwriteFileIfExists = F.OverwriteFileIfExists;
                     CopyItem.RecursivelyCopyDirectories = F.RecursivelyCopyDirectories;
                     LstCopyPaths.Items[LstCopyPaths.SelectedIndex] = CopyItem;
@@ -92,10 +98,16 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             {
                 F.DeletePath = DeleteItem.DeletePath;
                 F.DynamicDataObjectSamples = DynamicDataObjectSamples;
+                F.FilesOlderThanDays = DeleteItem.FilesOlderThanDays;
+                F.FilesOlderThanHours = DeleteItem.FilesOlderThanHours;
+                F.FilesOlderThanMinutes = DeleteItem.FilesOlderThanMinutes;
                 F.CallerID = _PluginConfig.ID;
                 if (F.ShowDialog() == DialogResult.OK)
                 {
                     DeleteItem.DeletePath = F.DeletePath;
+                    DeleteItem.FilesOlderThanDays = F.FilesOlderThanDays;
+                    DeleteItem.FilesOlderThanHours = F.FilesOlderThanHours;
+                    DeleteItem.FilesOlderThanMinutes = F.FilesOlderThanMinutes;
                     LstDeletePaths.Items[LstDeletePaths.SelectedIndex] = DeleteItem;
                 }
             }
@@ -205,7 +217,7 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 F.CallerID = _PluginConfig.ID;
                 if (F.ShowDialog() == DialogResult.OK)
                 {
-                    FileSystemTaskCopyItem CopyItem = new FileSystemTaskCopyItem(F.SourcePath, F.DestinationPath, F.OverwriteFileIfExists, F.RecursivelyCopyDirectories);
+                    FileSystemTaskCopyItem CopyItem = new FileSystemTaskCopyItem(F.SourcePath, F.DestinationPath, F.FilesOlderThanDays, F.FilesOlderThanHours, F.FilesOlderThanMinutes, F.OverwriteFileIfExists, F.RecursivelyCopyDirectories);
                     LstCopyPaths.Items.Add(CopyItem);
                 }
             }
@@ -240,7 +252,7 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 F.CallerID = _PluginConfig.ID;
                 if (F.ShowDialog() == DialogResult.OK)
                 {
-                    FileSystemTaskDeleteItem DeleteItem = new FileSystemTaskDeleteItem(F.DeletePath);
+                    FileSystemTaskDeleteItem DeleteItem = new FileSystemTaskDeleteItem(F.DeletePath, F.FilesOlderThanDays, F.FilesOlderThanHours, F.FilesOlderThanMinutes);
                     LstDeletePaths.Items.Add(DeleteItem);
                 }
             }
@@ -267,7 +279,7 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             ManageEditDeletePath();
         }
 
-        private void BtnBrowseCheckFIlePath_Click(object sender, EventArgs e)
+        private void BtnBrowseCheckFilePath_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog F = new OpenFileDialog())
             {

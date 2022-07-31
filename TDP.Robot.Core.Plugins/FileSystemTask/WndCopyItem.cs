@@ -39,6 +39,9 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
 
             BtnDynDataSourcePath.Click += BtnDynDataButton_Click;
             BtnDynDataDestinationPath.Click += BtnDynDataButton_Click;
+            BtnDynDataFilesOlderThanDays.Click += BtnDynDataButton_Click;
+            BtnDynDataFilesOlderThanHours.Click += BtnDynDataButton_Click;
+            BtnDynDataFilesOlderThanMinutes.Click += BtnDynDataButton_Click;
         }
 
         public string SourcePath
@@ -51,6 +54,24 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         {
             get { return TxtDestinationPath.Text; }
             set { TxtDestinationPath.Text = value; }
+        }
+
+        public string FilesOlderThanDays
+        {
+            get { return TxtFilesOlderThanDays.Text; }
+            set { TxtFilesOlderThanDays.Text = value; }
+        }
+
+        public string FilesOlderThanHours
+        {
+            get { return TxtFilesOlderThanHours.Text; }
+            set { TxtFilesOlderThanHours.Text = value; }
+        }
+
+        public string FilesOlderThanMinutes
+        {
+            get { return TxtFilesOlderThanMinutes.Text; }
+            set { TxtFilesOlderThanMinutes.Text = value; }
         }
 
         public bool OverwriteFileIfExists

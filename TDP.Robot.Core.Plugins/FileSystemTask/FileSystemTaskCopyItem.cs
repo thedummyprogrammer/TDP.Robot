@@ -33,10 +33,15 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
 
         }
 
-        public FileSystemTaskCopyItem(string sourcePath, string destinationPath, bool overwriteFileIfExists, bool recursivelyCopyDirectories)
+        public FileSystemTaskCopyItem(string sourcePath, string destinationPath, 
+                                        string filesOlderThanDays, string filesOlderThanHours, string filesOlderThanMinutes,
+                                        bool overwriteFileIfExists, bool recursivelyCopyDirectories)
         {
             SourcePath = sourcePath;
             DestinationPath = destinationPath;
+            FilesOlderThanDays = filesOlderThanDays;
+            FilesOlderThanHours = filesOlderThanHours;
+            FilesOlderThanMinutes = filesOlderThanMinutes;
             OverwriteFileIfExists = overwriteFileIfExists;
             RecursivelyCopyDirectories = recursivelyCopyDirectories;
         }
@@ -44,6 +49,10 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         public string SourcePath { get; set; }
 
         public string DestinationPath { get; set; }
+
+        public string FilesOlderThanDays { get; set; }
+        public string FilesOlderThanHours { get; set; } 
+        public string FilesOlderThanMinutes { get; set; }
 
         public bool OverwriteFileIfExists { get; set; }
 

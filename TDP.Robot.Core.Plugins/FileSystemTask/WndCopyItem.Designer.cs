@@ -41,27 +41,37 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             this.BtnCancel = new System.Windows.Forms.Button();
             this.BtnOk = new System.Windows.Forms.Button();
             this.BtnBrowseDestinationPath = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TxtFilesOlderThanMinutes = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.TxtFilesOlderThanHours = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.TxtFilesOlderThanDays = new System.Windows.Forms.TextBox();
+            this.BtnDynDataFilesOlderThanDays = new System.Windows.Forms.Button();
+            this.BtnDynDataFilesOlderThanHours = new System.Windows.Forms.Button();
+            this.BtnDynDataFilesOlderThanMinutes = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ChkRecursivelyCopyDirectories
             // 
             this.ChkRecursivelyCopyDirectories.AutoSize = true;
-            this.ChkRecursivelyCopyDirectories.Location = new System.Drawing.Point(153, 87);
+            this.ChkRecursivelyCopyDirectories.Location = new System.Drawing.Point(160, 117);
             this.ChkRecursivelyCopyDirectories.Name = "ChkRecursivelyCopyDirectories";
             this.ChkRecursivelyCopyDirectories.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.ChkRecursivelyCopyDirectories.Size = new System.Drawing.Size(158, 17);
-            this.ChkRecursivelyCopyDirectories.TabIndex = 9;
+            this.ChkRecursivelyCopyDirectories.TabIndex = 19;
             this.ChkRecursivelyCopyDirectories.Text = "Recursively copy directories";
             this.ChkRecursivelyCopyDirectories.UseVisualStyleBackColor = true;
             // 
             // ChkOverwriteFileIfExists
             // 
             this.ChkOverwriteFileIfExists.AutoSize = true;
-            this.ChkOverwriteFileIfExists.Location = new System.Drawing.Point(14, 87);
+            this.ChkOverwriteFileIfExists.Location = new System.Drawing.Point(17, 117);
             this.ChkOverwriteFileIfExists.Name = "ChkOverwriteFileIfExists";
             this.ChkOverwriteFileIfExists.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.ChkOverwriteFileIfExists.Size = new System.Drawing.Size(124, 17);
-            this.ChkOverwriteFileIfExists.TabIndex = 8;
+            this.ChkOverwriteFileIfExists.TabIndex = 18;
             this.ChkOverwriteFileIfExists.Text = "Overwrite file if exists";
             this.ChkOverwriteFileIfExists.UseVisualStyleBackColor = true;
             // 
@@ -132,19 +142,19 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             // BtnCancel
             // 
             this.BtnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.BtnCancel.Location = new System.Drawing.Point(510, 121);
+            this.BtnCancel.Location = new System.Drawing.Point(510, 159);
             this.BtnCancel.Name = "BtnCancel";
             this.BtnCancel.Size = new System.Drawing.Size(75, 23);
-            this.BtnCancel.TabIndex = 11;
+            this.BtnCancel.TabIndex = 21;
             this.BtnCancel.Text = "Cancel";
             this.BtnCancel.UseVisualStyleBackColor = true;
             // 
             // BtnOk
             // 
-            this.BtnOk.Location = new System.Drawing.Point(429, 121);
+            this.BtnOk.Location = new System.Drawing.Point(429, 159);
             this.BtnOk.Name = "BtnOk";
             this.BtnOk.Size = new System.Drawing.Size(75, 23);
-            this.BtnOk.TabIndex = 10;
+            this.BtnOk.TabIndex = 20;
             this.BtnOk.Text = "OK";
             this.BtnOk.UseVisualStyleBackColor = true;
             this.BtnOk.Click += new System.EventHandler(this.BtnOk_Click);
@@ -159,11 +169,114 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             this.BtnBrowseDestinationPath.UseVisualStyleBackColor = true;
             this.BtnBrowseDestinationPath.Click += new System.EventHandler(this.BtnBrowseDestinationPath_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(40, 92);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Files older than";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label7.Location = new System.Drawing.Point(514, 92);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(43, 13);
+            this.label7.TabIndex = 17;
+            this.label7.Text = "minutes";
+            // 
+            // TxtFilesOlderThanMinutes
+            // 
+            this.TxtFilesOlderThanMinutes.Location = new System.Drawing.Point(412, 88);
+            this.TxtFilesOlderThanMinutes.MaxLength = 2;
+            this.TxtFilesOlderThanMinutes.Name = "TxtFilesOlderThanMinutes";
+            this.TxtFilesOlderThanMinutes.Size = new System.Drawing.Size(75, 20);
+            this.TxtFilesOlderThanMinutes.TabIndex = 15;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label6.Location = new System.Drawing.Point(369, 92);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(33, 13);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "hours";
+            // 
+            // TxtFilesOlderThanHours
+            // 
+            this.TxtFilesOlderThanHours.Location = new System.Drawing.Point(265, 88);
+            this.TxtFilesOlderThanHours.MaxLength = 2;
+            this.TxtFilesOlderThanHours.Name = "TxtFilesOlderThanHours";
+            this.TxtFilesOlderThanHours.Size = new System.Drawing.Size(75, 20);
+            this.TxtFilesOlderThanHours.TabIndex = 12;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.label5.Location = new System.Drawing.Point(226, 92);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 13);
+            this.label5.TabIndex = 11;
+            this.label5.Text = "days";
+            // 
+            // TxtFilesOlderThanDays
+            // 
+            this.TxtFilesOlderThanDays.Location = new System.Drawing.Point(124, 88);
+            this.TxtFilesOlderThanDays.MaxLength = 3;
+            this.TxtFilesOlderThanDays.Name = "TxtFilesOlderThanDays";
+            this.TxtFilesOlderThanDays.Size = new System.Drawing.Size(75, 20);
+            this.TxtFilesOlderThanDays.TabIndex = 9;
+            // 
+            // BtnDynDataFilesOlderThanDays
+            // 
+            this.BtnDynDataFilesOlderThanDays.Image = global::TDP.Robot.Plugins.Core.Resource.LightningAdd;
+            this.BtnDynDataFilesOlderThanDays.Location = new System.Drawing.Point(201, 88);
+            this.BtnDynDataFilesOlderThanDays.Name = "BtnDynDataFilesOlderThanDays";
+            this.BtnDynDataFilesOlderThanDays.Size = new System.Drawing.Size(23, 21);
+            this.BtnDynDataFilesOlderThanDays.TabIndex = 10;
+            this.BtnDynDataFilesOlderThanDays.Text = "...";
+            this.BtnDynDataFilesOlderThanDays.UseVisualStyleBackColor = true;
+            // 
+            // BtnDynDataFilesOlderThanHours
+            // 
+            this.BtnDynDataFilesOlderThanHours.Image = global::TDP.Robot.Plugins.Core.Resource.LightningAdd;
+            this.BtnDynDataFilesOlderThanHours.Location = new System.Drawing.Point(342, 88);
+            this.BtnDynDataFilesOlderThanHours.Name = "BtnDynDataFilesOlderThanHours";
+            this.BtnDynDataFilesOlderThanHours.Size = new System.Drawing.Size(23, 21);
+            this.BtnDynDataFilesOlderThanHours.TabIndex = 13;
+            this.BtnDynDataFilesOlderThanHours.Text = "...";
+            this.BtnDynDataFilesOlderThanHours.UseVisualStyleBackColor = true;
+            // 
+            // BtnDynDataFilesOlderThanMinutes
+            // 
+            this.BtnDynDataFilesOlderThanMinutes.Image = global::TDP.Robot.Plugins.Core.Resource.LightningAdd;
+            this.BtnDynDataFilesOlderThanMinutes.Location = new System.Drawing.Point(489, 88);
+            this.BtnDynDataFilesOlderThanMinutes.Name = "BtnDynDataFilesOlderThanMinutes";
+            this.BtnDynDataFilesOlderThanMinutes.Size = new System.Drawing.Size(23, 21);
+            this.BtnDynDataFilesOlderThanMinutes.TabIndex = 16;
+            this.BtnDynDataFilesOlderThanMinutes.Text = "...";
+            this.BtnDynDataFilesOlderThanMinutes.UseVisualStyleBackColor = true;
+            // 
             // WndCopyItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(604, 167);
+            this.ClientSize = new System.Drawing.Size(612, 199);
+            this.Controls.Add(this.BtnDynDataFilesOlderThanMinutes);
+            this.Controls.Add(this.BtnDynDataFilesOlderThanHours);
+            this.Controls.Add(this.BtnDynDataFilesOlderThanDays);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.TxtFilesOlderThanMinutes);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.TxtFilesOlderThanHours);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.TxtFilesOlderThanDays);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.BtnBrowseDestinationPath);
             this.Controls.Add(this.ChkRecursivelyCopyDirectories);
             this.Controls.Add(this.ChkOverwriteFileIfExists);
@@ -197,5 +310,15 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
         private System.Windows.Forms.Button BtnCancel;
         private System.Windows.Forms.Button BtnOk;
         private System.Windows.Forms.Button BtnBrowseDestinationPath;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox TxtFilesOlderThanMinutes;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox TxtFilesOlderThanHours;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox TxtFilesOlderThanDays;
+        private System.Windows.Forms.Button BtnDynDataFilesOlderThanDays;
+        private System.Windows.Forms.Button BtnDynDataFilesOlderThanHours;
+        private System.Windows.Forms.Button BtnDynDataFilesOlderThanMinutes;
     }
 }

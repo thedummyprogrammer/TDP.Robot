@@ -53,7 +53,7 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
                     CoreFolder.ID = WksFolder.ID;
                     CoreFolder.ParentFolder = coreFolder;
                     coreFolder.Add(CoreFolder);
-                    CreateCoreInstances(WksFolder, wksItems, coreFolder, coreItems);
+                    CreateCoreInstances(WksFolder, wksItems, CoreFolder, coreItems);
                 }
             }
         }

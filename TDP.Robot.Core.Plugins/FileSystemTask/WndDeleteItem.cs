@@ -38,12 +38,33 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             InitializeComponent();
 
             BtnDynDataDeletePath.Click += BtnDynDataButton_Click;
+            BtnDynDataFilesOlderThanDays.Click += BtnDynDataButton_Click;
+            BtnDynDataFilesOlderThanHours.Click += BtnDynDataButton_Click;
+            BtnDynDataFilesOlderThanMinutes.Click += BtnDynDataButton_Click;
         }
 
         public string DeletePath
         {
             get { return TxtDeletePath.Text; }
             set { TxtDeletePath.Text = value; }
+        }
+
+        public string FilesOlderThanDays
+        {
+            get { return TxtFilesOlderThanDays.Text; }
+            set { TxtFilesOlderThanDays.Text = value; }
+        }
+
+        public string FilesOlderThanHours
+        {
+            get { return TxtFilesOlderThanHours.Text; }
+            set { TxtFilesOlderThanHours.Text = value; }
+        }
+
+        public string FilesOlderThanMinutes
+        {
+            get { return TxtFilesOlderThanMinutes.Text; }
+            set { TxtFilesOlderThanMinutes.Text = value; }
         }
 
         private void BtnOk_Click(object sender, EventArgs e)
