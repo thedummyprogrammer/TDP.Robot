@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TDP.BaseServices.Infrastructure.DataValidation;
 using TDP.Robot.Core;
 using TDP.Robot.Core.DynamicData;
 using TDP.Robot.Core.Logging;
@@ -34,7 +35,24 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
     {
         private bool _FilePathExists = false;
 
-        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwriteIfFileExists)
+        private TimeSpan GetFileTimeThreshold(string filesOlderThanDays, string filesOlderThanHours, string filesOlderThanMinutes)
+        {
+            int Days = 0;
+            if (!DataValidationHelper.IsEmptyString(filesOlderThanDays))
+                Days = int.Parse(filesOlderThanDays);
+
+            int Hours = 0;
+            if (!DataValidationHelper.IsEmptyString(filesOlderThanHours))
+                Hours = int.Parse(filesOlderThanHours);
+
+            int Minutes = 0;
+            if (!DataValidationHelper.IsEmptyString(filesOlderThanMinutes))
+                Minutes = int.Parse(filesOlderThanMinutes);
+
+            return new TimeSpan(Days, Hours, Minutes, 0);
+        }
+
+        private void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs, bool overwriteIfFileExists, TimeSpan fileTimeThreshold)
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -57,8 +75,12 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             {
                 string tempPath = Path.Combine(destDirName, file.Name);
 
-                if (!File.Exists(tempPath) || (File.Exists(tempPath) && overwriteIfFileExists))
+                if ((!File.Exists(tempPath) || (File.Exists(tempPath) && overwriteIfFileExists))
+                    && (fileTimeThreshold.Ticks == 0 || file.LastWriteTime < DateTime.Now.Subtract(fileTimeThreshold))
+                    )
+                {
                     file.CopyTo(tempPath, overwriteIfFileExists);
+                }
             }
 
             // If copying subdirectories, copy them and their contents to new location.
@@ -67,22 +89,61 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 foreach (DirectoryInfo subdir in dirs)
                 {
                     string tempPath = Path.Combine(destDirName, subdir.Name);
-                    DirectoryCopy(subdir.FullName, tempPath, copySubDirs, overwriteIfFileExists);
+                    DirectoryCopy(subdir.FullName, tempPath, copySubDirs, overwriteIfFileExists, fileTimeThreshold);
                 }
+            }
+        }
+
+        private void DirectoryDelete(string deletePath, TimeSpan fileTimeThreshold)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(deletePath);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + deletePath);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string tempPath = Path.Combine(deletePath, file.Name);
+
+                if (fileTimeThreshold.Ticks == 0 || file.LastWriteTime < DateTime.Now.Subtract(fileTimeThreshold))
+                {
+                    //logger.Info(this, $"Deleting file {deleteItem.DeletePath}...");
+                    File.Delete(tempPath);
+                }
+            }
+
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                string tempPath = Path.Combine(deletePath, subdir.Name); 
+                DirectoryDelete(tempPath, fileTimeThreshold);
             }
         }
 
         private void ManageCopyItem(FileSystemTaskCopyItem copyItem, IPluginInstanceLogger logger)
         {
+            TimeSpan FileTimeThreshold = GetFileTimeThreshold(copyItem.FilesOlderThanDays, copyItem.FilesOlderThanHours, copyItem.FilesOlderThanMinutes);
+
             if (Common.IsDirectory(copyItem.SourcePath))
             {
                 logger.Info(this, $"Copying directory {copyItem.SourcePath} to {copyItem.DestinationPath}...");
-                DirectoryCopy(copyItem.SourcePath, copyItem.DestinationPath, copyItem.RecursivelyCopyDirectories, copyItem.OverwriteFileIfExists);
+
+                DirectoryCopy(copyItem.SourcePath, copyItem.DestinationPath, copyItem.RecursivelyCopyDirectories, copyItem.OverwriteFileIfExists, FileTimeThreshold);
             }
             else
             {
-                if (!File.Exists(copyItem.DestinationPath) 
+                if ((!File.Exists(copyItem.DestinationPath) 
                     || (File.Exists(copyItem.DestinationPath) && copyItem.OverwriteFileIfExists))
+                    && (FileTimeThreshold.Ticks == 0 || File.GetLastWriteTime(copyItem.SourcePath) < DateTime.Now.Subtract(FileTimeThreshold))
+                    )
                 {
                     logger.Info(this, $"Copying file {copyItem.SourcePath} to {copyItem.DestinationPath}...");
                     Directory.CreateDirectory(Path.GetDirectoryName(copyItem.DestinationPath));
@@ -93,15 +154,27 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
 
         private void ManageDeleteItem(FileSystemTaskDeleteItem deleteItem, IPluginInstanceLogger logger)
         {
+            TimeSpan FileTimeThreshold = GetFileTimeThreshold(deleteItem.FilesOlderThanDays, deleteItem.FilesOlderThanHours, deleteItem.FilesOlderThanMinutes);
+
             if (Common.IsDirectory(deleteItem.DeletePath))
             {
-                logger.Info(this, $"Deleting directory {deleteItem.DeletePath}...");
-                Directory.Delete(deleteItem.DeletePath, true);
+                if (FileTimeThreshold.Ticks == 0)
+                {
+                    logger.Info(this, $"Deleting directory {deleteItem.DeletePath}...");
+                    Directory.Delete(deleteItem.DeletePath, true);
+                }
+                else
+                { 
+                    DirectoryDelete(deleteItem.DeletePath, FileTimeThreshold);
+                }
             }
             else
             {
-                logger.Info(this, $"Deleting file {deleteItem.DeletePath}...");
-                File.Delete(deleteItem.DeletePath);
+                if (FileTimeThreshold.Ticks == 0 || File.GetLastWriteTime(deleteItem.DeletePath) < DateTime.Now.Subtract(FileTimeThreshold))
+                {
+                    logger.Info(this, $"Deleting file {deleteItem.DeletePath}...");
+                    File.Delete(deleteItem.DeletePath);
+                }
             }
         }
 
@@ -118,6 +191,9 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                     FileSystemTaskCopyItem CopyItemCopy = (FileSystemTaskCopyItem)CoreHelpers.CloneObjects(CopyItem);
                     CopyItemCopy.SourcePath = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.SourcePath, _dataChain, currentIteration);
                     CopyItemCopy.DestinationPath = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.DestinationPath, _dataChain, currentIteration);
+                    CopyItemCopy.FilesOlderThanDays = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.FilesOlderThanDays, _dataChain, currentIteration);
+                    CopyItemCopy.FilesOlderThanHours = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.FilesOlderThanHours, _dataChain, currentIteration);
+                    CopyItemCopy.FilesOlderThanMinutes = DynamicDataParser.ReplaceDynamicData(CopyItemCopy.FilesOlderThanMinutes, _dataChain, currentIteration);
                     ManageCopyItem(CopyItemCopy, _instanceLogger);
                 }
 
@@ -131,6 +207,9 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
                 {
                     FileSystemTaskDeleteItem DeleteItemCopy = (FileSystemTaskDeleteItem)CoreHelpers.CloneObjects(DeleteItem);
                     DeleteItemCopy.DeletePath = DynamicDataParser.ReplaceDynamicData(DeleteItemCopy.DeletePath, _dataChain, currentIteration);
+                    DeleteItemCopy.FilesOlderThanDays = DynamicDataParser.ReplaceDynamicData(DeleteItemCopy.FilesOlderThanDays, _dataChain, currentIteration);
+                    DeleteItemCopy.FilesOlderThanHours = DynamicDataParser.ReplaceDynamicData(DeleteItemCopy.FilesOlderThanHours, _dataChain, currentIteration);
+                    DeleteItemCopy.FilesOlderThanMinutes = DynamicDataParser.ReplaceDynamicData(DeleteItemCopy.FilesOlderThanMinutes, _dataChain, currentIteration);
                     ManageDeleteItem(DeleteItemCopy, _instanceLogger);
                 }
 

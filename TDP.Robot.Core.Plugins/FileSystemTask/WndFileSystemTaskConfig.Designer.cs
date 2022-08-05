@@ -155,7 +155,7 @@ namespace TDP.Robot.Plugins.Core.FileSystemTask
             this.BtnBrowseCheckFIlePath.TabIndex = 33;
             this.BtnBrowseCheckFIlePath.Text = "...";
             this.BtnBrowseCheckFIlePath.UseVisualStyleBackColor = true;
-            this.BtnBrowseCheckFIlePath.Click += new System.EventHandler(this.BtnBrowseCheckFIlePath_Click);
+            this.BtnBrowseCheckFIlePath.Click += new System.EventHandler(this.BtnBrowseCheckFilePath_Click);
             // 
             // label8
             // 

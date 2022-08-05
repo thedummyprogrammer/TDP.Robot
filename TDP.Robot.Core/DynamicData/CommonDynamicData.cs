@@ -77,8 +77,8 @@ namespace TDP.Robot.Core
             DDataSet.Add(ExecutionStartDateMinute, executionStartDate.Minute);
             DDataSet.Add(ExecutionStartDateSecond, executionStartDate.Second);
             DDataSet.Add(ExecutionStartDateTicks, executionStartDate.Ticks);
-            DDataSet.Add(ExecutionStartDateUnderscore, $"{executionStartDate:dd_MM_yyyy_HH_mm_ss}");
-            DDataSet.Add(ExecutionStartDateUnderscoreDate, $"{executionStartDate:dd_MM_yyyy}");
+            DDataSet.Add(ExecutionStartDateUnderscore, $"{executionStartDate:yyyy_MM_dd_HH_mm_ss}");
+            DDataSet.Add(ExecutionStartDateUnderscoreDate, $"{executionStartDate:yyyy_MM_dd}");
             DDataSet.Add(ExecutionStartDateUnderscoreTime, $"{executionStartDate:HH_mm_ss}");
 
             DDataSet.Add(ExecutionEndDate, executionEndDate);
@@ -89,8 +89,8 @@ namespace TDP.Robot.Core
             DDataSet.Add(ExecutionEndDateMinute, executionEndDate.Minute);
             DDataSet.Add(ExecutionEndDateSecond, executionEndDate.Second);
             DDataSet.Add(ExecutionEndDateTicks, executionEndDate.Ticks);
-            DDataSet.Add(ExecutionEndDateUnderscore, $"{executionEndDate:dd_MM_yyyy_HH_mm_ss}");
-            DDataSet.Add(ExecutionEndDateUnderscoreDate, $"{executionEndDate:dd_MM_yyyy}");
+            DDataSet.Add(ExecutionEndDateUnderscore, $"{executionEndDate:yyyy_MM_dd_HH_mm_ss}");
+            DDataSet.Add(ExecutionEndDateUnderscoreDate, $"{executionEndDate:yyyy_MM_dd}");
             DDataSet.Add(ExecutionEndDateUnderscoreTime, $"{executionEndDate:HH_mm_ss}");
 
             DDataSet.Add(NumberOfIterations, numberOfIterations);
