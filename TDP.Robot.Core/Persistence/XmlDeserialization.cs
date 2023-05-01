@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -22,6 +22,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -247,7 +248,7 @@ namespace TDP.Robot.Core.Persistence
             if (ObjType.IsPrimitive)
             {
                 TypeConverter Converter = TypeDescriptor.GetConverter(ObjType);
-                return Converter.ConvertFromString(xmlObject.InnerText);
+                return Converter.ConvertFromString(null, CultureInfo.InvariantCulture, xmlObject.InnerText);
             }
             else if (ObjType.IsValueType && !ObjType.IsEnum)
             {
@@ -256,7 +257,7 @@ namespace TDP.Robot.Core.Persistence
             else if (ObjType.IsValueType && ObjType.IsEnum)
             {
                 TypeConverter Converter = TypeDescriptor.GetConverter(ObjType);
-                return Converter.ConvertFromString(xmlObject.InnerText);
+                return Converter.ConvertFromString(null, CultureInfo.InvariantCulture, xmlObject.InnerText);
             }
             else if (ObjType.IsArray && ObjType == typeof(byte[]))
             {

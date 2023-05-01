@@ -23,7 +23,7 @@ namespace TDP.Robot.TestJobEngineService
         private void BtnStartJobEngine_Click(object sender, EventArgs e)
         {
             System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
-
+            
             _JobEngine = new JobEngine();
             _JobEngine.Start(Application.StartupPath);
         }

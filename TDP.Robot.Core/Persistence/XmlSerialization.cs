@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -22,6 +22,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -106,7 +107,7 @@ namespace TDP.Robot.Core.Persistence
         private XmlElement SerializePrimitive(object objectToSerialize, string tagName)
         {
             XmlElement XmlEl = _XmlDoc.CreateElement(tagName);
-            XmlEl.InnerText = objectToSerialize.ToString();
+            XmlEl.InnerText = Convert.ToString(objectToSerialize, CultureInfo.InvariantCulture);
             XmlEl.Attributes.Append(CreateTypeAttribute(objectToSerialize));
 
             return XmlEl;
@@ -115,7 +116,7 @@ namespace TDP.Robot.Core.Persistence
         private XmlElement SerializeEnum(object objectToSerialize, string tagName)
         {
             XmlElement XmlEl = _XmlDoc.CreateElement(tagName);
-            XmlEl.InnerText = objectToSerialize.ToString();
+            XmlEl.InnerText = Convert.ToString(objectToSerialize, CultureInfo.InvariantCulture);
             XmlEl.Attributes.Append(CreateTypeAttribute(objectToSerialize));
 
             return XmlEl;
