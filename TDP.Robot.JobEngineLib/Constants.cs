@@ -27,5 +27,6 @@ namespace TDP.Robot.JobEngineLib
         internal const bool DefaultSerialExecution = false;
         internal const int CleanUpLogsOlderThanHours = 0;
         internal const int CleanUpLogsIntervalHours = 0;
+        internal const int HttpListenerPort = 44300;
     }
 }

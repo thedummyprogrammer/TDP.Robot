@@ -30,5 +30,6 @@ namespace TDP.Robot.JobEditor.Infrastructure.Configuration
         internal const string KeyItemHandleSize = "JobEditor:ItemHandleSize";
         internal const string KeyConnectionLineDetectPrecision = "JobEditor:ConnectionLineDetectPrecision";
         internal const string KeyConnectionLineDetectPerpendicularPrecision = "JobEditor:ConnectionLineDetectPerpendicularPrecision";
+        internal const string KeyServiceUrl = "JobEditor:ServiceUrl";
     }
 }

@@ -31,6 +31,7 @@ namespace TDP.Robot.JobEditor.Infrastructure
         internal const float DefaultItemHandleSize = 2;
         internal const float DefaultConnectionLineDetectPrecision = 0.02F;
         internal const float DefaultConnectionLineDetectPerpendicularPrecision = 1F;
+        internal const string DefaultServiceUrl = "http://localhost:44300";
         internal const int NameMaxLength = 100;
     }
 }

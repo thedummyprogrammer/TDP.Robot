@@ -68,9 +68,9 @@ namespace TDP.Robot.JobEditor
             }
         }
 
-        private void WndWorkspace_KeyDown(object sender, KeyEventArgs e)
+        private async void WndWorkspace_KeyDown(object sender, KeyEventArgs e)
         {
-            _workspaceManager.ManageKeyDown(e);
+            await _workspaceManager.ManageKeyDown(e);
         }
     }
 }

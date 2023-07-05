@@ -280,4 +280,13 @@
   <data name="TxtObjectDoesNotExecute" xml:space="preserve">
     <value>Object {0} ({1}) doesn't execute</value>
   </data>
+  <data name="TxtTrigger" xml:space="preserve">
+    <value>Trigger</value>
+  </data>
+  <data name="TxtTriggerSelectedTaskQuestion" xml:space="preserve">
+    <value>Do you want to trigger the selected task?</value>
+  </data>
+  <data name="TxtAnErrorOccurredTriggeringTask" xml:space="preserve">
+    <value>An error occurred while triggering the task.</value>
+  </data>
 </root>

@@ -44,5 +44,10 @@ namespace TDP.Robot.JobEngineService
         {
             _JobEngine.Stop();
         }
+
+        protected override void OnCustomCommand(int command)
+        {
+            _JobEngine.StartJob(command);
+        }
     }
 }

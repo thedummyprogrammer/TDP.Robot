@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("https://www.thedummyprogrammer.com")]
 [assembly: AssemblyProduct("TDP.Robot.JobEditor")]
-[assembly: AssemblyCopyright("Copyright ©  2021 - 2022 by The Dummy Programmer")]
+[assembly: AssemblyCopyright("Copyright ©  2021 - 2023 by The Dummy Programmer")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

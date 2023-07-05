@@ -35,6 +35,7 @@ namespace TDP.Robot.JobEditor
         public static float ConnectionLineDetectPrecision { get; private set; }
 
         public static float ConnectionLineDetectPerpendicularPrecision { get; private set; }
+        public static string ServiceUrl { get; private set; }
 
         public static void Init()
         {
@@ -48,6 +49,7 @@ namespace TDP.Robot.JobEditor
             ItemHandleSize = CR.Get(ConfigReaderKeys.KeyItemHandleSize, Constants.DefaultItemHandleSize);
             ConnectionLineDetectPrecision = CR.Get(ConfigReaderKeys.KeyConnectionLineDetectPrecision, Constants.DefaultConnectionLineDetectPrecision);
             ConnectionLineDetectPerpendicularPrecision = CR.Get(ConfigReaderKeys.KeyConnectionLineDetectPerpendicularPrecision, Constants.DefaultConnectionLineDetectPerpendicularPrecision);
+            ServiceUrl = CR.Get(ConfigReaderKeys.KeyServiceUrl, Constants.DefaultServiceUrl);
         }
     }
 }
