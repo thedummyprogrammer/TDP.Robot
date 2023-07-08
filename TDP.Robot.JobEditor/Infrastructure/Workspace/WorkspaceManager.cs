@@ -579,9 +579,9 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
             }
         }
 
-        private void _Container_KeyDown(object sender, KeyEventArgs e)
+        private async void _Container_KeyDown(object sender, KeyEventArgs e)
         {
-            ManageKeyDown(e);
+            await ManageKeyDown(e);
         }
 
         private string GetDroppedPluginID(DragEventArgs e)
