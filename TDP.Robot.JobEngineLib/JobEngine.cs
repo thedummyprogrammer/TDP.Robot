@@ -301,7 +301,7 @@ namespace TDP.Robot.JobEngineLib
                 });
 
                 _HttpListener = new HttpListener();
-                _HttpListener.Prefixes.Add($"http://localhost:{Config.HttpListenerPort.ToString()}/");
+                _HttpListener.Prefixes.Add($"http://localhost:{Config.HttpListenerPort}/");
                 _HttpListener.Start();
                 ReceiveHttpCommand();
                 
