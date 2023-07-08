@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -21,7 +21,11 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.ServiceProcess;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TDP.BaseServices.Infrastructure.DataValidation;
 using TDP.Infrastructure.Workspace.Abstract;
@@ -68,6 +72,7 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
         private ContextMenu _ContextMenu;
         private MenuItem _MnuProperties;
         private MenuItem _MnuRename;
+        private MenuItem _MnuTrigger;
         private MenuItem _MnuCreateFolder;
         private MenuItem _MnuCut;
         private MenuItem _MnuCopy;
@@ -211,6 +216,12 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
             CtxMenu.MenuItems.Add(_MnuRename);
             CtxMenu.MenuItems.Add("-");
 
+            _MnuTrigger = new MenuItem(Resources.TxtTrigger);
+            _MnuTrigger.Shortcut = Shortcut.F5;
+            _MnuTrigger.Click += _MnuTrigger_Click;
+            CtxMenu.MenuItems.Add(_MnuTrigger);
+            CtxMenu.MenuItems.Add("-");
+
             _MnuCreateFolder = new MenuItem(Resources.TxtCreateFolder);
             _MnuCreateFolder.Shortcut = Shortcut.CtrlF;
             _MnuCreateFolder.Click += MnuCreateFolder_Click;
@@ -263,11 +274,13 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
         {
             // Check here which context menu items should be enabled
             bool SomeItemSelected = (_ContextLastClickedItemInfo != null && _ContextLastClickedItemInfo.Item != null);
+            bool IsEvent = SomeItemSelected && (_ContextLastClickedItemInfo.Item is IWorkspaceItem) && !((IWorkspaceItem)_ContextLastClickedItemInfo.Item).AllowItemsIn;
             bool IsItem = SomeItemSelected && (_ContextLastClickedItemInfo.Item is IWorkspaceItem);
             bool IsFolder = SomeItemSelected && (_ContextLastClickedItemInfo.Item is IWorkspaceFolder);
 
             _MnuProperties.Enabled = SomeItemSelected && IsItem;
             _MnuRename.Enabled = SomeItemSelected && (IsItem || IsFolder);
+            _MnuTrigger.Enabled = IsItem && !IsEvent && !IsFolder;
             _MnuDelete.Enabled = SomeItemSelected;
             _MnuCut.Enabled = SomeItemSelected;
             _MnuCopy.Enabled = SomeItemSelected;
@@ -287,6 +300,11 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
         private void MnuProperties_Click(object sender, EventArgs e)
         {
             OpenProperties();
+        }
+
+        private async void _MnuTrigger_Click(object sender, EventArgs e)
+        {
+            await Trigger();
         }
 
         private void _MnuRename_Click(object sender, EventArgs e)
@@ -360,6 +378,41 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
                 }
 
                 RedrawContainer();
+            }
+        }
+
+        private async Task Trigger()
+        {
+            if (MessageBox.Show(Resources.TxtTriggerSelectedTaskQuestion, Resources.TxtTheDummyProgrammerRobot, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+                return;
+
+            if (_ContextLastClickedItemInfo != null
+                && _ContextLastClickedItemInfo.Item != null
+                && _ContextLastClickedItemInfo.HitTestValue == EnumHitTestResult.Body
+                && _ContextLastClickedItemInfo.Item is IWorkspaceItem)
+            {
+                string BodyContent = $"command=ExecuteTask&task={_ContextLastClickedItemInfo.Item.ID}";
+
+                try
+                {
+                    HttpClient Client = new HttpClient();
+                    HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, Config.ServiceUrl);
+                    Request.Content = new StringContent(BodyContent);
+                    HttpResponseMessage Response = await Client.SendAsync(Request);
+
+                    string Result = string.Empty;
+                    using (StreamReader SR = new StreamReader(await Response.Content.ReadAsStreamAsync()))
+                    {
+                        Result = SR.ReadToEnd();
+                    }
+
+                    if (Result.Contains("error"))
+                        MessageBox.Show(Resources.TxtAnErrorOccurredTriggeringTask, Resources.TxtTheDummyProgrammerRobot, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                catch
+                {
+                    MessageBox.Show(Resources.TxtAnErrorOccurredTriggeringTask, Resources.TxtTheDummyProgrammerRobot, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }                
             }
         }
 
@@ -490,7 +543,7 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
             }
         }
 
-        public void ManageKeyDown(KeyEventArgs e)
+        public async Task ManageKeyDown(KeyEventArgs e)
         {
             if (e.KeyCode == Keys.A && e.Control)
             {
@@ -520,11 +573,15 @@ namespace TDP.Robot.JobEditor.Infrastructure.Workspace
             {
                 ChangeNameStart();
             }
+            else if (e.KeyCode == Keys.F5)
+            {
+                await Trigger();
+            }
         }
 
-        private void _Container_KeyDown(object sender, KeyEventArgs e)
+        private async void _Container_KeyDown(object sender, KeyEventArgs e)
         {
-            ManageKeyDown(e);
+            await ManageKeyDown(e);
         }
 
         private string GetDroppedPluginID(DragEventArgs e)

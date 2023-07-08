@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -27,5 +27,6 @@ namespace TDP.Robot.JobEngineLib.Infrastructure.Configuration
         internal const string KeySerialExecution = "JobEngine:SerialExecution";
         internal const string CleanUpLogsOlderThanHours = "JobEngine:CleanUpLogsOlderThanHours";
         internal const string CleanUpLogsIntervalHours = "JobEngine:CleanUpLogsIntervalHours";
+        internal const string HttpListenerPort = "JobEngine:HttpListenerPort";
     }
 }

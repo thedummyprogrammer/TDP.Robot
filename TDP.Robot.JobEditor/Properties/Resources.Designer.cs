@@ -19,7 +19,7 @@ namespace TDP.Robot.JobEditor.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -77,6 +77,15 @@ namespace TDP.Robot.JobEditor.Properties {
             get {
                 object obj = ResourceManager.GetObject("TDPRobot", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while triggering the task..
+        /// </summary>
+        internal static string TxtAnErrorOccurredTriggeringTask {
+            get {
+                return ResourceManager.GetString("TxtAnErrorOccurredTriggeringTask", resourceCulture);
             }
         }
         
@@ -428,6 +437,24 @@ namespace TDP.Robot.JobEditor.Properties {
         internal static string TxtThisFieldCannotBeGreaterThanField {
             get {
                 return ResourceManager.GetString("TxtThisFieldCannotBeGreaterThanField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger.
+        /// </summary>
+        internal static string TxtTrigger {
+            get {
+                return ResourceManager.GetString("TxtTrigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you want to trigger the selected task?.
+        /// </summary>
+        internal static string TxtTriggerSelectedTaskQuestion {
+            get {
+                return ResourceManager.GetString("TxtTriggerSelectedTaskQuestion", resourceCulture);
             }
         }
         

@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -22,11 +22,14 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using System.Net;
 using TDP.BaseServices.Infrastructure.Logging.Abstract;
 using TDP.Robot.Core;
 using TDP.Robot.Core.DynamicData;
 using TDP.Robot.Core.Logging;
 using TDP.Robot.Core.Persistence;
+using TDP.BaseServices.Infrastructure.Logging;
+using System.Text;
 
 namespace TDP.Robot.JobEngineLib
 {
@@ -38,6 +41,8 @@ namespace TDP.Robot.JobEngineLib
         private string _BasePath;
 
         private System.Timers.Timer _LogCleanTimer;
+
+        private HttpListener _HttpListener;
 
         private string GetLogPath()
         {
@@ -294,11 +299,105 @@ namespace TDP.Robot.JobEngineLib
                         _Log.Info($"Event {E.ID}:{E.Config.Name}:{E.GetType().Name} disabled, skipped");
                     }
                 });
+
+                _HttpListener = new HttpListener();
+                _HttpListener.Prefixes.Add($"http://localhost:{Config.HttpListenerPort}/");
+                _HttpListener.Start();
+                ReceiveHttpCommand();
+                
             }
             catch (Exception ex)
             {
                 _Log.Error("An error occurred while starting JobEngine.", ex);
             }
+        }
+
+        private void ReceiveHttpCommand()
+        {
+            _HttpListener.BeginGetContext(new AsyncCallback(_HttpListener_ListenerCallback), _HttpListener);
+        }
+
+        private void _HttpListener_ListenerCallback(IAsyncResult result)
+        {
+            _Log.Info("HttpListener callback started...");
+
+            if (_HttpListener.IsListening)
+            {
+                HttpListenerContext Context = _HttpListener.EndGetContext(result);
+                HttpListenerRequest Request = Context.Request;
+                HttpListenerResponse Response = Context.Response;
+
+                _Log.Info("Handling request...");
+
+                if (Request.HasEntityBody)
+                {
+                    Stream BodyStream = Request.InputStream;
+                    Encoding Encoding = Request.ContentEncoding;
+                    StreamReader Reader = new StreamReader(BodyStream, Encoding);
+                    string BodyContent = Reader.ReadToEnd();
+
+                    bool CommandParsed = true;
+                    string Command = string.Empty;
+                    int TaskID = int.MinValue;
+                    string[] CommandParts = BodyContent.Split(new char[] { '&' });
+                    
+                    try
+                    {
+                        foreach (string CommandPart in CommandParts)
+                        {
+                            string[] CommandParams = CommandPart.Split(new char[] { '=' });
+
+                            if (CommandParams[0].ToLowerInvariant() == "command")
+                                Command = CommandParams[1];
+                            else if (CommandParams[0].ToLowerInvariant() == "task")
+                                TaskID = int.Parse(CommandParams[1]);
+                        }
+                    }
+                    catch
+                    {
+                        CommandParsed = false;
+                    }
+
+                    bool CommandStarted = false;
+                    if (CommandParsed)
+                    {
+                        if (Command.ToLowerInvariant() == "executetask")
+                        {
+                            CommandStarted = StartJob(TaskID);
+                        }
+                    }
+                    
+                    string Result = string.Empty;
+                    if (CommandStarted)
+                    {
+                        Result = $"{{\"Result\":\"ok\"}}";
+                        Response.StatusCode = (int)HttpStatusCode.OK;
+                    }
+                    else
+                    {
+                        Result = $"{{\"Result\":\"error\"}}";
+                        Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                    }
+
+                    byte[] OutputBuffer = new byte[] { };
+
+                    Response.ContentType = "application/json";
+
+                    OutputBuffer = Encoding.ASCII.GetBytes(Result);
+                    Response.ContentLength64 = OutputBuffer.Length;
+                    Stream OutputStream = Response.OutputStream;
+                    OutputStream.Write(OutputBuffer, 0, OutputBuffer.Length);
+                    OutputStream.Close();
+                    
+
+                    Reader.Close();
+                    BodyStream.Close();
+                }
+
+                ReceiveHttpCommand();
+            }
+
+            _Log.Info("HttpListener callback ended.");
         }
 
         private bool IsDirectoryEmpty(string directoryPath)
@@ -357,6 +456,8 @@ namespace TDP.Robot.JobEngineLib
                     _Log.Info($"Destroying task: {T.ID}:{T.Config.Name}:{T.GetType().Name}");
                     T.Destroy();
                 });
+
+                _HttpListener.Stop();
             }
             catch (Exception ex)
             {
@@ -364,16 +465,34 @@ namespace TDP.Robot.JobEngineLib
             }
         }
 
-        /*
-        public Task StartJob(int taskID)
+        public bool StartJob(int taskID)
         {
-            ITask TaskObj = _Tasks.Where(T => T.ID == taskID).FirstOrDefault();
+            _Log.Info($"Requested execution of task: {taskID}");
 
-            DynamicDataChain DataChain = new DynamicDataChain();
-            Task T = ExecuteTask(TaskObj, DataChain, );
+            try
+            {
+                DateTime Now = DateTime.Now;
+                ITask TaskObj = _Tasks.Where(task => task.ID == taskID).FirstOrDefault();
 
-            return;
+                if (TaskObj == null)
+                {
+                    _Log.Info($"The task {taskID} cannot be found.");
+                    return false;
+                }
+
+                IPluginInstanceLogger Logger = PluginInstanceLogger.GetLogger(TaskObj);
+                DynamicDataChain DataChain = new DynamicDataChain();
+                DynamicDataSet DDataSet = CommonDynamicData.BuildStandardDynamicDataSet(TaskObj, true, 0, Now, Now, 1);
+
+                Task T = ExecuteTask(TaskObj, DataChain, DDataSet, Logger);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _Log.Error("An error occurred while executing the requested task.", ex);
+            }
+            return false;
         }
-        */
     }
 }

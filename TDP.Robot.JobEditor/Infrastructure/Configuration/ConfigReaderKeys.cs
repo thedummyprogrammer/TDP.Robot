@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -30,5 +30,6 @@ namespace TDP.Robot.JobEditor.Infrastructure.Configuration
         internal const string KeyItemHandleSize = "JobEditor:ItemHandleSize";
         internal const string KeyConnectionLineDetectPrecision = "JobEditor:ConnectionLineDetectPrecision";
         internal const string KeyConnectionLineDetectPerpendicularPrecision = "JobEditor:ConnectionLineDetectPerpendicularPrecision";
+        internal const string KeyServiceUrl = "JobEditor:ServiceUrl";
     }
 }

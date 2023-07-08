@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -30,8 +30,9 @@ namespace TDP.Robot.JobEngineLib
         internal static bool SerialExecution { get; private set; }
         internal static int CleanUpLogsOlderThanHours { get; private set; }
         internal static int CleanUpLogsIntervalHours { get; private set; }
+        internal static int HttpListenerPort { get; private set; }
 
-        
+
 
         internal static void Init()
         {
@@ -42,6 +43,7 @@ namespace TDP.Robot.JobEngineLib
             SerialExecution = CR.Get(ConfigReaderKeys.KeySerialExecution, Constants.DefaultSerialExecution);
             CleanUpLogsOlderThanHours = CR.Get(ConfigReaderKeys.CleanUpLogsOlderThanHours, Constants.CleanUpLogsOlderThanHours);
             CleanUpLogsIntervalHours = CR.Get(ConfigReaderKeys.CleanUpLogsIntervalHours, Constants.CleanUpLogsIntervalHours);
+            HttpListenerPort = CR.Get(ConfigReaderKeys.HttpListenerPort, Constants.HttpListenerPort);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -68,9 +68,9 @@ namespace TDP.Robot.JobEditor
             }
         }
 
-        private void WndWorkspace_KeyDown(object sender, KeyEventArgs e)
+        private async void WndWorkspace_KeyDown(object sender, KeyEventArgs e)
         {
-            _workspaceManager.ManageKeyDown(e);
+            await _workspaceManager.ManageKeyDown(e);
         }
     }
 }

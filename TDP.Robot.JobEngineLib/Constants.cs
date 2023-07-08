@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -27,5 +27,6 @@ namespace TDP.Robot.JobEngineLib
         internal const bool DefaultSerialExecution = false;
         internal const int CleanUpLogsOlderThanHours = 0;
         internal const int CleanUpLogsIntervalHours = 0;
+        internal const int HttpListenerPort = 44300;
     }
 }

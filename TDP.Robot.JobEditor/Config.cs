@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -35,6 +35,7 @@ namespace TDP.Robot.JobEditor
         public static float ConnectionLineDetectPrecision { get; private set; }
 
         public static float ConnectionLineDetectPerpendicularPrecision { get; private set; }
+        public static string ServiceUrl { get; private set; }
 
         public static void Init()
         {
@@ -48,6 +49,7 @@ namespace TDP.Robot.JobEditor
             ItemHandleSize = CR.Get(ConfigReaderKeys.KeyItemHandleSize, Constants.DefaultItemHandleSize);
             ConnectionLineDetectPrecision = CR.Get(ConfigReaderKeys.KeyConnectionLineDetectPrecision, Constants.DefaultConnectionLineDetectPrecision);
             ConnectionLineDetectPerpendicularPrecision = CR.Get(ConfigReaderKeys.KeyConnectionLineDetectPerpendicularPrecision, Constants.DefaultConnectionLineDetectPerpendicularPrecision);
+            ServiceUrl = CR.Get(ConfigReaderKeys.KeyServiceUrl, Constants.DefaultServiceUrl);
         }
     }
 }

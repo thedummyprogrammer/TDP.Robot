@@ -1,5 +1,5 @@
 ﻿/*======================================================================================
-    Copyright 2021 - 2022 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
+    Copyright 2021 - 2023 by TheDummyProgrammer (https://www.thedummyprogrammer.com)
 
     This file is part of The Dummy Programmer Robot.
 
@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace TDP.Robot.Plugins.Core.FtpSftpTask
         {
             if (protocol == ProtocolEnum.FTP)
             {
-                _FtpClient = new FtpClient(host, port, username, password);
+                _FtpClient = new FtpClient(host, new NetworkCredential(username, password), port);
                 _FtpClient.Connect();
             }
             else
@@ -77,10 +78,7 @@ namespace TDP.Robot.Plugins.Core.FtpSftpTask
             if (_FtpClient != null)
             {
                 FtpRemoteExists ExistOption = overwrite ? FtpRemoteExists.Overwrite : FtpRemoteExists.Skip;
-                using (FileStream FStream = new FileStream(localFile, FileMode.Open))
-                {
-                    _FtpClient.Upload(FStream, remoteFile, ExistOption, true);
-                }
+                _FtpClient.UploadFile(localFile, remoteFile, ExistOption);
             }
             else
             {
@@ -96,14 +94,9 @@ namespace TDP.Robot.Plugins.Core.FtpSftpTask
             if (_FtpClient == null && _SftpClient == null)
                 throw new ApplicationException("Method \"Connect\" not called.");
 
-            bool Result = false;
-
             if (_FtpClient != null)
             {
-                using (FileStream FStream = new FileStream(localFile, FileMode.Create))
-                {
-                    Result = _FtpClient.Download(FStream, remoteFile);
-                }
+                _FtpClient.DownloadFile(localFile, remoteFile);
             }
             else
             {
@@ -233,9 +226,9 @@ namespace TDP.Robot.Plugins.Core.FtpSftpTask
                 foreach (FtpListItem Item in List)
                 {
                     FtpSftpFileInfo FileInfo = new FtpSftpFileInfo(Item.Name, Item.FullName,
-                                                                    Item.Type == FtpFileSystemObjectType.File,
-                                                                    Item.Type == FtpFileSystemObjectType.Directory,
-                                                                    Item.Type == FtpFileSystemObjectType.Link);
+                                                                    Item.Type == FtpObjectType.File,
+                                                                    Item.Type == FtpObjectType.Directory,
+                                                                    Item.Type == FtpObjectType.Link);
                     Result.Add(FileInfo);
                 }
             }
@@ -285,7 +278,7 @@ namespace TDP.Robot.Plugins.Core.FtpSftpTask
             if (_FtpClient != null)
             {
                 FtpListItem Info = _FtpClient.GetObjectInfo(remotePath);
-                return (Info.Type == FtpFileSystemObjectType.Directory);
+                return (Info.Type == FtpObjectType.Directory);
             }
             else
             {
